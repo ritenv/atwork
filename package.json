@@ -1,0 +1,14 @@
+{
+  "name": "AtWork",
+  "version": "0.0.1",
+  "description": "An open-source social network for your workplace",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Riten Vagadiya",
+  "license": "MIT",
+  "dependencies": {
+    "hapi": "^8.1.0"
+  }
+}
