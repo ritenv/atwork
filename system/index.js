@@ -30,8 +30,19 @@ server.connection({
  * @return {Object} Returns the connection object
  */
 var dbConnect = function() {
-  var connection = mongoose.createConnection(Config.db);
-  return connection;
+  var db = mongoose.createConnection(Config.db);
+  db.once('open', function (argument) {
+    console.log('Database connection established.');
+
+    db.db.collectionNames(function (error, names) {
+      if (error) {
+        console.log('Error: '+ error);
+      } else {
+        console.log(names);
+      };
+    });
+  });
+  return db;
 };
 
 /**
