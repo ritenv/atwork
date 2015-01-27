@@ -9,6 +9,8 @@
   "author": "Riten Vagadiya",
   "license": "MIT",
   "dependencies": {
-    "hapi": "^8.1.0"
+    "hapi": "^8.1.0",
+    "lodash": "^3.0.0",
+    "mongoose": "^3.8.22"
   }
 }
