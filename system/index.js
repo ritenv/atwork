@@ -20,10 +20,7 @@ var server = new Hapi.Server();
 /**
  * Create config for ports
  */
-server.connection({
-  host: 'localhost',
-  port: 8111
-});
+server.connection(Config.server);
 
 /**
  * Connect to the database
