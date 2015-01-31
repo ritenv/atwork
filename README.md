@@ -5,6 +5,10 @@
 
 **Project atwork** is an open-source social network for your workplace
 
+## Idea
+
+**Project atwork** provides a simplistic, open-source social network with pluggable modules to customize the experience different workplaces desire. It can be easily hosted, customized and white-labeled.
+
 ## Stack
 
 **Project atwork** is built entirely in Javascript, with a goal to bring the best of javascript technologies together in a seamless, customizable and modular approach. Below technology stack is being used:
