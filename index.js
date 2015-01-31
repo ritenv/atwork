@@ -1,18 +1,16 @@
-var Hapi = require('hapi');
+/**********************************                                  
+     |                       |    
+,---.|---     . . .,---.,---.|__/ 
+,---||        | | ||   ||    |  \ 
+`---^`---'    `-'-'`---'`    `   `
+**********************************/
 
-var server = new Hapi.Server();
+/**
+ * Load the system
+ */
+var System = require('./system');
 
-server.connection({
-  host: 'localhost',
-	port: 8111
-});
-
-server.route({
-  method: 'GET',
-	path: '/hello',
-	handler: function(req, res) {
-		res('Hello world');
-	}
-});
-
-server.start();
+/**
+ * Boot up
+ */
+System.boot();
