@@ -1,2 +1,6 @@
-# atwork
-An open-source social network for your workplace
+       |                       |    
+  ,---.|---     . . .,---.,---.|__/ 
+  ,---||        | | ||   ||    |  \ 
+  `---^`---'    `-'-'`---'`    `   `
+
+Project *atwork* is an open-source social network for your workplace
