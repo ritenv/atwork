@@ -30,19 +30,37 @@ server.connection({
  * @return {Object} Returns the connection object
  */
 var dbConnect = function() {
-  var db = mongoose.createConnection(Config.db);
-  db.once('open', function (argument) {
-    console.log('Database connection established.');
+  var db = mongoose.connect(Config.db);
+  return db;
+};
 
-    db.db.collectionNames(function (error, names) {
-      if (error) {
-        console.log('Error: '+ error);
-      } else {
-        console.log(names);
-      };
+/**
+ * Connect to the database
+ * @return {Object} Returns the connection object
+ */
+var loadPlugins = function(startingPath, System) {
+  var helpersPath = startingPath + '/helpers';
+  if (!fs.existsSync(helpersPath)) {
+    return false;
+  }
+  var files = fs.readdirSync(helpersPath); //not allowing subfolders for now inside 'helpers' folder
+  files.forEach(function(file) {
+    // var plugin = {
+    //   register: function (server, options, next) { next(); }
+    // };
+    // plugin.register.attributes = {
+    //   name: 'test',
+    //   version: '1.0.0'
+    // };
+    var plugin = require(helpersPath + '/' + file)(System);
+    server.register(plugin, function(err) {
+      if (err) {
+        console.error('Failed to load plugin:', err);
+      }
+      console.log('Loaded plugin: ' + file);
     });
   });
-  return db;
+  return true;
 };
 
 /**
@@ -96,6 +114,21 @@ module.exports = {
    * @type {Object}
    */
   server: server,
+  
+  /**
+   * All server methods shortcut
+   * @type {Object}
+   */
+  helpers: server.methods,
+
+  /**
+   * JSON helpers shortcut (implemented via json plugin)
+   * @type {Object}
+   */
+  JSON: {
+    happy: function() {},
+    unhappy: function() {}
+  },
 
   /**
    * Function to initialize the system and load all dependencies
@@ -107,6 +140,11 @@ module.exports = {
      */
     dbConnect();
 
+    /**
+     * Load the helpers
+     */
+    loadPlugins(__dirname, this);
+    
     /**
      * Finally, load dependencies and start the server
      */

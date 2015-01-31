@@ -12,7 +12,7 @@ module.exports = function(System) {
   var routes = [];
   
   routes.push({
-    method: 'GET',
+    method: 'POST',
     path: endPoint(),
     handler: users.create
   });
