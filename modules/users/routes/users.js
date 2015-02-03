@@ -19,5 +19,12 @@ module.exports = function(System) {
     handler: users.authenticate
   });
 
+  routes.push({
+    method: 'get',
+    path: '/',
+    handler: users.me,
+    authorized: true
+  });
+
   return routes;
 };

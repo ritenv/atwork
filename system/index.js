@@ -67,6 +67,12 @@ var loadPlugins = function(startingPath, System) {
     System.plugins[plugin.register.attributes.key] = plugin.register();
     console.log('Loaded plugin: ' + file);
   });
+
+  /**
+   * Expose the auth plugin
+   */
+  System.auth = System.plugins.auth;
+
   return true;
 };
 
@@ -165,6 +171,8 @@ module.exports = {
    * @return {Void}
    */
   route: function(routes, moduleName) {
+    var $this = this;
+
     /**
      * Module name is mandatory
      * @type {String}
@@ -176,7 +184,11 @@ module.exports = {
      */
     routes.forEach(function(route) {
       var moduleRouter = express.Router();
-      moduleRouter[route.method](route.path, route.handler);
+      if (!route.authorized) {
+        moduleRouter[route.method](route.path, route.handler);
+      } else {
+        moduleRouter[route.method](route.path, $this.auth.ensureAuthorized, route.handler);
+      }
       app.use('/' + moduleName, moduleRouter);
     });
   }

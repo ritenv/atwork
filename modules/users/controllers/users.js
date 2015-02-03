@@ -39,5 +39,13 @@ module.exports = function(System) {
     });
   };
 
+  obj.me = function(req, res) {
+    if (req.user) {
+      json.happy({
+        record: req.user
+      }, res);
+    }
+  };
+
   return obj;
 };
