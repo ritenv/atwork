@@ -1,21 +1,21 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-
 module.exports = function(System) {
   var obj = {};
+  var json = System.plugins.JSON;
 
   obj.create = function(req, res) {
-    var user = new User(req.payload);
+    console.log(req.body);
+    var user = new User(req.body);
     user.provider = 'local';
     user.roles = ['authenticated'];
 
     user.save(function(err) {
       if (err) {
-        return res(System.JSON.unhappy(err));
+        return json.unhappy(err, res);
       }
-      res(System.JSON.happy('User created'));
+      return json.happy('User created', res);
     });
   };
-
   return obj;
 };

@@ -1,10 +1,20 @@
 /**
  * Load dependencies
  */
-var Hapi = require('hapi');
+var express = require('express');
+var app = express();
 var fs = require('fs');
 var mongoose = require('mongoose');
 var Config = require('./config/' + (process.env.NODE_ENV || 'development'));
+var bodyParser = require('body-parser');
+var multer = require('multer'); 
+
+/**
+ * Middleware
+ */
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(multer()); // for parsing multipart/form-data
 
 /**
  * Path where modules are located
@@ -13,14 +23,16 @@ var modulePath = __dirname + '/../modules';
 
 /**
  * Create new server
- * @type {Object}
+ * @return {Void}
  */
-var server = new Hapi.Server();
+function startServer() {
+  var server = app.listen(Config.server.port, function() {
+    var host = server.address().address
+    var port = server.address().port
 
-/**
- * Create config for ports
- */
-server.connection(Config.server);
+    console.log('AtWork running at http://%s:%s', host, port);
+  });
+}
 
 /**
  * Connect to the database
@@ -42,20 +54,10 @@ var loadPlugins = function(startingPath, System) {
   }
   var files = fs.readdirSync(helpersPath); //not allowing subfolders for now inside 'helpers' folder
   files.forEach(function(file) {
-    // var plugin = {
-    //   register: function (server, options, next) { next(); }
-    // };
-    // plugin.register.attributes = {
-    //   name: 'test',
-    //   version: '1.0.0'
-    // };
+    
     var plugin = require(helpersPath + '/' + file)(System);
-    server.register(plugin, function(err) {
-      if (err) {
-        console.error('Failed to load plugin:', err);
-      }
-      console.log('Loaded plugin: ' + file);
-    });
+    System.plugins[plugin.register.attributes.key] = plugin.register();
+    console.log('Loaded plugin: ' + file);
   });
   return true;
 };
@@ -106,26 +108,12 @@ var loadModules = function(System, callback) {
  * @type {Object}
  */
 module.exports = {
-  /**
-   * Expose the server Object
-   * @type {Object}
-   */
-  server: server,
-  
-  /**
-   * All server methods shortcut
-   * @type {Object}
-   */
-  helpers: server.methods,
 
   /**
-   * JSON helpers shortcut (implemented via json plugin)
+   * Dynamically loaded plugins are accessible under plugins
    * @type {Object}
    */
-  JSON: {
-    happy: function() {},
-    unhappy: function() {}
-  },
+  plugins: {},
 
   /**
    * Function to initialize the system and load all dependencies
@@ -146,7 +134,7 @@ module.exports = {
      * Finally, load dependencies and start the server
      */
     loadModules(this, function() {
-      server.start();
+      startServer();
     });
   },
 
@@ -156,7 +144,9 @@ module.exports = {
    * @return {Void}
    */
   route: function(routes) {
-    server.route(routes);
+    routes.forEach(function(route) {
+      app.route(route.path)[route.method](route.handler);
+    });
   }
 
 };

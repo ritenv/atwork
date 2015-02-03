@@ -1,9 +1,9 @@
-var controller = require('../controllers/users');
+var myController = require('../controllers/users');
 /**
  * Init the controller
  */
 module.exports = function(System) {
-  var users = controller(System);
+  var users = myController(System);
 
   var endPoint = function(action) {
     return '/users' + (action ? '/' + action : '');
@@ -12,7 +12,7 @@ module.exports = function(System) {
   var routes = [];
   
   routes.push({
-    method: 'POST',
+    method: 'post',
     path: endPoint(),
     handler: users.create
   });
