@@ -5,7 +5,7 @@ module.exports = function(System) {
   var json = System.plugins.JSON;
 
   obj.create = function(req, res) {
-    console.log(req.body);
+
     var user = new User(req.body);
     user.provider = 'local';
     user.roles = ['authenticated'];
@@ -14,7 +14,7 @@ module.exports = function(System) {
       if (err) {
         return json.unhappy(err, res);
       }
-      return json.happy('User created', res);
+      return json.happy(user, res);
     });
   };
   return obj;

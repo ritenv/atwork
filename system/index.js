@@ -15,6 +15,10 @@ var multer = require('multer');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(multer()); // for parsing multipart/form-data
+app.use(function (req, res, next) {
+  console.log('Request Type:', req.method, req.originalUrl);
+  next();
+});
 
 /**
  * Path where modules are located
@@ -143,9 +147,20 @@ module.exports = {
    * @param  {Array} routes The array of routes
    * @return {Void}
    */
-  route: function(routes) {
+  route: function(routes, moduleName) {
+    /**
+     * Module name is mandatory
+     * @type {String}
+     */
+    moduleName = moduleName || 'unidentified';
+
+    /**
+     * Prefix each route to its module's path
+     */
     routes.forEach(function(route) {
-      app.route(route.path)[route.method](route.handler);
+      var moduleRouter = express.Router();
+      moduleRouter[route.method](route.path, route.handler);
+      app.use('/' + moduleName, moduleRouter);
     });
   }
 
