@@ -9,7 +9,7 @@ var ensureAuthorized = function(req, res, next) {
     bearerToken = bearer[1];
     req.token = bearerToken;
     User.findOne({token: req.token}, function(err, user) {
-      if (err) {
+      if (err || !user) {
         return res.sendStatus(403);
       }
       req.user = user;
