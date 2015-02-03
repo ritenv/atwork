@@ -14,9 +14,9 @@
 **Project atwork** is built entirely in Javascript, with a goal to bring the best of javascript technologies together in a seamless, customizable and modular approach. Below technology stack is being used:
 
 1. [MongoDB](http://mongodb.org/): The leading NoSQL database.
-2. [Node.js](http://nodejs.org/): A platform built on Chrome's JavaScript runtime.
-3. [Hapi](http://hapijs.com/): A rich framework for building applications and services.
-4. [AngularJS](): HTML enhanced for web apps.
+2. [Express](http://expressjs.com/): Fast, unopinionated, minimalist web framework for Node.js.
+3. [AngularJS](): HTML enhanced for web apps.
+4. [Node.js](http://nodejs.org/): A platform built on Chrome's JavaScript runtime.
 
 ## Contribution
 
