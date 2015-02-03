@@ -11,8 +11,10 @@
   "dependencies": {
     "body-parser": "^1.11.0",
     "express": "^4.11.2",
+    "jsonwebtoken": "^3.2.2",
     "lodash": "^3.0.0",
     "mongoose": "^3.8.22",
+    "morgan": "^1.5.1",
     "multer": "^0.1.7"
   }
 }

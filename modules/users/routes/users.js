@@ -13,5 +13,11 @@ module.exports = function(System) {
     handler: users.create
   });
 
+  routes.push({
+    method: 'post',
+    path: '/authenticate',
+    handler: users.authenticate
+  });
+
   return routes;
 };

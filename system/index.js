@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var Config = require('./config/' + (process.env.NODE_ENV || 'development'));
 var bodyParser = require('body-parser');
 var multer = require('multer'); 
+var morgan = require('morgan');
 
 /**
  * Middleware
@@ -15,9 +16,12 @@ var multer = require('multer');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(multer()); // for parsing multipart/form-data
-app.use(function (req, res, next) {
-  console.log('Request Type:', req.method, req.originalUrl);
-  next();
+app.use(morgan("dev"));
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+    next();
 });
 
 /**
@@ -124,6 +128,13 @@ module.exports = {
    * @return {Void}
    */
   boot: function() {
+
+    /**
+     * Pass the config object as is for now (TODO: reduce sensitive data)
+     * @type {[type]}
+     */
+    this.config = Config;
+
     /**
      * Connect to database
      */
@@ -141,6 +152,12 @@ module.exports = {
       startServer();
     });
   },
+
+  /**
+   * Reduced config object
+   * @type {Object}
+   */
+  config: {},
 
   /**
    * Wrapping the server's route function 
