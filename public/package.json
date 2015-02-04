@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
+  "name": "atwork-fe",
   "private": true,
-  "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "version": "0.0.1",
+  "description": "The FE for Project atwork",
+  "repository": "https://github.com/matterial/atwork",
   "license": "MIT",
   "devDependencies": {
     "karma": "~0.10",

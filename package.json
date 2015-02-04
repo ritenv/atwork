@@ -2,6 +2,7 @@
   "name": "AtWork",
   "version": "0.0.1",
   "description": "An open-source social network for your workplace",
+  "repository": "https://github.com/matterial/atwork",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
