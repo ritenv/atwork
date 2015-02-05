@@ -48,6 +48,9 @@ var moduleURL = 'modules';
  * @return {Void}
  */
 function startServer() {
+  app.use(function(req, res) {
+   res.redirect('/index.html');
+  });
   var server = app.listen(Config.server.port, function() {
     var host = server.address().address
     var port = server.address().port

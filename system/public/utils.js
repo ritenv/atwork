@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('atwork.utils', ['ngRoute'])
+angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
 .factory('appStorage', function() {
   return {
     get: function(item) {
@@ -8,6 +8,9 @@ angular.module('atwork.utils', ['ngRoute'])
     },
     set: function(item, val) {
       return sessionStorage.setItem(item, val);
+    },
+    remove: function(item) {
+      return sessionStorage.removeItem(item);
     }
   }
 })
@@ -15,5 +18,18 @@ angular.module('atwork.utils', ['ngRoute'])
   '$location', 
   function($location) {
     return $location;
+  }
+])
+.factory('appToast', [
+  '$mdToast',
+  function($mdToast) {
+    return function(message) {
+      var toast = $mdToast.simple()
+        .content(message)
+        .action('OK')
+        .highlightAction(false)
+        .position('bottom right');
+      $mdToast.show(toast);
+    }
   }
 ]);

@@ -1,9 +1,13 @@
 'use strict';
 
 angular.module('atwork.users', ['atwork.system'])
-  .factory('theUser', [
+  .factory('appAuth', [
     'appStorage',
     function(appStorage) {
-      return appStorage.get('userToken');
+      return {
+        isLoggedIn: function() {
+          return appStorage.get('userToken');
+        }
+      }
     }
   ]);

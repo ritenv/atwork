@@ -6,6 +6,11 @@ angular.module('atwork.users')
       .when('/login', {
         templateUrl: 'modules/users/views/login.html',
         controller: 'LoginCtrl'
-      });
+      })
+      .when('/logout', {
+        templateUrl: 'modules/users/views/login.html',
+        controller: 'LogoutCtrl'
+      })
+      ;
     $locationProvider.html5Mode(true);
   }]);

@@ -2,11 +2,11 @@
 <p>Please login or register to access the application.</p>
 <md-tabs>
   <md-tab label="Login">
-    <form name="userForm">
+    <form name="loginForm" ng-submit="login(loginForm.$valid)">
       <md-input-container>
         <label>Email Address</label>
         <input name="email" ng-model="email" required>
-        <div ng-messages="userForm.email.$error" ng-show="userForm.bio.$dirty">
+        <div ng-messages="loginForm.email.$error" ng-show="loginForm.bio.$dirty">
           <div ng-message="required">This is required!</div>
           <div ng-message="md-maxlength">That's too long!</div>
           <div ng-message="minlength">That's too short!</div>
@@ -16,7 +16,7 @@
       <md-input-container>
         <label>Password</label>
         <input name="password" ng-model="password" type="password" required>
-        <div ng-messages="userForm.password.$error" ng-show="userForm.bio.$dirty">
+        <div ng-messages="loginForm.password.$error" ng-show="loginForm.bio.$dirty">
           <div ng-message="required">This is required!</div>
           <div ng-message="md-maxlength">That's too long!</div>
           <div ng-message="minlength">That's too short!</div>
@@ -29,7 +29,7 @@
     </form>
   </md-tab>
   <md-tab label="Register">
-    <form name="userForm">
+    <form name="userForm" ng-submit="create(userForm.$valid)">
       <md-input-container>
         <label>Full Name</label>
         <input name="name" ng-model="name" required md-maxlength="100" minlength="5">

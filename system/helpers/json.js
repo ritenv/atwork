@@ -16,10 +16,18 @@ var happy = function(obj, res) {
  * @return {Object}     The json response to be output
  */
 var unhappy = function(err, res) {
-  res.send({
+  var obj = {
     success: 0,
     res: err
-  });
+  };
+  if (obj.res.errors) {
+    obj.messages = [];
+    for (var i in obj.res.errors) {
+      obj.messages.push(obj.res.errors[i].message);
+    }
+    obj.message = obj.messages[0];
+  }
+  res.send(obj);
 };
 
 

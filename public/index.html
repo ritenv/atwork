@@ -26,7 +26,10 @@
                 <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn">
                   <span class="visuallyhidden">Menu</span>
                 </button>
-                <span hide-sm>{{barTitle}}</span>
+                <span hide-sm flex>{{barTitle}}</span>
+                <md-button ng-if="isLoggedIn" href="/logout">
+                  <span>Logout</span>
+                </md-button>
             </div>
           </md-toolbar>
 
@@ -44,6 +47,7 @@
       <script src="/bower_components/angular-material/angular-material.js"></script>
       <script src="/bower_components/angular-route/angular-route.js"></script>
       <script src="/bower_components/angular-messages/angular-messages.js"></script>
+      <script src="/bower_components/angular-resource/angular-resource.js"></script>
 
         
       <!-- System -->
@@ -53,8 +57,9 @@
       <!-- Modules -->
       <!-- Users -->
       <script type="text/javascript" src="/modules/users/users.js"></script>
-      <script type="text/javascript" src="/modules/users/users.controller.js"></script>
+      <script type="text/javascript" src="/modules/users/users.controllers.js"></script>
       <script type="text/javascript" src="/modules/users/users.routes.js"></script>
+      <script type="text/javascript" src="/modules/users/users.services.js"></script>
 
       <!-- Main angular file -->
       <script src="/app.js"></script>
