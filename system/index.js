@@ -35,6 +35,7 @@ var options = {
   }
 };
 app.use(express.static('public', options));
+app.use('/system', express.static('system/public', options));
 
 /**
  * Path where modules are located
@@ -116,12 +117,12 @@ var loadModules = function(System, callback) {
   fs.readdir(modulePath, function(err, list) {
     list.forEach(function(folder) {
       var serverPath = modulePath + '/' + folder + '/server';
-      var publicPath = moduleURL + '/' + folder + '/public';
+      var publicPath = moduleURL + '/' + folder;
       
       /**
        * Expose public paths
        */
-      app.use('/' + publicPath, express.static(publicPath, options));
+      app.use('/' + publicPath, express.static(publicPath + '/public', options));
 
       /**
        * Load needed db models
