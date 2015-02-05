@@ -2,10 +2,10 @@
 
 angular.module('atwork.users')
   .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-    console.log('a');
     $routeProvider
       .when('/login', {
-        templateUrl: 'modules/users/views/login.html'
+        templateUrl: 'modules/users/views/login.html',
+        controller: 'LoginCtrl'
       });
     $locationProvider.html5Mode(true);
   }]);
