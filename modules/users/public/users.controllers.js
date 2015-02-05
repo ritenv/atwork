@@ -20,8 +20,8 @@ angular.module('atwork.users')
     'appStorage',
     'appLocation',
     function($scope, $rootScope, appUsers, appAuth, appToast, appStorage, appLocation) {
-      $scope.email = 'riten.sv@gmail.com';
-      $scope.password = 'jjk3e0jx';
+      // $scope.email = 'riten.sv@gmail.com';
+      // $scope.password = 'jjk3e0jx';
 
       /**
        * Reset the form
@@ -50,7 +50,7 @@ angular.module('atwork.users')
               $scope.reset();
             } else {
               $scope.failure = true;
-              appToast(response.message);
+              appToast(response.res.message);
             }
           });
         }
@@ -71,6 +71,8 @@ angular.module('atwork.users')
             if (response.success) {
               appToast('You are now logged in.');
               $scope.postLogin(response.res.record.token);
+            } else {
+              appToast(response.res.message);
             }
           });
         }

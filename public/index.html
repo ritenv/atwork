@@ -12,10 +12,54 @@
           <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn">
             <span class="visuallyhidden">Menu</span>
           </button>
-          <h1>AtWork</h1>
+          <h1 hide-sm>atWork</h1>
         </md-toolbar>
-        <md-content class="md-padding">
-            <p>Project atwork provides a simplistic, open-source social network with pluggable modules to customize the experience different workplaces desire. It can be easily hosted, customized and white-labeled.</p>
+        <md-content class="md-padding sidebar-list">
+            <md-button>
+                Groups
+            </md-button>
+            <md-divider></md-divider>
+            <ul class="unstyled">
+                <li>
+                    <md-button class="no-case no-bold">
+                        #hashedLinks
+                    </md-button>
+                </li>
+                <li>
+                    <md-button class="no-case no-bold">
+                        #nerdyLog
+                    </md-button>
+                </li>
+                <li>
+                    <md-button class="no-case no-bold">
+                        #randomIdeas
+                    </md-button>
+                </li>
+            </ul>
+
+            <md-button>
+                Messages
+            </md-button>
+            <md-divider></md-divider>
+            <ul class="unstyled">
+                <li>
+                    <md-button class="no-case no-bold">
+                        John Doe
+                    </md-button>
+                </li>
+                <li>
+                    <md-button class="no-case no-bold">
+                        Pretty Johanna
+                    </md-button>
+                </li>
+                <li>
+                    <md-button class="no-case no-bold">
+                        Mark Zulkovich
+                    </md-button>
+                </li>
+            </ul>
+            
+            <!-- <p>Project atwork provides a simplistic, open-source social network with pluggable modules to customize the experience different workplaces desire. It can be easily hosted, customized and white-labeled.</p> -->
         </md-content>
 
       </md-sidenav>
@@ -26,6 +70,7 @@
                 <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn">
                   <span class="visuallyhidden">Menu</span>
                 </button>
+                <h1 hide-gt-sm>atWork</h1>
                 <span hide-sm flex>{{barTitle}}</span>
                 <md-button ng-if="isLoggedIn" href="/logout">
                   <span>Logout</span>

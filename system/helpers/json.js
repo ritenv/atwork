@@ -23,9 +23,9 @@ var unhappy = function(err, res) {
   if (obj.res.errors) {
     obj.messages = [];
     for (var i in obj.res.errors) {
-      obj.messages.push(obj.res.errors[i].message);
+      obj.res.messages.push(obj.res.errors[i].message);
     }
-    obj.message = obj.messages[0];
+    obj.res.message = obj.messages[0];
   }
   res.send(obj);
 };
