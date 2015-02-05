@@ -21,11 +21,11 @@ var unhappy = function(err, res) {
     res: err
   };
   if (obj.res.errors) {
-    obj.messages = [];
+    obj.res.messages = [];
     for (var i in obj.res.errors) {
       obj.res.messages.push(obj.res.errors[i].message);
     }
-    obj.res.message = obj.messages[0];
+    obj.res.message = obj.res.messages[0];
   }
   res.send(obj);
 };

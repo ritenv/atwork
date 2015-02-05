@@ -38,7 +38,7 @@ angular.module('atwork.users')
        */
       $scope.create = function(isValid) {
         if (isValid) {
-          var user = new appUsers.login({
+          var user = new appUsers.single({
             email: this.email,
             name: this.name,
             password: this.password
@@ -53,6 +53,8 @@ angular.module('atwork.users')
               appToast(response.res.message);
             }
           });
+        } else {
+          appToast('Something is missing.');
         }
       };
 
@@ -75,6 +77,8 @@ angular.module('atwork.users')
               appToast(response.res.message);
             }
           });
+        } else {
+          appToast('Something is missing.');
         }
       };
 

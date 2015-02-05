@@ -2,7 +2,7 @@
 <p>Becoming a member is quick &amp; easy.</p>
 <md-tabs>
   <md-tab label="Login">
-    <form name="loginForm" ng-submit="login(loginForm.$valid)">
+    <form name="loginForm" ng-submit="login(loginForm.$valid)" novalidate>
       <md-input-container>
         <label>Email Address</label>
         <input type="email" name="email" ng-model="email" required>
@@ -29,7 +29,7 @@
     </form>
   </md-tab>
   <md-tab label="Register">
-    <form name="userForm" ng-submit="create(userForm.$valid)">
+    <form name="userForm" ng-submit="create(userForm.$valid)" novalidate>
       <md-input-container>
         <label>Full Name</label>
         <input name="name" ng-model="name" required md-maxlength="100" minlength="5">
