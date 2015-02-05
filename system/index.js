@@ -23,11 +23,24 @@ app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
     next();
 });
+var options = {
+  dotfiles: 'ignore',
+  etag: false,
+  // extensions: ['htm', 'html'],
+  index: false,
+  maxAge: '1d',
+  redirect: false,
+  setHeaders: function (res, path, stat) {
+    res.set('x-timestamp', Date.now())
+  }
+};
+app.use(express.static('public', options));
 
 /**
  * Path where modules are located
  */
 var modulePath = __dirname + '/../modules';
+var moduleURL = 'modules';
 
 /**
  * Create new server
@@ -102,13 +115,20 @@ var loadDBModels = function(startingPath) {
 var loadModules = function(System, callback) {
   fs.readdir(modulePath, function(err, list) {
     list.forEach(function(folder) {
-      var folderPath = modulePath + '/' + folder;
+      var serverPath = modulePath + '/' + folder + '/server';
+      var publicPath = moduleURL + '/' + folder + '/public';
+      
+      /**
+       * Expose public paths
+       */
+      app.use('/' + publicPath, express.static(publicPath, options));
+
       /**
        * Load needed db models
        */
-      loadDBModels(folderPath);
+      loadDBModels(serverPath);
 
-      var moduleFile = folderPath + '/main.js';
+      var moduleFile = serverPath + '/main.js';
       if (fs.existsSync(moduleFile)) {
         require(moduleFile)(System);
       }
