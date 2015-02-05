@@ -1,0 +1,21 @@
+<form name="userForm">
+  <md-input-container>
+    <label>Full Name</label>
+    <input name="fullName" ng-model="fullName" required md-maxlength="100" minlength="5">
+    <div ng-messages="userForm.fullName.$error" ng-show="userForm.fullName.$dirty">
+      <div ng-message="required">This is required!</div>
+      <div ng-message="md-maxlength">That's too long!</div>
+      <div ng-message="minlength">That's too short!</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container>
+    <label>Email Address</label>
+    <input name="email" ng-model="email" required>
+    <div ng-messages="userForm.email.$error" ng-show="userForm.bio.$dirty">
+      <div ng-message="required">This is required!</div>
+      <div ng-message="md-maxlength">That's too long!</div>
+      <div ng-message="minlength">That's too short!</div>
+    </div>
+  </md-input-container>
+</form>

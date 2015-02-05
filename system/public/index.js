@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('atwork.system', []);
+angular.module('atwork.system', ['ngRoute', 'ngMessages']);
