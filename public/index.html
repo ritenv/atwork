@@ -9,7 +9,7 @@
         <base href="/"></base>
     </head>
     <body layout="row" ng-controller="AppCtrl">
-      <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')">
+      <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')" ng-if="isLoggedIn">
         <md-toolbar layout="column">
           <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn">
             <span class="visuallyhidden">Menu</span>
@@ -17,7 +17,7 @@
           <h1 hide-sm>atWork</h1>
         </md-toolbar>
         <md-content class="md-padding sidebar-list">
-            <md-input-container>
+            <md-input-container ng-if="isLoggedIn">
               <label>Search</label>
               <input type="search" ng-model="search">
             </md-input-container>
