@@ -174,6 +174,7 @@ UserSchema.methods = {
     var obj = this.toObject();
     delete obj.hashed_password;
     delete obj.salt;
+    delete obj.token;
     return obj;
   }
 };

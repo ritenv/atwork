@@ -72,7 +72,7 @@ angular.module('atwork.users')
           auth.$save(function(response) {
             if (response.success) {
               appToast('You are now logged in.');
-              $scope.postLogin(response.res.record.token);
+              $scope.postLogin(response.res.token);
             } else {
               appToast(response.res.message);
             }

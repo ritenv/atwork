@@ -49,13 +49,31 @@ var moduleURL = 'modules';
  */
 function startServer() {
   app.use(function(req, res) {
-   res.redirect('/index.html');
+    res.redirect('/index.html');
   });
   var server = app.listen(Config.server.port, function() {
     var host = server.address().address
     var port = server.address().port
 
     console.log('AtWork running at http://%s:%s', host, port);
+  });
+}
+
+/**
+ * Load built-in system routes
+ * @param  {Object} System The system object
+ * @return {Void}
+ */
+function systemRoutes(System) {
+  var routes = require('./routes/search')(System);
+  routes.forEach(function(route) {
+    var moduleRouter = express.Router();
+    if (!route.authorized) {
+      moduleRouter[route.method](route.path, route.handler);
+    } else {
+      moduleRouter[route.method](route.path, System.auth.ensureAuthorized, route.handler);
+    }
+    app.use('/', moduleRouter);
   });
 }
 
@@ -158,6 +176,11 @@ module.exports = {
    * @return {Void}
    */
   boot: function() {
+    /**
+     * Reference self
+     * @type {Object}
+     */
+    var $this = this;
 
     /**
      * Pass the config object as is for now (TODO: reduce sensitive data)
@@ -179,6 +202,7 @@ module.exports = {
      * Finally, load dependencies and start the server
      */
     loadModules(this, function() {
+      systemRoutes($this);
       startServer();
     });
   },

@@ -28,13 +28,27 @@ module.exports = function(System) {
       } else {
         if (user && user.hashPassword(req.body.password) === user.hashed_password) {
           json.happy({
-            record: user
+            record: user,
+            token: user.token
           }, res);
         } else {
           json.unhappy({
             message: 'Incorrect email/password'
           }, res);
         }
+      }
+    });
+  };
+
+  obj.list = function(req, res) {
+    //TODO: pagination
+    User.find({}, function(err, users) {
+      if (err) {
+        json.unhappy(err, res);
+      } else {
+        json.happy({
+          records: users
+        }, res);
       }
     });
   };
@@ -64,7 +78,8 @@ module.exports = function(System) {
   obj.me = function(req, res) {
     if (req.user) {
       json.happy({
-        record: req.user
+        record: req.user,
+        token: req.token
       }, res);
     }
   };

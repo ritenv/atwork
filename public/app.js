@@ -5,8 +5,11 @@ app.controller('AppCtrl', [
   '$mdSidenav', 
   'appLocation',
   'appAuth',
-  function($scope, $mdSidenav, appLocation, appAuth) {
+  'appSearch',
+  function($scope, $mdSidenav, appLocation, appAuth, appSearch) {
     $scope.barTitle = 'Welcome';
+    $scope.search = '';
+
     $scope.toggleSidenav = function(menuId) {
       $mdSidenav(menuId).toggle();
     };
@@ -19,6 +22,10 @@ app.controller('AppCtrl', [
     });
     $scope.$on('loggedOut', function() {
       $scope.isLoggedIn = appAuth.isLoggedIn();
+    });
+
+    $scope.$watch('search', function(newValue, oldValue) {
+      $scope.searchResults = appSearch(newValue);
     });
 
     $scope.isLoggedIn = appAuth.isLoggedIn();

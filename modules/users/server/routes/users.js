@@ -21,8 +21,15 @@ module.exports = function(System) {
 
   routes.push({
     method: 'get',
-    path: '/',
+    path: '/me',
     handler: users.me,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'get',
+    path: '/',
+    handler: users.list,
     authorized: true
   });
 
