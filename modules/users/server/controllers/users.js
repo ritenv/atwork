@@ -57,14 +57,6 @@ module.exports = function(System) {
             record: item
           }, res);
         });
-        
-        // if (user && user.hashPassword(req.body.password) === user.hashed_password) {
-          
-        // } else {
-        //   json.unhappy({
-        //     message: 'Incorrect email/password'
-        //   }, res);
-        // }
       }
     });
   };
