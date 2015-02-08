@@ -26,5 +26,12 @@ module.exports = function(System) {
     authorized: true
   });
 
+  routes.push({
+    method: 'post',
+    path: '/follow',
+    handler: users.follow,
+    authorized: true
+  });
+
   return routes;
 };

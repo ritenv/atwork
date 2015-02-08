@@ -39,6 +39,36 @@ module.exports = function(System) {
     });
   };
 
+  obj.follow = function(req, res) {
+    var currUser = req.user;
+    if (req.user.following.indexOf(req.body.userId) !== -1) {
+      return json.unhappy('You are already following', res);
+    }
+    User.findOne({_id: req.body.userId}, function(err, user) {
+      if (err) {
+        json.unhappy(err, res);
+      } else {
+        currUser.following.push(user._id);
+        currUser.save(function(err, item) {
+          if (err) {
+            return json.unhappy(err, res);
+          }
+          json.happy({
+            record: item
+          }, res);
+        });
+        
+        // if (user && user.hashPassword(req.body.password) === user.hashed_password) {
+          
+        // } else {
+        //   json.unhappy({
+        //     message: 'Incorrect email/password'
+        //   }, res);
+        // }
+      }
+    });
+  };
+
   obj.me = function(req, res) {
     if (req.user) {
       json.happy({

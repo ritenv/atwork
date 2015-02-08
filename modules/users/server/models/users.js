@@ -68,6 +68,11 @@ var UserSchema = new Schema({
     type: String,
     default: 'local'
   },
+  following: [{
+    type: Schema.ObjectId,
+    required: true,
+    ref: 'User'
+  }],
   salt: String,
   token: String,
   resetPasswordToken: String,
