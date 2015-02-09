@@ -75,6 +75,29 @@ module.exports = function(System) {
     });
   };
 
+  obj.single = function(req, res) {
+    User.findOne({_id: req.param('userId')}).populate('following').exec(function(err, user) {
+      if (err) {
+        return json.unhappy(err, res);
+      } else if (user) {
+        //now get followers
+        return User.find({following: user._id}, function(err, followers) {
+          if (err) {
+            return json.unhappy(err, res);
+          }
+          console.log(followers.length);
+          return json.happy({
+            record: user,
+            followers: followers,
+            following: user.following
+          }, res);
+        });
+      } else {
+        return json.unhappy({message: 'User not found'}, res);
+      }
+    });
+  };
+
   obj.me = function(req, res) {
     if (req.user) {
       json.happy({

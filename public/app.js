@@ -4,10 +4,11 @@ app.controller('AppCtrl', [
   '$scope', 
   '$mdSidenav',
   '$mdBottomSheet',
+  '$location',
   'appLocation',
   'appAuth',
   'appSearch',
-  function($scope, $mdSidenav, $mdBottomSheet, appLocation, appAuth, appSearch) {
+  function($scope, $mdSidenav, $mdBottomSheet, $location, appLocation, appAuth, appSearch) {
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -28,6 +29,10 @@ app.controller('AppCtrl', [
       }).then(function(clickedItem) {
         $scope.alert = clickedItem.name + ' clicked!';
       });
+    };
+
+    $scope.clearSearch = function() {
+      $scope.search = '';
     };
 
     if (!appAuth.isLoggedIn()) {
@@ -57,5 +62,7 @@ app.controller('AppCtrl', [
       });
     });
     $scope.updateLoginStatus();
+
+    $location.url('profile/54d3b90b12262a9d213cb33c');
   }
 ]);

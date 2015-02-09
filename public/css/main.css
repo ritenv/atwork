@@ -47,14 +47,23 @@ ul.unstyled {
   min-width: 254px;
   max-width: 254px; }
 
+.circular-image, .user-listing .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .user-profile .user-profile-info .face {
+  border-radius: 100px;
+  width: 48px;
+  margin: 16px;
+  border: 1px solid #ddd; }
+
+.user-listing .md-button, .search-results .md-button, .user-profile .user-profile-details .user-profile-following .md-button {
+  display: block;
+  text-transform: none; }
+
 .search-results {
   position: absolute;
   z-index: 1;
   margin-top: -26px; }
-  .search-results .face {
-    border-radius: 30px;
-    width: 48px;
-    border: 1px solid #ddd; }
+
+.user-profile .user-profile-info .face {
+  width: 128px; }
 
 .no-margin {
   margin-bottom: 0;

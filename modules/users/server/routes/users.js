@@ -34,6 +34,13 @@ module.exports = function(System) {
   });
 
   routes.push({
+    method: 'get',
+    path: '/:userId',
+    handler: users.single,
+    authorized: true
+  });
+
+  routes.push({
     method: 'post',
     path: '/follow',
     handler: users.follow,
