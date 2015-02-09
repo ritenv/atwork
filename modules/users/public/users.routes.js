@@ -15,6 +15,10 @@ angular.module('atwork.users')
         templateUrl: 'modules/users/views/profile.html',
         controller: 'ProfileCtrl'
       })
+      .when('/me', {
+        templateUrl: 'modules/users/views/profile.html',
+        controller: 'ProfileCtrl'
+      })
       ;
     $locationProvider.html5Mode(true);
   }]);

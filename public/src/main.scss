@@ -53,21 +53,40 @@ ul.unstyled {
   min-width: 254px;
   max-width: 254px;
 }
-
+.circular-image {
+  border-radius: 100px;
+  width: 48px;
+  margin: 16px;
+  border: 1px solid #ddd;
+}
+.user-listing {
+  .md-button {
+    display: block;
+    text-transform: none;
+  }
+  .face {
+    @extend .circular-image;
+  }
+}
 .search-results {
   position: absolute;
   z-index: 1;
   margin-top: -26px;
 
-  .face {
-    border-radius: 30px;
-    width: 48px;
-    margin: 16px;
-    border: 1px solid #ddd;
+  @extend .user-listing;
+  
+}
+.user-profile {
+  .user-profile-info {
+    .face {
+      @extend .circular-image;
+      width: 128px;
+    }
   }
-  .md-button {
-    display: block;
-    text-transform: none;
+  .user-profile-details {
+    .user-profile-following {
+      @extend .user-listing;
+    }
   }
 }
 .no-margin {

@@ -31,6 +31,10 @@ app.controller('AppCtrl', [
       });
     };
 
+    $scope.clearSearch = function() {
+      $scope.search = '';
+    };
+
     if (!appAuth.isLoggedIn()) {
       $scope.barTitle = 'atWork';
       appLocation.url('/login');

@@ -6,14 +6,17 @@ angular.module('atwork.users')
     '$routeParams',
     '$location',
     'appUsers',
-    function($scope, $routeParams, $location, appUsers) {
-      var userId = $routeParams.userId;
+    'appAuth',
+    function($scope, $routeParams, $location, appUsers, appAuth) {
+      var userId = $routeParams.userId || appAuth.getUser()._id;
       if (!userId) {
         return $location.url('/');
       }
 
       appUsers.single.get({userId: userId}).$promise.then(function(response) {
         $scope.profile = response.res.record;
+        $scope.following = response.res.following;
+        $scope.followers = response.res.followers;
       });
       
     }

@@ -76,13 +76,24 @@ module.exports = function(System) {
   };
 
   obj.single = function(req, res) {
-    User.findOne({_id: req.param('userId')}, function(err, user) {
+    User.findOne({_id: req.param('userId')}).populate('following').exec(function(err, user) {
       if (err) {
-        json.unhappy(err, res);
+        return json.unhappy(err, res);
+      } else if (user) {
+        //now get followers
+        return User.find({following: user._id}, function(err, followers) {
+          if (err) {
+            return json.unhappy(err, res);
+          }
+          console.log(followers.length);
+          return json.happy({
+            record: user,
+            followers: followers,
+            following: user.following
+          }, res);
+        });
       } else {
-        json.happy({
-          record: user
-        }, res);
+        return json.unhappy({message: 'User not found'}, res);
       }
     });
   };
