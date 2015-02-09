@@ -17,10 +17,11 @@
           <h1 hide-sm>atWork</h1>
         </md-toolbar>
         <md-content class="md-padding sidebar-list">
-            <md-input-container ng-if="isLoggedIn">
+            <md-input-container layout="column" class="no-margin">
               <label>Search</label>
-              <input type="search" ng-model="search">
+              <input type="text" ng-model="search">
             </md-input-container>
+            <div class="search-results md-whiteframe-z1" ng-include="'/system/public/views/search.html'"></div>
             
             <md-button>
                 Groups
@@ -101,6 +102,9 @@
       <script src="/bower_components/angular-route/angular-route.js"></script>
       <script src="/bower_components/angular-messages/angular-messages.js"></script>
       <script src="/bower_components/angular-resource/angular-resource.js"></script>
+      
+      <!-- Other modules -->
+      <script src="/bower_components/q/q.js"></script>
 
         
       <!-- System -->

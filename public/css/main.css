@@ -47,6 +47,18 @@ ul.unstyled {
   min-width: 254px;
   max-width: 254px; }
 
+.search-results {
+  position: absolute;
+  z-index: 1; }
+  .search-results .face {
+    border-radius: 30px;
+    width: 48px;
+    border: 1px solid #ddd; }
+
+.no-margin {
+  margin-bottom: 0;
+  padding-bottom: 0; }
+
 /*.sidebar-list {
   a {
     display: block;

@@ -14,6 +14,15 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
     }
   }
 })
+.factory('appPromise', [
+  function() {
+    return function(fn) {
+      var deferred = Q.defer();
+      fn(deferred);
+      return deferred.promise;
+    }
+  }
+])
 .factory('appLocation', [
   '$location', 
   function($location) {
