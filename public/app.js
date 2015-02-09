@@ -30,8 +30,13 @@ app.controller('AppCtrl', [
 
     $scope.search = '';
     $scope.$watch('search', function(newValue, oldValue) {
-      // $scope.searchResults = appSearch(newValue);
-      console.log(newValue);
+      if (!newValue.length) {
+        $scope.searchResults = [];
+        return false;
+      }
+      appSearch(newValue).then(function(response) {
+        $scope.searchResults = response.res.items;
+      });
     });
 
     $scope.isLoggedIn = appAuth.isLoggedIn();

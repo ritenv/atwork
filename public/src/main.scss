@@ -57,7 +57,8 @@ ul.unstyled {
 .search-results {
   position: absolute;
   z-index: 1;
-
+  margin-top: -26px;
+  
   .face {
     border-radius: 30px;
     width: 48px;

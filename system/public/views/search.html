@@ -3,11 +3,11 @@
       <md-item ng-repeat="item in searchResults">
         <md-item-content>
           <div class="md-tile-left">
-              <img ng-src="{{item.face}}" class="face" alt="{{item.name}}">
+              <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
           </div>
           <div class="md-tile-content">
             <h3>{{item.name}}</h3>
-            <h4>{{item.email}}</h4>
+            <h4>Following: {{item.following.length}}</h4>
             <!-- <p>
               {{item.notes}}
             </p> -->
