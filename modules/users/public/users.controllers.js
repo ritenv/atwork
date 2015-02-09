@@ -7,17 +7,34 @@ angular.module('atwork.users')
     '$location',
     'appUsers',
     'appAuth',
-    function($scope, $routeParams, $location, appUsers, appAuth) {
+    'appToast',
+    function($scope, $routeParams, $location, appUsers, appAuth, appToast) {
       var userId = $routeParams.userId || appAuth.getUser()._id;
       if (!userId) {
         return $location.url('/');
       }
+      $scope.getProfile = function() {
+        appUsers.single.get({userId: userId}).$promise.then(function(response) {
+          response.res.profile = response.res.record;
+          angular.extend($scope, response.res);
+        });
+      };
+      $scope.getProfile();
 
-      appUsers.single.get({userId: userId}).$promise.then(function(response) {
-        $scope.profile = response.res.record;
-        $scope.following = response.res.following;
-        $scope.followers = response.res.followers;
-      });
+      $scope.follow = function() {
+        var user = appUsers.single.get({userId: userId}, function() {
+          user.$follow({userId: userId}, function() {
+            $scope.getProfile();
+          });
+        });
+      };
+      $scope.unfollow = function() {
+        var user = appUsers.single.get({userId: userId}, function() {
+          user.$unfollow({userId: userId}, function(response) {
+            $scope.getProfile();
+          });
+        });
+      };
       
     }
   ])

@@ -19,7 +19,7 @@
         <md-content class="md-padding sidebar-list" ng-controller="AppCtrl">
             <md-input-container layout="column">
               <label>Search</label>
-              <input type="search" ng-model="search">
+              <input type="search" ng-model="search" minlength="3">
             </md-input-container>
             <div ng-if="searchResults.length" class="search-results md-whiteframe-z1" ng-include="'/system/public/views/search.html'"></div>
             
