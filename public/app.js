@@ -8,7 +8,7 @@ app.controller('AppCtrl', [
   'appAuth',
   'appSearch',
   function($scope, $mdSidenav, $mdBottomSheet, appLocation, appAuth, appSearch) {
-    $scope.barTitle = 'Welcome';
+    $scope.barTitle = '';
     $scope.search = '';
 
     $scope.toggleSidenav = function(menuId) {
@@ -34,11 +34,11 @@ app.controller('AppCtrl', [
       $scope.barTitle = 'atWork';
       appLocation.url('/login');
     } else {
-      $scope.barTitle = 'Welcome';
+      $scope.barTitle = '';
     }
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();
-      $scope.barTitle = 'Welcome';
+      $scope.barTitle = '';
       
     });
     $scope.$on('loggedOut', function() {
