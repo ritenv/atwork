@@ -30,7 +30,11 @@ angular.module('atwork.system')
 ])
 .config([
   '$httpProvider',
-  function ($httpProvider) {
+  '$mdThemingProvider',
+  function ($httpProvider, $mdThemingProvider) {
     $httpProvider.interceptors.push('tokenHttpInterceptor');
+    $mdThemingProvider.theme('default')
+    .primaryPalette('teal')
+    .accentPalette('blue-grey');
   }
 ]);
