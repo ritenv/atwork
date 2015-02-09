@@ -75,6 +75,18 @@ module.exports = function(System) {
     });
   };
 
+  obj.single = function(req, res) {
+    User.findOne({_id: req.param('userId')}, function(err, user) {
+      if (err) {
+        json.unhappy(err, res);
+      } else {
+        json.happy({
+          record: user
+        }, res);
+      }
+    });
+  };
+
   obj.me = function(req, res) {
     if (req.user) {
       json.happy({

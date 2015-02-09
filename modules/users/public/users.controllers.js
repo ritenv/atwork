@@ -1,6 +1,23 @@
 'use strict';
 
 angular.module('atwork.users')
+  .controller('ProfileCtrl', [
+    '$scope',
+    '$routeParams',
+    '$location',
+    'appUsers',
+    function($scope, $routeParams, $location, appUsers) {
+      var userId = $routeParams.userId;
+      if (!userId) {
+        return $location.url('/');
+      }
+
+      appUsers.single.get({userId: userId}).$promise.then(function(response) {
+        $scope.profile = response.res.record;
+      });
+      
+    }
+  ])
   .controller('LogoutCtrl', [
     '$rootScope',
     'appStorage',
@@ -131,4 +148,5 @@ angular.module('atwork.users')
       };
     }
   ])
+
 ;

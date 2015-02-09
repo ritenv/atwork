@@ -58,11 +58,16 @@ ul.unstyled {
   position: absolute;
   z-index: 1;
   margin-top: -26px;
-  
+
   .face {
     border-radius: 30px;
     width: 48px;
+    margin: 16px;
     border: 1px solid #ddd;
+  }
+  .md-button {
+    display: block;
+    text-transform: none;
   }
 }
 .no-margin {

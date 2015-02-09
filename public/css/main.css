@@ -54,7 +54,11 @@ ul.unstyled {
   .search-results .face {
     border-radius: 30px;
     width: 48px;
+    margin: 16px;
     border: 1px solid #ddd; }
+  .search-results .md-button {
+    display: block;
+    text-transform: none; }
 
 .no-margin {
   margin-bottom: 0;
