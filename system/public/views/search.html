@@ -1,17 +1,25 @@
-  <md-content>
-    <md-list>
-      <md-item ng-repeat="item in searchResults">
-        <md-button href="/profile/{{item._id}}" ng-click="clearSearch()">
-          <md-item-content>
-              <div class="md-tile-left">
-                <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
-              </div>
-              <div class="md-tile-content">
-                <h3>{{item.name}}</h3>
-                <h4>{{item.designation}}</h4>
-              </div>
-          </md-item-content>
-        </md-button>
-      </md-item>
-    </md-list>
-  </md-content>
+<div ng-controller="AppCtrl">
+  <md-input-container layout="column">
+    <label>Search</label>
+    <input type="search" ng-model="search" minlength="2">
+  </md-input-container>
+  <div class="search-results md-whiteframe-z1" ng-if="searchResults.length">
+    <md-content>
+      <md-list>
+        <md-item ng-repeat="item in searchResults">
+          <md-button href="/profile/{{item._id}}" ng-click="clearSearch()">
+            <md-item-content>
+                <div class="md-tile-left">
+                  <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                </div>
+                <div class="md-tile-content">
+                  <h3>{{item.name}}</h3>
+                  <h4>{{item.designation}}</h4>
+                </div>
+            </md-item-content>
+          </md-button>
+        </md-item>
+      </md-list>
+    </md-content>
+  </div>
+</div>

@@ -5,10 +5,11 @@ app.controller('AppCtrl', [
   '$mdSidenav',
   '$mdBottomSheet',
   '$location',
+  '$timeout',
   'appLocation',
   'appAuth',
   'appSearch',
-  function($scope, $mdSidenav, $mdBottomSheet, $location, appLocation, appAuth, appSearch) {
+  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appSearch) {
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -41,6 +42,7 @@ app.controller('AppCtrl', [
     } else {
       $scope.barTitle = '';
     }
+
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();
       $scope.barTitle = '';
@@ -53,7 +55,7 @@ app.controller('AppCtrl', [
 
     $scope.search = '';
     $scope.$watch('search', function(newValue, oldValue) {
-      if (newValue.length < 3) {
+      if (!newValue.length) {
         $scope.searchResults = [];
         return false;
       }
@@ -62,7 +64,8 @@ app.controller('AppCtrl', [
       });
     });
     $scope.updateLoginStatus();
-
-    $location.url('profile/54d7745f57bf4f2b0dd6934a');
+    $timeout(function() {
+      $scope.appReady = true;
+    }, 1000);
   }
 ]);

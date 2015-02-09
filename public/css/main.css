@@ -69,6 +69,23 @@ ul.unstyled {
   margin-bottom: 0;
   padding-bottom: 0; }
 
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 1000; }
+  .preloader .preloader-content {
+    margin-top: 200px;
+    font-size: 20px;
+    text-align: center;
+    color: #999; }
+    .preloader .preloader-content h1, .preloader .preloader-content p {
+      margin: 0;
+      padding: 0; }
+
 /*.sidebar-list {
   a {
     display: block;

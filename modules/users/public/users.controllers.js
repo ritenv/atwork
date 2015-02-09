@@ -10,17 +10,36 @@ angular.module('atwork.users')
     'appToast',
     function($scope, $routeParams, $location, appUsers, appAuth, appToast) {
       var userId = $routeParams.userId || appAuth.getUser()._id;
+      
+      /**
+       * Cannot follow self
+       * @type {Boolean}
+       */
+      $scope.selfProfile = (userId === appAuth.getUser()._id);
+
       if (!userId) {
         return $location.url('/');
       }
+
+      /**
+       * Get the user's profile
+       * @return {Void}
+       */
       $scope.getProfile = function() {
         appUsers.single.get({userId: userId}).$promise.then(function(response) {
           response.res.profile = response.res.record;
           angular.extend($scope, response.res);
         });
       };
+      /**
+       * Call it once by default
+       */
       $scope.getProfile();
 
+      /**
+       * Follow the active user
+       * @return {Void}
+       */
       $scope.follow = function() {
         var user = appUsers.single.get({userId: userId}, function() {
           user.$follow({userId: userId}, function() {
@@ -28,6 +47,11 @@ angular.module('atwork.users')
           });
         });
       };
+
+      /**
+       * Unfollow the active user
+       * @return {Void}
+       */
       $scope.unfollow = function() {
         var user = appUsers.single.get({userId: userId}, function() {
           user.$unfollow({userId: userId}, function(response) {
