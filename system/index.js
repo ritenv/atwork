@@ -36,6 +36,7 @@ var options = {
 };
 app.use(express.static('public', options));
 app.use('/system', express.static('system/public', options));
+app.use('/system/public/views', express.static('system/public/views', options));
 
 /**
  * Path where modules are located
