@@ -34,16 +34,23 @@ module.exports = function(System) {
   });
 
   routes.push({
+    method: 'post',
+    path: '/:userId/follow',
+    handler: users.follow,
+    authorized: true
+  });
+  
+  routes.push({
+    method: 'post',
+    path: '/:userId/unfollow',
+    handler: users.unfollow,
+    authorized: true
+  });
+  
+  routes.push({
     method: 'get',
     path: '/:userId',
     handler: users.single,
-    authorized: true
-  });
-
-  routes.push({
-    method: 'post',
-    path: '/follow',
-    handler: users.follow,
     authorized: true
   });
 

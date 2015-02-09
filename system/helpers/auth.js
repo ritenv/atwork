@@ -8,7 +8,8 @@ var ensureAuthorized = function(req, res, next) {
     var bearer = bearerHeader.split(" ");
     bearerToken = bearer[1];
     req.token = bearerToken;
-    User.findOne({token: req.token}).populate({path: 'following', select: 'name email'}).exec(function(err, user) {
+    //populate({path: 'following', select: 'name email'}).
+    User.findOne({token: req.token}).exec(function(err, user) {
       if (err || !user) {
         return res.sendStatus(403);
       }

@@ -55,14 +55,42 @@ module.exports = function(System) {
 
   obj.follow = function(req, res) {
     var currUser = req.user;
-    if (req.user.following.indexOf(req.body.userId) !== -1) {
+    var toFollow = req.param('userId');
+    
+    if (req.user.following.indexOf(toFollow) !== -1) {
       return json.unhappy('You are already following', res);
     }
-    User.findOne({_id: req.body.userId}, function(err, user) {
+
+    User.findOne({_id: toFollow}, function(err, user) {
       if (err) {
         json.unhappy(err, res);
       } else {
         currUser.following.push(user._id);
+        currUser.save(function(err, item) {
+          if (err) {
+            return json.unhappy(err, res);
+          }
+          json.happy({
+            record: item
+          }, res);
+        });
+      }
+    });
+  };
+
+  obj.unfollow = function(req, res) {
+    var currUser = req.user;
+    var toUnFollow = req.param('userId');
+
+    if (req.user.following.indexOf(toUnFollow) == -1) {
+      return json.unhappy('You are already not following', res);
+    }
+
+    User.findOne({_id: toUnFollow}, function(err, user) {
+      if (err) {
+        json.unhappy(err, res);
+      } else {
+        currUser.following.splice(currUser.following.indexOf(user._id), 1);
         currUser.save(function(err, item) {
           if (err) {
             return json.unhappy(err, res);
@@ -85,11 +113,11 @@ module.exports = function(System) {
           if (err) {
             return json.unhappy(err, res);
           }
-          console.log(followers.length);
           return json.happy({
             record: user,
             followers: followers,
-            following: user.following
+            following: user.following,
+            alreadyFollowing: (req.user.following.indexOf(user._id) != -1)
           }, res);
         });
       } else {
