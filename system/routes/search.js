@@ -12,7 +12,7 @@ module.exports = function(System) {
   routes.push({
     method: 'get',
     path: '/search/:keyword',
-    // authorized: true,
+    authorized: true,
     handler: function(req, res) {
       var keyword = req.param('keyword');
       User.find({name: new RegExp(keyword, 'ig')}).exec(function(err, items) {
