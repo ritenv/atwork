@@ -80,8 +80,8 @@
                 </button>
                 <h1 hide-gt-sm>atWork</h1>
                 <span hide-sm flex>{{barTitle}}</span>
-                <md-button ng-if="isLoggedIn" href="/logout">
-                  <span>Logout</span>
+                <md-button ng-if="isLoggedIn" ng-click="showUserActions($event)">
+                  <span>{{user.name}}</span>
                 </md-button>
             </div>
           </md-toolbar>
@@ -120,6 +120,10 @@
 
       <!-- Main angular file -->
       <script src="/app.js"></script>
+
+      <!-- Non-critical CSS -->
+      <link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
+      
     </body>
 </html>
 

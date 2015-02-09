@@ -72,7 +72,7 @@ angular.module('atwork.users')
           auth.$save(function(response) {
             if (response.success) {
               appToast('You are now logged in.');
-              $scope.postLogin(response.res.token);
+              $scope.postLogin(response.res.record, response.res.token);
             } else {
               appToast(response.res.message);
             }
@@ -87,7 +87,9 @@ angular.module('atwork.users')
        * @param  {String} token The user token
        * @return {Void}
        */
-      $scope.postLogin = function(token) {
+      $scope.postLogin = function(user, token) {
+        var serializedUser = angular.toJson(user);
+        appStorage.set('user', serializedUser);
         appStorage.set('userToken', token);
         $rootScope.$broadcast('loggedIn');
         appLocation.url('/');
@@ -100,4 +102,33 @@ angular.module('atwork.users')
         appLocation.url('/');
       }
     }
-  ]);
+  ])
+  .controller('UserSheet', [
+    '$scope',
+    '$mdBottomSheet',
+    '$location',
+    function($scope, $mdBottomSheet, $location) {
+      $scope.items = [
+        { 
+          name: 'Profile',
+          icon: 'fa-user',
+          handler: function() {
+            $location.url('/me');
+          }
+        },
+        { 
+          name: 'Logout',
+          icon: 'fa-sign-out',
+          handler: function() {
+            $location.url('/logout');
+          }
+        }
+      ];
+      $scope.listItemClick = function($index) {
+        var clickedItem = $scope.items[$index];
+        $mdBottomSheet.hide(clickedItem);
+        clickedItem.handler();
+      };
+    }
+  ])
+;

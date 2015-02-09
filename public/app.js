@@ -2,17 +2,34 @@ var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'ngMaterial
 
 app.controller('AppCtrl', [
   '$scope', 
-  '$mdSidenav', 
+  '$mdSidenav',
+  '$mdBottomSheet',
   'appLocation',
   'appAuth',
   'appSearch',
-  function($scope, $mdSidenav, appLocation, appAuth, appSearch) {
+  function($scope, $mdSidenav, $mdBottomSheet, appLocation, appAuth, appSearch) {
     $scope.barTitle = 'Welcome';
     $scope.search = '';
 
     $scope.toggleSidenav = function(menuId) {
       $mdSidenav(menuId).toggle();
     };
+
+    $scope.updateLoginStatus = function() {
+      $scope.isLoggedIn = appAuth.isLoggedIn();
+      $scope.user = appAuth.getUser();
+    };
+
+    $scope.showUserActions = function($event) {
+      $mdBottomSheet.show({
+        templateUrl: '/modules/users/views/user-list.html',
+        controller: 'UserSheet',
+        targetEvent: $event
+      }).then(function(clickedItem) {
+        $scope.alert = clickedItem.name + ' clicked!';
+      });
+    };
+
     if (!appAuth.isLoggedIn()) {
       $scope.barTitle = 'atWork';
       appLocation.url('/login');
@@ -20,17 +37,18 @@ app.controller('AppCtrl', [
       $scope.barTitle = 'Welcome';
     }
     $scope.$on('loggedIn', function() {
-      $scope.isLoggedIn = appAuth.isLoggedIn();
+      $scope.updateLoginStatus();
       $scope.barTitle = 'Welcome';
+      
     });
     $scope.$on('loggedOut', function() {
-      $scope.isLoggedIn = appAuth.isLoggedIn();
+      $scope.updateLoginStatus();
       $scope.barTitle = 'atWork';
     });
 
     $scope.search = '';
     $scope.$watch('search', function(newValue, oldValue) {
-      if (!newValue.length) {
+      if (newValue.length < 3) {
         $scope.searchResults = [];
         return false;
       }
@@ -38,7 +56,6 @@ app.controller('AppCtrl', [
         $scope.searchResults = response.res.items;
       });
     });
-
-    $scope.isLoggedIn = appAuth.isLoggedIn();
+    $scope.updateLoginStatus();
   }
 ]);

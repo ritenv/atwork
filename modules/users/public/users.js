@@ -7,6 +7,16 @@ angular.module('atwork.users', ['atwork.system'])
       return {
         isLoggedIn: function() {
           return appStorage.get('userToken');
+        },
+        getUser: function() {
+          var serialized = appStorage.get('user');
+          if (serialized) {
+            return angular.fromJson(serialized);
+          } else {
+            return {
+              name: 'unknown'
+            };
+          }
         }
       }
     }
