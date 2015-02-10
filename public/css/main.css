@@ -59,7 +59,10 @@ ul.unstyled {
   border-radius: 100px;
   width: 48px;
   margin: 16px;
-  border: 1px solid #ddd; }
+  background-size: cover; }
+
+.clickable {
+  cursor: pointer; }
 
 /** ====== General typo END ====== */
 /** ====== Users BEGIN ====== */

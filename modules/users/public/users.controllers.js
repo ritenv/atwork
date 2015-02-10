@@ -6,10 +6,11 @@ angular.module('atwork.users')
     '$routeParams',
     '$location',
     '$timeout',
+    '$upload',
     'appUsers',
     'appAuth',
     'appToast',
-    function($scope, $routeParams, $location, $timeout, appUsers, appAuth, appToast) {
+    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast) {
       var userId = $routeParams.userId || appAuth.getUser()._id;
       
       /**
@@ -32,6 +33,7 @@ angular.module('atwork.users')
           angular.extend($scope, response.res);
         });
       };
+
       /**
        * Call it once by default
        */
@@ -62,6 +64,30 @@ angular.module('atwork.users')
           });
         });
       };
+
+      $scope.$watch('avatar', function () {
+        if ($scope.avatar && $scope.avatar.length) {
+          $scope.uploadAvatar($scope.avatar);
+        }
+      });
+
+      $scope.uploadAvatar = function() {
+        if (!$scope.selfProfile) {
+          return true;
+        }
+        var file = $scope.avatar.pop();
+        $upload.upload({
+          url: '/users/' + userId + '/avatar',
+          file: file
+        }).progress(function (evt) {
+          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+        }).success(function (data, status, headers, config) {
+          if (data && data.success) {
+            $scope.profile.face = data.res.face;
+          }
+        });
+      }
       
     }
   ])

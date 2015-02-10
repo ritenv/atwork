@@ -103,6 +103,23 @@ module.exports = function(System) {
     });
   };
 
+  obj.avatar = function(req, res) {
+    var user = req.user;
+    var file = req.files.file;
+    if (['png', 'jpg', 'jpeg', 'gif'].indexOf(file.extension) === -1) {
+      return json.unhappy({message: 'Only images allowed.'}, res);
+    }
+    user.face = file.path.replace('public/', '');
+    user.save(function(err, u) {
+      if (err) {
+        return json.unhappy(err, res);
+      }
+      return json.happy({
+        face: u.face
+      }, res);
+    });
+  };
+
   obj.single = function(req, res) {
     User.findOne({_id: req.param('userId')}).populate('following').exec(function(err, user) {
       if (err) {
