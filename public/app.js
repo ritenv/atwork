@@ -66,6 +66,6 @@ app.controller('AppCtrl', [
     $scope.updateLoginStatus();
     $timeout(function() {
       $scope.appReady = true;
-    }, 1000);
+    });
   }
 ]);
