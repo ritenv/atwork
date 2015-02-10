@@ -131,6 +131,7 @@ angular.module('atwork.users')
           var user = new appUsers.single({
             email: this.email,
             name: this.name,
+            designation: this.designation,
             password: this.password
           });
 

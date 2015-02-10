@@ -51,6 +51,16 @@
       </md-input-container>
 
       <md-input-container>
+        <label>Designation</label>
+        <input name="name" ng-model="designation" required md-maxlength="100" minlength="2">
+        <div ng-messages="userForm.designation.$error" ng-show="userForm.bio.$dirty">
+          <div ng-message="required">This is required!</div>
+          <div ng-message="md-maxlength">That's too long!</div>
+          <div ng-message="minlength">That's too short!</div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
         <label>Password</label>
         <input name="password" ng-model="password" type="password" required md-maxlength="100" minlength="8">
         <div ng-messages="userForm.password.$error" ng-show="userForm.bio.$dirty">
