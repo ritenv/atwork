@@ -61,6 +61,9 @@ var UserSchema = new Schema({
     required: true,
     get: escapeProperty
   },
+  face: {
+    type: String
+  },
   roles: {
     type: Array,
     default: ['authenticated']

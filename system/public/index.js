@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('atwork.system', ['ngRoute', 'ngMessages', 'ngResource', 'atwork.utils']);
+angular.module('atwork.system', ['ngRoute', 'ngMessages', 'ngResource', 'angularFileUpload', 'atwork.utils']);
 
 angular.module('atwork.system')
 .factory('tokenHttpInterceptor', [

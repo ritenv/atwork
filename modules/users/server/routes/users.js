@@ -35,6 +35,13 @@ module.exports = function(System) {
 
   routes.push({
     method: 'post',
+    path: '/:userId/avatar',
+    handler: users.avatar,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'post',
     path: '/:userId/follow',
     handler: users.follow,
     authorized: true
@@ -46,7 +53,7 @@ module.exports = function(System) {
     handler: users.unfollow,
     authorized: true
   });
-  
+
   routes.push({
     method: 'get',
     path: '/:userId',

@@ -4,7 +4,11 @@
       <md-item>
         <md-item-content>
           <div class="md-tile-left">
-            <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+            <md-tooltip ng-if="selfProfile">
+              Edit Avatar
+            </md-tooltip>
+            <!-- TODO: The file select dialog appears even on other users' profiles (no issue for now, they cannot edit the avatar) -->
+            <img src="images/spacer.gif" style="background-image: url('{{profile.face || '/images/user.jpg'}}')" class="face {{!selfProfile?'':'clickable'}}" alt="{{profile.name}}" ng-file-select ng-accept="'image/*'" ng-model="avatar">
           </div>
           <div class="md-tile-content">
             <h2>{{profile.name}}</h2>
