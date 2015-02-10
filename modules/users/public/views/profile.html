@@ -12,11 +12,11 @@
             <h4>{{profile.email}}</h4>
           </div>
           <div class="md-tile-right">
-            <md-button class="md-primary md-raised" ng-click="follow()" ng-if="!selfProfile && !alreadyFollowing">
+            <md-button class="md-primary md-raised" ng-click="follow()" ng-if="!selfProfile && alreadyFollowing===false">
               <md-inline-list-icon class="fa fa-plus"></md-inline-list-icon>
               <span>Follow</span>
             </md-button><br>
-            <md-button class="" ng-click="unfollow()" ng-if="!selfProfile && alreadyFollowing">
+            <md-button class="" ng-click="unfollow()" ng-if="!selfProfile && alreadyFollowing===true">
               <md-inline-list-icon class="fa fa-minus-circle"></md-inline-list-icon>
               <span>Unfollow</span>
             </md-button>

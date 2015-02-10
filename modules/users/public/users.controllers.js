@@ -5,10 +5,11 @@ angular.module('atwork.users')
     '$scope',
     '$routeParams',
     '$location',
+    '$timeout',
     'appUsers',
     'appAuth',
     'appToast',
-    function($scope, $routeParams, $location, appUsers, appAuth, appToast) {
+    function($scope, $routeParams, $location, $timeout, appUsers, appAuth, appToast) {
       var userId = $routeParams.userId || appAuth.getUser()._id;
       
       /**
@@ -41,9 +42,10 @@ angular.module('atwork.users')
        * @return {Void}
        */
       $scope.follow = function() {
+        $scope.alreadyFollowing = '';
         var user = appUsers.single.get({userId: userId}, function() {
           user.$follow({userId: userId}, function() {
-            $scope.getProfile();
+            $timeout(function() {$scope.getProfile();}, 800);
           });
         });
       };
@@ -53,9 +55,10 @@ angular.module('atwork.users')
        * @return {Void}
        */
       $scope.unfollow = function() {
+        $scope.alreadyFollowing = '';
         var user = appUsers.single.get({userId: userId}, function() {
           user.$unfollow({userId: userId}, function(response) {
-            $scope.getProfile();
+            $timeout(function() {$scope.getProfile();}, 800);
           });
         });
       };

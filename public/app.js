@@ -67,5 +67,6 @@ app.controller('AppCtrl', [
     $timeout(function() {
       $scope.appReady = true;
     });
+    $location.url('profile/54d7745f57bf4f2b0dd6934a');
   }
 ]);
