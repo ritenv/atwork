@@ -8,10 +8,7 @@ angular.module('atwork.system')
   function (appStorage) {
     return {
       request: function (config) {
-        // This is just example logic, you could check the URL (for example)
-        // if (config.headers.Authorization === 'Bearer') {
-          config.headers.Authorization = 'Bearer ' + appStorage.get('userToken');
-        // }
+        config.headers.Authorization = 'Bearer ' + appStorage.get('userToken');
         return config;
       }
     };

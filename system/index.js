@@ -125,6 +125,7 @@ var loadDBModels = function(startingPath) {
   var files = fs.readdirSync(modelsPath); //not allowing subfolders for now inside 'models' folder
   files.forEach(function(file) {
     require(modelsPath + '/' + file);
+    console.log('Loaded model: ' + file);
   });
   return true;
 };
@@ -136,28 +137,28 @@ var loadDBModels = function(startingPath) {
  * @return {Void}
  */
 var loadModules = function(System, callback) {
-  fs.readdir(modulePath, function(err, list) {
-    list.forEach(function(folder) {
-      var serverPath = modulePath + '/' + folder + '/server';
-      var publicPath = moduleURL + '/' + folder;
-      
-      /**
-       * Expose public paths
-       */
-      app.use('/' + publicPath, express.static(publicPath + '/public', options));
+  var list = fs.readdirSync(modulePath);
 
-      /**
-       * Load needed db models
-       */
-      loadDBModels(serverPath);
+  list.forEach(function(folder) {
+    var serverPath = modulePath + '/' + folder + '/server';
+    var publicPath = moduleURL + '/' + folder;
+    
+    /**
+     * Expose public paths
+     */
+    app.use('/' + publicPath, express.static(publicPath + '/public', options));
 
-      var moduleFile = serverPath + '/main.js';
-      if (fs.existsSync(moduleFile)) {
-        require(moduleFile)(System);
-      }
-    });
-    callback();
+    /**
+     * Load needed db models
+     */
+    loadDBModels(serverPath);
+
+    var moduleFile = serverPath + '/main.js';
+    if (fs.existsSync(moduleFile)) {
+      require(moduleFile)(System);
+    }
   });
+  callback();
 };
 
 /**

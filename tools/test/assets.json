@@ -1,0 +1,19 @@
+{
+  "core": {
+    "css": {
+      "public/css/main.css": []
+    },
+    "js": {
+      "public/bower_components/build/js/dist.min.js": [
+        "public/bower_components/angular/angular.min.js",
+        "public/bower_components/angular-aria/angular-aria.js",
+        "public/bower_components/angular-animate/angular-animate.js",
+        "public/bower_components/angular-material/angular-material.js",
+        "public/bower_components/angular-route/angular-route.js",
+        "public/bower_components/angular-messages/angular-messages.js",
+        "public/bower_components/angular-mocks/angular-mocks.js",
+        "public/bower_components/angular-resource/angular-resource.min.js"
+      ]
+    }
+  }
+}
