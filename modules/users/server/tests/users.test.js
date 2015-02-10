@@ -3,7 +3,7 @@
 /**
  * Load Prerequisites
  */
-var expect = require('expect'),
+var expect = require('chai').expect,
   mongoose = require('mongoose'),
   User = mongoose.model('User')
   ;
@@ -15,7 +15,7 @@ var expect = require('expect'),
 var temps = {};
 
 describe('<Unit Test>', function() {
-  describe('Model Comment:', function() {
+  describe('Model User:', function() {
     beforeEach(function(done) {
       temps = {};
       /**
@@ -25,12 +25,11 @@ describe('<Unit Test>', function() {
       temps.user = new User({
         name: 'John Doe',
         email: 'test@example.com',
+        designation: 'Manager',
         password: '123456'
       });
 
-      temps.user.save(function() {        
-        done();
-      });
+      done();
     });
 
     /**
@@ -38,16 +37,11 @@ describe('<Unit Test>', function() {
      */
     describe('Method Save', function() {
       
-      it('should be able to save WITHOUT user param', function(done) {
-        done();
-        // return temps.comment.save(function(err) {
-        //   expect(err).to.be(null);
-        //   expect(temps.comment.content).to.equal('This is a good article');
-        //   expect(temps.comment.published).to.be(false);
-        //   expect(temps.comment.user).to.equal(undefined);
-        //   expect(temps.comment.article).to.equal(temps.article._id);
-        //   done();
-        // });
+      it('should be able to save a new user', function(done) {
+        temps.user.save(function(err, user) {
+          expect(user.name).to.be.equal('John Doe');
+          done();
+        });
       });
       
     });
