@@ -58,7 +58,7 @@ var UserSchema = new Schema({
   },
   designation: {
     type: String,
-    required: true,
+    required: false,
     get: escapeProperty
   },
   face: {
