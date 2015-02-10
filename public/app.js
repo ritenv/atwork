@@ -55,7 +55,7 @@ app.controller('AppCtrl', [
 
     $scope.search = '';
     $scope.$watch('search', function(newValue, oldValue) {
-      if (!newValue.length) {
+      if (!newValue || !newValue.length) {
         $scope.searchResults = [];
         return false;
       }

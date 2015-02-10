@@ -5,7 +5,10 @@
   "repository": "https://github.com/matterial/atwork",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "start": "node",
+    "mocha": "node node_modules/.bin/mocha modules/**/server/tests/**/*.js -R spec -r tools/test/mocha-req.js",
+    "karma": "node node_modules/karma/bin/karma start",
+    "test": "npm run mocha && npm run karma"
   },
   "author": "Riten Vagadiya",
   "license": "MIT",
@@ -19,7 +22,10 @@
     "multer": "^0.1.7"
   },
   "devDependencies": {
+    "expect": "^1.6.0",
     "gulp": "^3.8.10",
-    "gulp-sass": "^1.3.2"
+    "gulp-sass": "^1.3.2",
+    "karma": "^0.12.31",
+    "mocha": "^2.1.0"
   }
 }
