@@ -16,9 +16,6 @@ var temps = {};
 
 describe('<Unit Test>', function() {
   describe('Model Post:', function() {
-    beforeEach(function(done) {
-      done();
-    });
 
     /**
      * Save comment
@@ -29,12 +26,6 @@ describe('<Unit Test>', function() {
       });
     });
   
-    /**
-     * Clean up
-     */
-    afterEach(function(done) {
-      done();
-    });
 
   });
 });

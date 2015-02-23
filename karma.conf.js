@@ -19,11 +19,14 @@ module.exports = function(config) {
       /**
        * Load system files first
        */
-      'system/**/public/!(*.test).js',
+      'system/public/utils.js',
+      'system/public/index.js',
+
       /**
        * Load the main module
        */
       'modules/**/public/!(*.test|*.controllers|*.services|*.routes).js',
+
       /**
        * Load the controllers, services and routes
        */
