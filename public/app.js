@@ -7,9 +7,8 @@ app.controller('AppCtrl', [
   '$location',
   '$timeout',
   'appLocation',
-  'appAuth',
-  'appSearch',
-  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appSearch) {
+  'appAuth'
+  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth) {
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -32,10 +31,6 @@ app.controller('AppCtrl', [
       });
     };
 
-    $scope.clearSearch = function() {
-      $scope.search = '';
-    };
-
     if (!appAuth.isLoggedIn()) {
       $scope.barTitle = 'atWork';
       appLocation.url('/login');
@@ -53,16 +48,7 @@ app.controller('AppCtrl', [
       $scope.barTitle = 'atWork';
     });
 
-    $scope.search = '';
-    $scope.$watch('search', function(newValue, oldValue) {
-      if (!newValue || !newValue.length) {
-        $scope.searchResults = [];
-        return false;
-      }
-      appSearch(newValue).then(function(response) {
-        $scope.searchResults = response.res.items;
-      });
-    });
+    
     $scope.updateLoginStatus();
     $timeout(function() {
       $scope.appReady = true;

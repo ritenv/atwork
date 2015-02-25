@@ -152,5 +152,15 @@ module.exports = function(System) {
     }
   };
 
+  obj.search = function(req, res) {
+    var keyword = req.param('keyword');
+    User.find({name: new RegExp(keyword, 'ig')}, null, {sort: {name: 1}}).exec(function(err, items) {
+      if (err) {
+        return json.unhappy(err, res);
+      }
+      return json.happy({ items: items }, res);
+    });
+  };
+
   return obj;
 };

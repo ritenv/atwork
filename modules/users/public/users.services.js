@@ -23,4 +23,15 @@ angular.module('atwork.users')
       }
     }
   ])
+  .factory('appUsersSearch', [
+    '$resource',
+    function($resource) {
+      var search = $resource('users/search/:keyword', {}, {query: {isArray: false}});
+      return function(keyword) {
+        //implement search logic here
+        var promise = search.query({keyword: keyword}).$promise;
+        return promise;
+      };
+    }
+  ])
   .factory('follow');

@@ -61,5 +61,12 @@ module.exports = function(System) {
     authorized: true
   });
 
+  routes.push({
+    method: 'get',
+    path: '/search/:keyword',
+    handler: users.search,
+    authorized: true
+  });
+
   return routes;
 };

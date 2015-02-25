@@ -1,6 +1,34 @@
 'use strict';
 
 angular.module('atwork.users')
+  .controller('SearchCtrl', [
+    '$scope',
+    '$routeParams',
+    '$location',
+    '$timeout',
+    '$upload',
+    'appUsers',
+    'appAuth',
+    'appToast',
+    'appUsersSearch',
+    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appUsersSearch) {
+      $scope.search = '';
+      $scope.$watch('search', function(newValue, oldValue) {
+        if (!newValue || !newValue.length) {
+          $scope.searchResults = [];
+          return false;
+        }
+        appUsersSearch(newValue).then(function(response) {
+          $scope.searchResults = response.res.items;
+        });
+      });
+      $scope.clearSearch = function() {
+        $timeout(function() {
+          $scope.search = '';
+        }, 500);
+      };
+    }
+  ])
   .controller('ProfileCtrl', [
     '$scope',
     '$routeParams',
