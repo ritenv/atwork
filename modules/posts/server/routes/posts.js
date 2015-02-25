@@ -17,7 +17,14 @@ module.exports = function(System) {
   routes.push({
     method: 'get',
     path: '/',
-    handler: posts.list,
+    handler: posts.feed,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'get',
+    path: '/timeline',
+    handler: posts.timeline,
     authorized: true
   });
 

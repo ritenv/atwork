@@ -43,6 +43,10 @@ var escapeProperty = function(value) {
  */
 
 var UserSchema = new Schema({
+  created: {
+    type: Date,
+    default: Date.now
+  },
   name: {
     type: String,
     required: true,

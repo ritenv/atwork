@@ -5,7 +5,8 @@ body {
 .site-sidenav md-toolbar h1 {
   font-size: 1.25em;
   font-weight: 400;
-  margin: auto; }
+  margin: auto;
+  text-align: center; }
 
 .menuBtn {
   background-color: transparent;
