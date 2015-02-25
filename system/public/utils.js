@@ -37,7 +37,7 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
         .content(message)
         .action('OK')
         .highlightAction(false)
-        .position('bottom right');
+        .position('top right');
       $mdToast.show(toast);
     }
   }

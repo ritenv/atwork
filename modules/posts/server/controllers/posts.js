@@ -26,7 +26,7 @@ module.exports = function(System) {
    */
   obj.timeline = function(req, res) {
     //TODO: pagination
-    Post.find({ creator: req.user._id }, function(err, posts) {
+    Post.find({ creator: req.user._id }, null, {sort: {created: -1}}, function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {

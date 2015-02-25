@@ -1,4 +1,4 @@
-var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'ngMaterial']);
+var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'ngMaterial']);
 
 app.controller('AppCtrl', [
   '$scope', 
@@ -7,7 +7,7 @@ app.controller('AppCtrl', [
   '$location',
   '$timeout',
   'appLocation',
-  'appAuth'
+  'appAuth',
   function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth) {
     $scope.barTitle = '';
     $scope.search = '';
@@ -52,6 +52,7 @@ app.controller('AppCtrl', [
     $scope.updateLoginStatus();
     $timeout(function() {
       $scope.appReady = true;
+      appLocation.url('/feed');
     });
   }
 ]);
