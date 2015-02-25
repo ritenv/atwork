@@ -79,13 +79,17 @@ ul.unstyled {
 .post-writer {
   margin-bottom: 20px; }
 
-.post-listing .face {
-  width: 64px;
-  height: 64px;
-  margin-left: 0; }
-.post-listing p {
-  padding: 6px;
-  font-size: 100%; }
+.post-listing {
+  font-weight: normal; }
+  .post-listing .face {
+    width: 64px;
+    height: 64px;
+    margin-left: 0; }
+  .post-listing p {
+    padding: 6px;
+    font-size: 100%; }
+  .post-listing small {
+    padding: 6px; }
 
 .user-profile .user-profile-info .face {
   width: 128px;

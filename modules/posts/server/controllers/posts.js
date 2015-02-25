@@ -25,8 +25,9 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.timeline = function(req, res) {
+    var userId = req.param('userId') || req.user._id;
     //TODO: pagination
-    Post.find({ creator: req.user._id }, null, {sort: {created: -1}}, function(err, posts) {
+    Post.find({ creator: userId }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {

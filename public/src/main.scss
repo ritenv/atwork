@@ -100,6 +100,7 @@ ul.unstyled {
   margin-bottom: 20px;
 }
 .post-listing {
+  font-weight: normal;
   .face {
     @extend .circular-image;
     width: 64px;
@@ -111,6 +112,9 @@ ul.unstyled {
   p {
     padding: 6px;
     font-size: 100%;
+  }
+  small {
+    padding: 6px;
   }
 }
 

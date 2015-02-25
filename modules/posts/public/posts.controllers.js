@@ -13,6 +13,7 @@ angular.module('atwork.posts')
     function($scope, $rootScope, $timeout, appPosts, appAuth, appToast, appStorage, appLocation) {
       $scope.content = '';
       $scope.lastUpdated = 0;
+      $scope.postForm = '';
 
       /**
        * Update feed items

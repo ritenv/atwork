@@ -20,7 +20,7 @@ angular.module('atwork.posts')
             // }
           }),
         feed: $resource('posts/'),
-        timeline: $resource('posts/timeline')
+        timeline: $resource('posts/timeline/:userId')
       }
     }
   ])

@@ -23,7 +23,7 @@ module.exports = function(System) {
 
   routes.push({
     method: 'get',
-    path: '/timeline',
+    path: '/timeline/:userId',
     handler: posts.timeline,
     authorized: true
   });

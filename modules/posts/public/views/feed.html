@@ -1,5 +1,5 @@
-<div ng-controller="PostsCtrl">
-  <md-content class="post-writer">
+<div>
+  <md-content class="post-writer" ng-show="!noPosting">
     <form name="postForm" ng-submit="create(postForm.$valid)" novalidate>
       <md-input-container>
         <label>What do you want to share?</label>
@@ -27,8 +27,9 @@
           <img ng-src="{{item.creator.face || '/images/user.jpg'}}" class="face" alt="{{item.creator.name}}">
         </div>
         <div class="md-tile-content">
-          <md-button class="md-accent" href="/profile/{{item.creator._id}}">{{item.creator.name}}</md-button>
-          <p>{{item.content}}</p>
+          <md-button class="md-accent" href="/profile/{{item.creator._id}}">{{::item.creator.name}}</md-button>
+          <p>{{::item.content}}</p>
+          <small>{{::item.created | date:'medium'}}</small>
         </div>
       </md-item-content>
     </md-item>
