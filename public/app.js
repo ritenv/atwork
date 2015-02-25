@@ -21,6 +21,10 @@ app.controller('AppCtrl', [
       $scope.user = appAuth.getUser();
     };
 
+    $scope.goHome = function() {
+      appLocation.url('/feed');
+    };
+
     $scope.showUserActions = function($event) {
       $mdBottomSheet.show({
         templateUrl: '/modules/users/views/user-list.html',
@@ -30,13 +34,6 @@ app.controller('AppCtrl', [
         $scope.alert = clickedItem.name + ' clicked!';
       });
     };
-
-    if (!appAuth.isLoggedIn()) {
-      $scope.barTitle = 'atWork';
-      appLocation.url('/login');
-    } else {
-      $scope.barTitle = '';
-    }
 
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();
@@ -52,7 +49,14 @@ app.controller('AppCtrl', [
     $scope.updateLoginStatus();
     $timeout(function() {
       $scope.appReady = true;
-      appLocation.url('/feed');
+      if (!appAuth.isLoggedIn()) {
+        $scope.barTitle = 'atWork';
+        appLocation.url('/login');
+      } else {
+        $scope.barTitle = '';
+        appLocation.url('/feed');
+      }
+      
     });
   }
 ]);

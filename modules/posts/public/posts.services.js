@@ -19,6 +19,7 @@ angular.module('atwork.posts')
             //   params: {action: 'unfollow'}
             // }
           }),
+        feed: $resource('posts/'),
         timeline: $resource('posts/timeline')
       }
     }

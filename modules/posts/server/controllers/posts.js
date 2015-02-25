@@ -46,7 +46,7 @@ module.exports = function(System) {
   obj.feed = function(req, res) {
     //TODO: pagination
     var user = req.user;
-    Post.find({ creator: { $in: user.following } }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
+    Post.find({ creator: { $in: user.following.concat(user._id) } }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {

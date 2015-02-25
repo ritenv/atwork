@@ -1,20 +1,37 @@
 <div ng-controller="PostsCtrl">
-  <form name="postForm" ng-submit="create(postForm.$valid)" novalidate>
-    <md-input-container>
-      <label>What do you want to share?</label>
-      <textarea name="content" ng-model="content" id="#status" cols="30" rows="3" required md-maxlength="500" minlength="3"></textarea>
-      <div ng-messages="postForm.content.$error" ng-show="postForm.$submitted">
-        <div ng-message="required">Write your post first.</div>
-        <div ng-message="md-maxlength">That's too long!</div>
-        <div ng-message="minlength">That's too short. Write more?</div>
-      </div>
-    </md-input-container>
+  <md-content class="post-writer">
+    <form name="postForm" ng-submit="create(postForm.$valid)" novalidate>
+      <md-input-container>
+        <label>What do you want to share?</label>
+        <textarea name="content" ng-model="content" id="#status" cols="30" rows="3" required md-maxlength="500" minlength="3"></textarea>
+        <div ng-messages="postForm.content.$error" ng-show="postForm.$submitted">
+          <div ng-message="required">Write your post first.</div>
+          <div ng-message="md-maxlength">That's too long!</div>
+          <div ng-message="minlength">That's too short. Write more?</div>
+        </div>
+      </md-input-container>
 
-    <md-button class="md-primary md-raised">
-      Share
-    </md-button>
-    <md-button class="md-raised" ng-click="reset()" ng-if="postForm.$submitted">
-      Cancel
-    </md-button>
-  </form>  
+      <md-button class="md-primary md-raised">
+        Share
+      </md-button>
+      <md-button class="md-raised" ng-click="reset()" ng-if="postForm.$submitted && postForm.$invalid">
+        Cancel
+      </md-button>
+    </form>  
+  </md-content>
+  
+  <md-content class="post-listing">
+    <md-item ng-repeat="item in feed">
+      <md-item-content>
+        <div class="md-tile-left">
+          <img ng-src="{{item.creator.face || '/images/user.jpg'}}" class="face" alt="{{item.creator.name}}">
+        </div>
+        <div class="md-tile-content">
+          <md-button class="md-accent" href="/profile/{{item.creator._id}}">{{item.creator.name}}</md-button>
+          <p>{{item.content}}</p>
+        </div>
+      </md-item-content>
+    </md-item>
+  </md-content>
+
 </div>

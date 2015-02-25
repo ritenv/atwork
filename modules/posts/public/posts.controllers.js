@@ -12,6 +12,19 @@ angular.module('atwork.posts')
     'appLocation',
     function($scope, $rootScope, $timeout, appPosts, appAuth, appToast, appStorage, appLocation) {
       $scope.content = '';
+      $scope.lastUpdated = 0;
+
+      /**
+       * Update feed items
+       * @return {Void}
+       */
+      $scope.updateFeed = function() {
+        $scope.lastUpdated = Date.now();
+        $scope.feedData = appPosts.feed.get(function() {
+          $scope.feed = $scope.feedData.res.records;
+        });
+      };
+      $scope.updateFeed();
 
       /**
        * Reset the form
@@ -39,6 +52,7 @@ angular.module('atwork.posts')
           post.$save(function(response) {
             if (response.success) {
               appToast('You have posted successfully.');
+              $scope.updateFeed();
               $scope.reset();
             } else {
               $scope.failure = true;

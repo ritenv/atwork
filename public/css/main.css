@@ -13,7 +13,6 @@ body {
   border: none;
   height: 38px;
   margin: 16px 0;
-  position: absolute;
   width: 36px; }
 
 .visuallyhidden {
@@ -56,9 +55,10 @@ ul.unstyled {
   margin-bottom: 0;
   padding-bottom: 0; }
 
-.circular-image, .user-listing .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .user-profile .user-profile-info .face {
+.circular-image, .user-listing .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .post-listing .face, .user-profile .user-profile-info .face {
   border-radius: 100px;
   width: 48px;
+  height: 48px;
   margin: 16px;
   background-size: cover; }
 
@@ -76,8 +76,20 @@ ul.unstyled {
   z-index: 1;
   margin-top: -26px; }
 
+.post-writer {
+  margin-bottom: 20px; }
+
+.post-listing .face {
+  width: 64px;
+  height: 64px;
+  margin-left: 0; }
+.post-listing p {
+  padding: 6px;
+  font-size: 100%; }
+
 .user-profile .user-profile-info .face {
-  width: 128px; }
+  width: 128px;
+  height: 128px; }
 
 /** ====== Users END ====== */
 /** ====== Misc BEGIN ====== */
