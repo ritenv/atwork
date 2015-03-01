@@ -75,8 +75,12 @@
                 <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
                   <span class="visuallyhidden">Menu</span>
                 </button>
-                <h1 hide-gt-sm>atWork</h1>
+                <h1 hide-gt-sm flex>atWork</h1>
+                <md-button ng-if="isLoggedIn" ng-click="goHome($event)">
+                    <span>Home</span>
+                </md-button>
                 <span hide-sm flex>{{barTitle}}</span>
+                
                 <md-button ng-if="isLoggedIn" ng-click="showUserActions($event)">
                   <span>{{user.name}}</span>
                 </md-button>
@@ -91,6 +95,9 @@
           </div>
           
       </div>
+      <!-- <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="right" md-is-locked-open="$media('gt-md')" ng-if="isLoggedIn">
+
+      </md-sidenav> -->
       <!-- Angular Material Dependencies -->
       <script src="/bower_components/angular/angular.js"></script>
       <script src="/bower_components/angular-aria/angular-aria.js"></script>
@@ -110,11 +117,18 @@
       <script type="text/javascript" src="/system/index.js"></script>
 
       <!-- Modules -->
-      <!-- Users -->
+      
+      <!-- Users Module -->
       <script type="text/javascript" src="/modules/users/users.js"></script>
       <script type="text/javascript" src="/modules/users/users.controllers.js"></script>
       <script type="text/javascript" src="/modules/users/users.routes.js"></script>
       <script type="text/javascript" src="/modules/users/users.services.js"></script>
+
+      <!-- Posts Module -->
+      <script type="text/javascript" src="/modules/posts/posts.js"></script>
+      <script type="text/javascript" src="/modules/posts/posts.controllers.js"></script>
+      <script type="text/javascript" src="/modules/posts/posts.routes.js"></script>
+      <script type="text/javascript" src="/modules/posts/posts.services.js"></script>
 
       <!-- Main angular file -->
       <script src="/app.js"></script>

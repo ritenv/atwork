@@ -18,9 +18,36 @@ module.exports = function(System) {
     });
   };
   
-  obj.list = function(req, res) {
+  /**
+   * Get posts written by the current user
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
+  obj.timeline = function(req, res) {
+    var userId = req.param('userId') || req.user._id;
     //TODO: pagination
-    Post.find({}, function(err, posts) {
+    Post.find({ creator: userId }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
+      if (err) {
+        json.unhappy(err, res);
+      } else {
+        json.happy({
+          records: posts
+        }, res);
+      }
+    });
+  };
+
+  /**
+   * Get posts from users being followed
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
+  obj.feed = function(req, res) {
+    //TODO: pagination
+    var user = req.user;
+    Post.find({ creator: { $in: user.following.concat(user._id) } }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {

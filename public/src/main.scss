@@ -9,6 +9,7 @@ body {
     font-size: 1.250em;
     font-weight: 400;
     margin: auto;
+    text-align: center;
   }
 }
 .menuBtn {
@@ -16,7 +17,6 @@ body {
   border: none;
   height: 38px;
   margin: 16px 0;
-  position: absolute;
   width: 36px;
 }
 .visuallyhidden {
@@ -69,6 +69,7 @@ ul.unstyled {
 .circular-image {
   border-radius: 100px;
   width: 48px;
+  height: 48px;
   margin: 16px;
   background-size: cover;
 }
@@ -95,11 +96,34 @@ ul.unstyled {
   @extend .user-listing;
 }
 
+.post-writer {
+  margin-bottom: 20px;
+}
+.post-listing {
+  font-weight: normal;
+  .face {
+    @extend .circular-image;
+    width: 64px;
+    height: 64px;
+    margin-left: 0;
+  }
+  .md-button {
+  }
+  p {
+    padding: 6px;
+    font-size: 100%;
+  }
+  small {
+    padding: 6px;
+  }
+}
+
 .user-profile {
   .user-profile-info {
     .face {
       @extend .circular-image;
       width: 128px;
+      height: 128px;
     }
   }
   .user-profile-details {

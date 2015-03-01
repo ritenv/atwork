@@ -1,6 +1,34 @@
 'use strict';
 
 angular.module('atwork.users')
+  .controller('SearchCtrl', [
+    '$scope',
+    '$routeParams',
+    '$location',
+    '$timeout',
+    '$upload',
+    'appUsers',
+    'appAuth',
+    'appToast',
+    'appUsersSearch',
+    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appUsersSearch) {
+      $scope.search = '';
+      $scope.$watch('search', function(newValue, oldValue) {
+        if (!newValue || !newValue.length) {
+          $scope.searchResults = [];
+          return false;
+        }
+        appUsersSearch(newValue).then(function(response) {
+          $scope.searchResults = response.res.items;
+        });
+      });
+      $scope.clearSearch = function() {
+        $timeout(function() {
+          $scope.search = '';
+        }, 500);
+      };
+    }
+  ])
   .controller('ProfileCtrl', [
     '$scope',
     '$routeParams',
@@ -10,9 +38,10 @@ angular.module('atwork.users')
     'appUsers',
     'appAuth',
     'appToast',
-    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast) {
+    'appPosts',
+    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appPosts) {
       var userId = $routeParams.userId || appAuth.getUser()._id;
-      
+
       /**
        * Cannot follow self
        * @type {Boolean}
@@ -35,9 +64,29 @@ angular.module('atwork.users')
       };
 
       /**
+       * Get the user's timeline
+       * @return {Void}
+       */
+      $scope.getTimeline = function() {
+        /**
+         * Disable posting on the feed template
+         * @type {Boolean}
+         */
+        $scope.noPosting = true;
+
+        /**
+         * Now get the data
+         */
+        var timelineData = appPosts.timeline.get({userId: userId}, function() {
+          $scope.feed = timelineData.res.records;
+        });
+      };
+
+      /**
        * Call it once by default
        */
       $scope.getProfile();
+      $scope.getTimeline();
 
       /**
        * Follow the active user

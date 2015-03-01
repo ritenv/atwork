@@ -20,6 +20,10 @@ var escapeProperty = function(value) {
  */
 
 var PostSchema = new Schema({
+  created: {
+    type: Date,
+    default: Date.now
+  },
   creator: {
     type: Schema.ObjectId,
     required: true,

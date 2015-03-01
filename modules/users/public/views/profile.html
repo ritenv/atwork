@@ -11,11 +11,10 @@
             <img src="images/spacer.gif" style="background-image: url('{{profile.face || '/images/user.jpg'}}')" class="face {{!selfProfile?'':'clickable'}}" alt="{{profile.name}}" ng-file-select ng-accept="'image/*'" ng-model="avatar">
           </div>
           <div class="md-tile-content">
-            <h2>{{profile.name}}</h2>
-            <h3>{{profile.designation}}</h3>
-            <h4>{{profile.email}}</h4>
-          </div>
-          <div class="md-tile-right">
+            <h2>{{::profile.name}}</h2>
+            <h3>{{::profile.designation}}</h3>
+            <h4>{{::profile.email}}</h4>
+            <br>
             <md-button class="md-primary md-raised" ng-click="follow()" ng-if="!selfProfile && alreadyFollowing===false">
               <md-inline-list-icon class="fa fa-plus"></md-inline-list-icon>
               <span>Follow</span>
@@ -33,7 +32,7 @@
     <md-tabs class="md-accent">
       <md-tab label="Timeline">
         <md-content class="md-padding">
-          <p>No data here</p>
+        <div ng-include="'/modules/posts/views/feed.html'" ng-controller="ProfileCtrl"></div>
         </md-content>
       </md-tab>
       <md-tab label="Followers">
@@ -47,8 +46,8 @@
                       <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
                     </div>
                     <div class="md-tile-content">
-                      <h3>{{item.name}}</h3>
-                      <h4>{{item.designation}}</h4>
+                      <h3>{{::item.name}}</h3>
+                      <h4>{{::item.designation}}</h4>
                     </div>
                 </md-item-content>
               </md-button>
@@ -69,8 +68,8 @@
                       <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
                     </div>
                     <div class="md-tile-content">
-                      <h3>{{item.name}}</h3>
-                      <h4>{{item.designation}}</h4>
+                      <h3>{{::item.name}}</h3>
+                      <h4>{{::item.designation}}</h4>
                     </div>
                 </md-item-content>
               </md-button>

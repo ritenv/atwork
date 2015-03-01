@@ -1,4 +1,4 @@
-var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'ngMaterial']);
+var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'ngMaterial']);
 
 app.controller('AppCtrl', [
   '$scope', 
@@ -8,8 +8,7 @@ app.controller('AppCtrl', [
   '$timeout',
   'appLocation',
   'appAuth',
-  'appSearch',
-  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appSearch) {
+  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth) {
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -22,6 +21,10 @@ app.controller('AppCtrl', [
       $scope.user = appAuth.getUser();
     };
 
+    $scope.goHome = function() {
+      appLocation.url('/feed');
+    };
+
     $scope.showUserActions = function($event) {
       $mdBottomSheet.show({
         templateUrl: '/modules/users/views/user-list.html',
@@ -31,17 +34,6 @@ app.controller('AppCtrl', [
         $scope.alert = clickedItem.name + ' clicked!';
       });
     };
-
-    $scope.clearSearch = function() {
-      $scope.search = '';
-    };
-
-    if (!appAuth.isLoggedIn()) {
-      $scope.barTitle = 'atWork';
-      appLocation.url('/login');
-    } else {
-      $scope.barTitle = '';
-    }
 
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();
@@ -53,19 +45,18 @@ app.controller('AppCtrl', [
       $scope.barTitle = 'atWork';
     });
 
-    $scope.search = '';
-    $scope.$watch('search', function(newValue, oldValue) {
-      if (!newValue || !newValue.length) {
-        $scope.searchResults = [];
-        return false;
-      }
-      appSearch(newValue).then(function(response) {
-        $scope.searchResults = response.res.items;
-      });
-    });
+    
     $scope.updateLoginStatus();
     $timeout(function() {
       $scope.appReady = true;
+      if (!appAuth.isLoggedIn()) {
+        $scope.barTitle = 'atWork';
+        appLocation.url('/login');
+      } else {
+        $scope.barTitle = '';
+        appLocation.url('/feed');
+      }
+      
     });
   }
 ]);
