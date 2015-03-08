@@ -154,7 +154,7 @@ module.exports = function(System) {
 
   obj.search = function(req, res) {
     var keyword = req.param('keyword');
-    User.find({name: new RegExp(keyword, 'ig')}, null, {sort: {name: 1}}).exec(function(err, items) {
+    User.find({name: new RegExp(keyword, 'ig'), _id: {$ne: req.user._id}}, null, {sort: {name: 1}}).exec(function(err, items) {
       if (err) {
         return json.unhappy(err, res);
       }
