@@ -297,6 +297,30 @@ describe('<Unit Test>', function() {
       });
     });
 
+
+    /**
+     * Get feed
+     */
+    describe('Method feed', function() {
+      it('should be able to get feed of user logged in', function(done) {
+        expect(posts).respondTo('feed');
+
+        var sampleRequest = {
+          user: user
+        };
+        posts.feed(sampleRequest, {
+          send: function(output) {
+            expect(output.success).to.equal(1);
+            expect(output.res.records).to.be.instanceof(Array);
+            expect(output.res.records).to.have.length(1); //not yet following anyone, so only self posts
+            expect(output.res.records[0]._id.toString()).to.equal(post._id.toString());
+            done();
+          }
+        });
+      });
+      
+    });
+
     afterEach(function(done) {
       var removed = 0;
       var toRemove = samplePosts.length;
