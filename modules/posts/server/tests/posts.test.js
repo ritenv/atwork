@@ -92,6 +92,22 @@ describe('<Unit Test>', function() {
           }
         });
       });
+      it('should be not save a post without content', function(done) {
+        expect(posts).respondTo('create');
+
+        var sampleRequest = {
+          user: user,
+          body: {
+            content: ''
+          }
+        };
+        posts.create(sampleRequest, {
+          send: function(output) {
+            expect(output.success).to.equal(0);
+            done();
+          }
+        });
+      });
 
       it('should not be able to save a new post without a user logged in', function(done) {
         expect(posts).respondTo('create');
@@ -159,6 +175,38 @@ describe('<Unit Test>', function() {
           }
         });
       });
+      it('should be able to handle db errors', function(done) {
+        expect(posts).respondTo('single');
+
+        var sampleRequest = {
+          params: {
+            postId: 'invalid-id'
+          },
+          user: user
+        };
+        posts.single(sampleRequest, {
+          send: function(output) {
+            expect(output.success).to.equal(0);
+            done();
+          }
+        });
+      });
+      it('should be able to handle non-existent post id', function(done) {
+        expect(posts).respondTo('single');
+
+        var sampleRequest = {
+          params: {
+            postId: user._id
+          },
+          user: user
+        };
+        posts.single(sampleRequest, {
+          send: function(output) {
+            expect(output.success).to.equal(0);
+            done();
+          }
+        });
+      });
     });
 
     /**
@@ -188,6 +236,14 @@ describe('<Unit Test>', function() {
             }
           });
         }
+        function doFailedLike(cb) {
+          posts.like(sampleRequest, {
+            send: function(output) {
+              expect(output.success).to.equal(0);
+              cb();
+            }
+          });
+        }
         function undoLike(cb) {
           posts.unlike(sampleRequest, {
             send: function(output) {
@@ -200,9 +256,42 @@ describe('<Unit Test>', function() {
             }
           });
         }
+        function undoFailedLike(cb) {
+          posts.unlike(sampleRequest, {
+            send: function(output) {
+              expect(output.success).to.equal(0);
+              cb();
+            }
+          });
+        }
 
+        /**
+         * Here we are covering use cases related to like/unlike:
+         * Like successfully
+         * Liking again will not work
+         * Unlike successfully
+         * Unliking again will not work
+         * Liking via passing non-existing post id will not work
+         * Unliking via passing non-existing post id will not work
+         * Liking via passing invalid post id will not work
+         * Unliking via passing invalid post id will not work
+         */
         doLike(function() {
-          undoLike(done);
+          doFailedLike(function() {
+            undoLike(function() {
+              undoFailedLike(function() {
+                sampleRequest.params.postId = user._id; //simulating a non-existent ObjectId
+                doFailedLike(function() {
+                  undoFailedLike(function() {
+                    sampleRequest.params.postId = 'invalid-id'; //simulating an invalid ObjectId format
+                    doFailedLike(function() {
+                      undoFailedLike(done);
+                    });
+                  });
+                });
+              });
+            });
+          });
         });
 
       });
