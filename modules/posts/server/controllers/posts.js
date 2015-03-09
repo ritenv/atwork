@@ -37,6 +37,9 @@ module.exports = function(System) {
       if (err) {
         json.unhappy(err, res);
       } else {
+        posts.map(function(e) {
+          e.liked = e.likes.indexOf(req.user._id) != -1;
+        });
         json.happy({
           records: posts
         }, res);
@@ -58,9 +61,9 @@ module.exports = function(System) {
         json.unhappy(err, res);
       } else {
 
-        for(var i in posts) {
-          posts[i].liked = posts[i].likes.indexOf(req.user._id) != -1;
-        }
+        posts.map(function(e) {
+          e.liked = e.likes.indexOf(req.user._id) != -1;
+        });
 
         json.happy({
           records: posts

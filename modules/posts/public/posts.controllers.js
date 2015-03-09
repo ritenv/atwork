@@ -27,17 +27,19 @@ angular.module('atwork.posts')
       };
       $scope.updateFeed();
 
-      $scope.doLike = function(postId) {
-        var post = appPosts.single.get({postId: postId}, function() {
-          post.$like({postId: postId}, function() {
+      $scope.doLike = function(item) {
+        item.liked = true;
+        var post = appPosts.single.get({postId: item._id}, function() {
+          post.$like({postId: item._id}, function() {
             $timeout(function() {$scope.updateFeed();}, 800);
           });
         });
       };
 
-      $scope.undoLike = function(postId) {
-        var post = appPosts.single.get({postId: postId}, function() {
-          post.$unlike({postId: postId}, function() {
+      $scope.undoLike = function(item) {
+        item.liked = false;
+        var post = appPosts.single.get({postId: item._id}, function() {
+          post.$unlike({postId: item._id}, function() {
             $timeout(function() {$scope.updateFeed();}, 800);
           });
         });
