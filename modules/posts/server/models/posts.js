@@ -33,7 +33,12 @@ var PostSchema = new Schema({
     type: String,
     required: true,
     get: escapeProperty
-  }
+  },
+  likes: [{
+    type: Schema.ObjectId,
+    required: false,
+    ref: 'User'
+  }]
 });
 
 /**

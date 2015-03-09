@@ -35,5 +35,19 @@ module.exports = function(System) {
     authorized: true
   });
 
+  routes.push({
+    method: 'post',
+    path: '/:postId/like',
+    handler: posts.like,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'post',
+    path: '/:postId/unlike',
+    handler: posts.unlike,
+    authorized: true
+  });
+
   return routes;
 };

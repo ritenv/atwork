@@ -27,6 +27,22 @@ angular.module('atwork.posts')
       };
       $scope.updateFeed();
 
+      $scope.doLike = function(postId) {
+        var post = appPosts.single.get({postId: postId}, function() {
+          post.$like({postId: postId}, function() {
+            $timeout(function() {$scope.updateFeed();}, 800);
+          });
+        });
+      };
+
+      $scope.undoLike = function(postId) {
+        var post = appPosts.single.get({postId: postId}, function() {
+          post.$unlike({postId: postId}, function() {
+            $timeout(function() {$scope.updateFeed();}, 800);
+          });
+        });
+      };
+
       /**
        * Reset the form
        * @return {Void}
