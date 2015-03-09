@@ -9,6 +9,9 @@ a {
 }
 .primaryColors {
   a {
+    &[ng-click] {
+      cursor: pointer;
+    }
     color: $primaryColor;
     &:hover {
       color: $linkHoverColor;

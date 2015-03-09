@@ -6,6 +6,8 @@ a {
 
 .primaryColors a {
   color: #009688; }
+  .primaryColors a[ng-click] {
+    cursor: pointer; }
   .primaryColors a:hover {
     color: #333; }
 
