@@ -20,4 +20,8 @@
 
 ## Contribution
 
-**Project atwork** is being developed by [@ritenv](http://twitter.com/@ritenv) as a hobby project. If you're interested in contributing to it's early stages, get in touch!
+Contributions are highly encouraged. I am looking for developers to help me out in carrying this project forward - so if you're interested, check out the issues section and you can pick any that interests you in order to get started. If you have any questions, just get in touch via the twitter handle [@ritenv](http://twitter.com/@ritenv).
+
+## Background
+
+**Project atwork** is being developed by [@ritenv](http://twitter.com/@ritenv) as a hobby project. If you have any ideas, suggestions or things you'd like to see in this app, PM me directly at [@ritenv](http://twitter.com/@ritenv).
