@@ -6,6 +6,12 @@ module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
 
+  /**
+   * Create / register a new user
+   * @param  {Object} req Request
+   * @param  {Object} res Request
+   * @return {Void}     
+   */
   obj.create = function(req, res) {
 
     var user = new User(req.body);
@@ -21,6 +27,12 @@ module.exports = function(System) {
     });
   };
   
+  /**
+   * Check if the user credentials are valid
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
   obj.authenticate = function(req, res) {
     User.findOne({email: req.body.email}, function(err, user) {
       if (err) {
@@ -40,6 +52,12 @@ module.exports = function(System) {
     });
   };
 
+  /**
+   * List all users
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}     
+   */
   obj.list = function(req, res) {
     //TODO: pagination
     User.find({}, function(err, users) {
@@ -53,6 +71,12 @@ module.exports = function(System) {
     });
   };
 
+  /**
+   * Follow a user not already following
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}     
+   */
   obj.follow = function(req, res) {
     var currUser = req.user;
     var toFollow = req.param('userId');
@@ -78,6 +102,12 @@ module.exports = function(System) {
     });
   };
 
+  /**
+   * Stop following an already following user
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}     
+   */
   obj.unfollow = function(req, res) {
     var currUser = req.user;
     var toUnFollow = req.param('userId');
@@ -103,6 +133,12 @@ module.exports = function(System) {
     });
   };
 
+  /**
+   * Upload a user's face
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}     
+   */
   obj.avatar = function(req, res) {
     var user = req.user;
     var file = req.files.file;
@@ -120,6 +156,12 @@ module.exports = function(System) {
     });
   };
 
+  /**
+   * Return a single user as json
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}     
+   */
   obj.single = function(req, res) {
     User.findOne({_id: req.param('userId')}).populate('following').exec(function(err, user) {
       if (err) {
@@ -143,6 +185,12 @@ module.exports = function(System) {
     });
   };
 
+  /**
+   * Self as json
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}     
+   */
   obj.me = function(req, res) {
     if (req.user) {
       json.happy({
@@ -152,9 +200,15 @@ module.exports = function(System) {
     }
   };
 
+  /**
+   * Search users by full name
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
   obj.search = function(req, res) {
     var keyword = req.param('keyword');
-    User.find({name: new RegExp(keyword, 'ig')}, null, {sort: {name: 1}}).exec(function(err, items) {
+    User.find({name: new RegExp(keyword, 'ig'), _id: {$ne: req.user._id}}, null, {sort: {name: 1}}).exec(function(err, items) {
       if (err) {
         return json.unhappy(err, res);
       }
