@@ -29,6 +29,14 @@
         <div class="md-tile-content">
           <md-button class="md-accent" href="/profile/{{item.creator._id}}">{{::item.creator.name}}</md-button>
           <p>{{::item.content}}</p>
+          <span class="likes primaryColors">
+            <a class="like" href="#"><span class="fa fa-thumbs-o-up"></span> Like</a>
+            <a href="#"><span>(10)</span></a>
+          </span>
+          <span>-</span>
+          <span class="comments primaryColors">
+            <a href="#" class="comment"><span>Comment</span></a>
+          </span>
           <small>{{::item.created | date:'medium'}}</small>
         </div>
       </md-item-content>

@@ -1,6 +1,14 @@
 body {
   font-size: 14px; }
 
+a {
+  text-decoration: none; }
+
+.primaryColors a {
+  color: #009688; }
+  .primaryColors a:hover {
+    color: #333; }
+
 /** ====== Sidenav Related BEGIN ====== */
 .site-sidenav md-toolbar h1 {
   font-size: 1.25em;
