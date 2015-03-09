@@ -31,7 +31,7 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.timeline = function(req, res) {
-    var userId = req.param('userId') || req.user._id;
+    var userId = req.params.userId || req.user._id;
     //TODO: pagination
     Post.find({ creator: userId }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
       if (err) {
@@ -76,7 +76,7 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.single = function(req, res) {
-    Post.findOne({_id: req.param('postId')}).populate('creator').exec(function(err, post) {
+    Post.findOne({_id: req.params.postId}).populate('creator').exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
@@ -96,7 +96,7 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.like = function(req, res) {
-    Post.findOne({_id: req.param('postId')}).populate('creator').exec(function(err, post) {
+    Post.findOne({_id: req.params.postId}).populate('creator').exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {

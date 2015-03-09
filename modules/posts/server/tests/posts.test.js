@@ -25,6 +25,9 @@ var samplePosts = [];
  */
 var temps = {};
 var user = {};
+var user2 = {};
+var post = {};
+var post2 = {};
 
 describe('<Unit Test>', function() {
   describe('Model Post:', function() {
@@ -34,21 +37,45 @@ describe('<Unit Test>', function() {
       user = new User({
         name: 'Full name',
         email: 'test@test.com',
-        username: 'user',
+        password: 'password'
+      });
+
+      user2 = new User({
+        name: 'Full name 2',
+        email: 'test@test2.com',
         password: 'password'
       });
 
       user.save(function() {
-        done();
+        user2.save(function() {
+
+          post = new Post({
+            content: 'Test Post',
+            creator: user._id
+          });
+
+          post2 = new Post({
+            content: 'Test Post',
+            creator: user2._id
+          });
+
+          post.save(function() {
+            post2.save(function() {
+              samplePosts.push(post._id);
+              samplePosts.push(post2._id);
+              done();
+            });
+          });
+        });
       });
       
     });
 
     /**
-     * Save comment
+     * Save Post
      */
-    describe('Method Save', function() {
-      it('should be able to save a new post (placeholder)', function(done) {
+    describe('Method create', function() {
+      it('should be able to save a new post', function(done) {
         expect(posts).respondTo('create');
 
         var sampleRequest = {
@@ -65,6 +92,73 @@ describe('<Unit Test>', function() {
           }
         });
       });
+
+      it('should not be able to save a new post without a user logged in', function(done) {
+        expect(posts).respondTo('create');
+
+        var sampleRequest = {
+          body: {
+            content: 'Sample post for testing'
+          }
+        };
+        var errorFn = function() {
+          posts.create(sampleRequest);
+        };
+        expect(errorFn).to.throw(Error);
+        done();
+      });
+    });
+
+
+    /**
+     * Get timeline
+     */
+    describe('Method timeline', function() {
+      it('should be able to show posts in timeline', function(done) {
+        expect(posts).respondTo('timeline');
+
+        var sampleRequest = {
+          params: {
+            userId: user._id
+          },
+          user: user
+        };
+        posts.timeline(sampleRequest, {
+          send: function(output) {
+            expect(output.success).to.equal(1);
+            expect(output.res.records).to.be.instanceof(Array);
+            expect(output.res.records).to.have.length(1);
+            expect(output.res.records[0]._id.toString()).to.equal(post._id.toString());
+            done();
+          }
+        });
+      });
+    });
+
+
+    /**
+     * Get single
+     */
+    describe('Method single', function() {
+      it('should be able to show single post', function(done) {
+        expect(posts).respondTo('single');
+
+        var sampleRequest = {
+          params: {
+            postId: post._id
+          },
+          user: user
+        };
+        posts.single(sampleRequest, {
+          send: function(output) {
+            expect(output.success).to.equal(1);
+            expect(output.res.record).to.be.instanceof(Object);
+            expect(output.res.record).to.not.be.undefined;
+            expect(output.res.record._id.toString()).to.equal(post._id.toString());
+            done();
+          }
+        });
+      });
     });
 
     afterEach(function(done) {
@@ -75,7 +169,9 @@ describe('<Unit Test>', function() {
           removed++;
           if (removed == toRemove) {
             user.remove(function() {
-              done();
+              user2.remove(function() {
+                done();
+              });
             });
           }
         });
