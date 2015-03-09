@@ -2,4 +2,4 @@
 
 process.env.NODE_ENV = 'development';
 var appRoot = __dirname + '/../../';
-require(appRoot + 'index');
+global.System = require(appRoot + 'index');
