@@ -321,6 +321,37 @@ describe('<Unit Test>', function() {
       
     });
 
+    describe('Methods of the ModelSchema', function() {
+      it('should...', function(done) {
+        var method = mongoose.modelSchemas.Post.methods.toJSON;
+        var sampleObj = {
+          creator: {
+            token: 'this should be deleted',
+            hashed_password: 'this should be deleted',
+            salt: 'this should be deleted'
+          },
+          toObject: function() {
+            return this;
+          }
+        };
+        method.apply(sampleObj);
+        expect(sampleObj.token).to.be.undefined;
+        expect(sampleObj.hashed_password).to.be.undefined;
+        expect(sampleObj.salt).to.be.undefined;
+        expect(sampleObj.likeCount).to.equal(0);
+
+        sampleObj.likes = [user._id];
+        method.apply(sampleObj);
+        expect(sampleObj.likeCount).to.equal(1);
+
+        //now try a getter on a field, to ensure escapeProperty is being called and covered
+        expect(post.content).to.not.be.undefined;
+
+        done();
+      });
+    });
+    
+
     afterEach(function(done) {
       var removed = 0;
       var toRemove = samplePosts.length;

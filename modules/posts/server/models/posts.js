@@ -60,7 +60,6 @@ PostSchema.methods = {
       delete obj.creator.token;
       delete obj.creator.hashed_password;
       delete obj.creator.salt;
-      delete obj.creator.token;
       delete obj.creator.following;
     }
     if (obj.likes) {
