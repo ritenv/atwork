@@ -161,6 +161,53 @@ describe('<Unit Test>', function() {
       });
     });
 
+    /**
+     * Do like
+     */
+    describe('Method like/unlike', function() {
+      it('should be able to like and unlike a post', function(done) {
+        expect(posts).respondTo('like');
+        expect(posts).respondTo('unlike');
+
+        var sampleRequest = {
+          params: {
+            postId: post2._id
+          },
+          user: user
+        };
+
+        function doLike(cb) {
+          posts.like(sampleRequest, {
+            send: function(output) {
+              expect(output.success).to.equal(1);
+              expect(output.res.record).to.be.instanceof(Object);
+              expect(output.res.record).to.not.be.undefined;
+              expect(output.res.record.likes).to.be.instanceof(Array);
+              expect(output.res.record.likes).to.contain(user._id);
+              cb();
+            }
+          });
+        }
+        function undoLike(cb) {
+          posts.unlike(sampleRequest, {
+            send: function(output) {
+              expect(output.success).to.equal(1);
+              expect(output.res.record).to.be.instanceof(Object);
+              expect(output.res.record).to.not.be.undefined;
+              expect(output.res.record.likes).to.be.instanceof(Array);
+              expect(output.res.record.likes).to.not.contain(user._id);
+              cb();
+            }
+          });
+        }
+
+        doLike(function() {
+          undoLike(done);
+        });
+
+      });
+    });
+
     afterEach(function(done) {
       var removed = 0;
       var toRemove = samplePosts.length;

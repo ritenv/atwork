@@ -96,7 +96,7 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.like = function(req, res) {
-    Post.findOne({_id: req.params.postId}).populate('creator').exec(function(err, post) {
+    Post.findOne({_id: req.params.postId}).exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
@@ -126,7 +126,7 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.unlike = function(req, res) {
-    Post.findOne({_id: req.param('postId')}).populate('creator').exec(function(err, post) {
+    Post.findOne({_id: req.params.postId}).exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
