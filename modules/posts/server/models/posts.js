@@ -38,7 +38,11 @@ var PostSchema = new Schema({
     type: Schema.ObjectId,
     required: false,
     ref: 'User'
-  }]
+  }],
+  liked: {
+    type: Boolean,
+    default: false
+  }
 });
 
 /**
@@ -58,6 +62,11 @@ PostSchema.methods = {
       delete obj.creator.salt;
       delete obj.creator.token;
       delete obj.creator.following;
+    }
+    if (obj.likes) {
+      obj.likeCount = obj.likes.length;
+    } else {
+      obj.likeCount = 0;
     }
     return obj;
   }

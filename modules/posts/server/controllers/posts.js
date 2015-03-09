@@ -57,6 +57,11 @@ module.exports = function(System) {
       if (err) {
         json.unhappy(err, res);
       } else {
+
+        for(var i in posts) {
+          posts[i].liked = posts[i].likes.indexOf(req.user._id) != -1;
+        }
+
         json.happy({
           records: posts
         }, res);
