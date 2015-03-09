@@ -10,14 +10,14 @@ angular.module('atwork.posts')
             // update: {
             //   method: 'PUT'
             // },
-            // follow: {
-            //   method: 'POST',
-            //   params: {action: 'follow'}
-            // },
-            // unfollow: {
-            //   method: 'POST',
-            //   params: {action: 'unfollow'}
-            // }
+            like: {
+              method: 'POST',
+              params: {action: 'like'}
+            },
+            unlike: {
+              method: 'POST',
+              params: {action: 'unlike'}
+            }
           }),
         feed: $resource('posts/'),
         timeline: $resource('posts/timeline/:userId')

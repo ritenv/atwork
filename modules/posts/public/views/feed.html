@@ -29,6 +29,15 @@
         <div class="md-tile-content">
           <md-button class="md-accent" href="/profile/{{item.creator._id}}">{{::item.creator.name}}</md-button>
           <p>{{::item.content}}</p>
+          <span class="likes primaryColors">
+            <a ng-if="!item.liked" class="like" ng-click="doLike(item._id)"><span class="fa fa-thumbs-o-up"></span> Like</a>
+            <a ng-if="item.liked" class="unlike" ng-click="undoLike(item._id)"><span class="fa fa-thumbs-up"></span> Unlike</a>
+            <a ng-if="item.likeCount" href="#"><span>({{item.likeCount}})</span></a>
+          </span>
+          <span>-</span>
+          <span class="comments primaryColors">
+            <a href="#" class="comment"><span>Comment</span></a>
+          </span>
           <small>{{::item.created | date:'medium'}}</small>
         </div>
       </md-item-content>

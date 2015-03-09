@@ -5,6 +5,12 @@ module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
 
+  /**
+   * Create a new post
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
   obj.create = function(req, res) {
 
     var post = new Post(req.body);
@@ -51,6 +57,11 @@ module.exports = function(System) {
       if (err) {
         json.unhappy(err, res);
       } else {
+
+        for(var i in posts) {
+          posts[i].liked = posts[i].likes.indexOf(req.user._id) != -1;
+        }
+
         json.happy({
           records: posts
         }, res);
@@ -58,6 +69,12 @@ module.exports = function(System) {
     });
   };
 
+  /**
+   * Get a single post
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
   obj.single = function(req, res) {
     Post.findOne({_id: req.param('postId')}).populate('creator').exec(function(err, post) {
       if (err) {
@@ -71,6 +88,69 @@ module.exports = function(System) {
       }
     });
   };
+
+  /**
+   * Like a post
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
+  obj.like = function(req, res) {
+    Post.findOne({_id: req.param('postId')}).populate('creator').exec(function(err, post) {
+      if (err) {
+        return json.unhappy(err, res);
+      } else if (post) {
+        if (post.likes.indexOf(req.user._id) !== -1) {
+          return json.unhappy('You have already liked the post', res);
+        }
+        post.likes.push(req.user._id);
+        post.save(function(err, item) {
+          if (err) {
+            return json.unhappy(err, res);
+          }
+          json.happy({
+            record: item
+          }, res);
+        });
+        
+      } else {
+        return json.unhappy({message: 'Post not found'}, res);
+      }
+    });
+  };
+
+  /**
+   * unLike a post
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
+  obj.unlike = function(req, res) {
+    Post.findOne({_id: req.param('postId')}).populate('creator').exec(function(err, post) {
+      if (err) {
+        return json.unhappy(err, res);
+      } else if (post) {
+        if (post.likes.indexOf(req.user._id) !== -1) {
+          post.likes.splice(post.likes.indexOf(req.user._id), 1);
+          post.save(function(err, item) {
+            if (err) {
+              return json.unhappy(err, res);
+            }
+            return json.happy({
+              record: item
+            }, res);
+          });
+        } else {
+          return json.unhappy('You have not yet liked the post', res);
+        }
+        
+      } else {
+        return json.unhappy({message: 'Post not found'}, res);
+      }
+    });
+  };
+
+
 
   return obj;
 };

@@ -1,6 +1,22 @@
+$primaryColor: #009688;
+$linkHoverColor: #333;
 
 body {
   font-size: 14px;
+}
+a {
+  text-decoration: none;
+}
+.primaryColors {
+  a {
+    &[ng-click] {
+      cursor: pointer;
+    }
+    color: $primaryColor;
+    &:hover {
+      color: $linkHoverColor;
+    }
+  }
 }
 
 /** ====== Sidenav Related BEGIN ====== */
@@ -115,6 +131,9 @@ ul.unstyled {
   }
   small {
     padding: 6px;
+  }
+  .likes {
+    
   }
 }
 
