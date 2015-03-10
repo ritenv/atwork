@@ -321,8 +321,38 @@ describe('<Unit Test>', function() {
       
     });
 
+    /**
+     * Get feed
+     */
+    describe('Method comment', function() {
+      it('should be able to add a comment on post', function(done) {
+        expect(posts).respondTo('comment');
+
+        var sampleRequest = {
+          params: {
+            postId: post._id
+          },
+          body: {
+            comment: 'Sample comment'
+          },
+          user: user
+        };
+        posts.comment(sampleRequest, {
+          send: function(output) {
+            expect(output.success).to.equal(1);
+            expect(output.res).to.be.instanceof(Object);
+            expect(output.res.comments).to.be.instanceof(Array).to.have.length(1);
+            expect(output.res.comments).to.have.length(1);
+            expect(output.res.comments[0].content).to.equal(sampleRequest.body.comment);
+            done();
+          }
+        });
+      });
+      
+    });
+
     describe('Methods of the ModelSchema', function() {
-      it('should...', function(done) {
+      it('should respond appropriately to model schema methods', function(done) {
         var method = mongoose.modelSchemas.Post.methods.toJSON;
         var sampleObj = {
           creator: {

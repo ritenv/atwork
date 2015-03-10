@@ -39,7 +39,6 @@ module.exports = function(System) {
       post.comments.sort(function(a, b) {
         a = new Date(a.created);
         b = new Date(b.created);
-        console.log(a);
         if (b > a) {
           return -1;
         } else {
