@@ -12,7 +12,6 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.create = function(req, res) {
-
     var post = new Post(req.body);
     post.creator = req.user._id;
 
@@ -23,7 +22,38 @@ module.exports = function(System) {
       return json.happy(post, res);
     });
   };
-  
+
+  /**
+   * Create a new comment
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
+  obj.comment = function(req, res) {
+    var postId = req.params.postId;
+    Post.findOne({ _id: postId }).exec(function(err, post) {
+      post.comments.push({
+        creator: req.user._id,
+        content: req.body.comment
+      });
+      post.comments.sort(function(a, b) {
+        a = new Date(a.created);
+        b = new Date(b.created);
+        if (b > a) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+      post.save(function(err) {
+        if (err) {
+          return json.unhappy(err, res);
+        }
+        return json.happy(post, res);
+      });
+    });
+  };
+
   /**
    * Get posts written by the current user
    * @param  {Object} req The request object
@@ -33,7 +63,7 @@ module.exports = function(System) {
   obj.timeline = function(req, res) {
     var userId = req.params.userId || req.user._id;
     //TODO: pagination
-    Post.find({ creator: userId }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
+    Post.find({ creator: userId }, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {
@@ -56,7 +86,7 @@ module.exports = function(System) {
   obj.feed = function(req, res) {
     //TODO: pagination
     var user = req.user;
-    Post.find({ creator: { $in: user.following.concat(user._id) } }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
+    Post.find({ creator: { $in: user.following.concat(user._id) } }, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {

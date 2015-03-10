@@ -68,16 +68,15 @@ angular.module('atwork.posts')
       };
 
       /**
-       * Create a new user
+       * Create a new post
        * @param  {Boolean} isValid Will be true if form validation passes
        * @return {Void}
        */
-      $scope.create = function(isValid) {
+      $scope.create = function(isValid, item) {
         if (isValid) {
           var post = new appPosts.single({
             content: this.content
           });
-
           post.$save(function(response) {
             if (response.success) {
               appToast('You have posted successfully.');
@@ -93,6 +92,28 @@ angular.module('atwork.posts')
         }
       };
 
+      /**
+       * Comment on a post
+       * @param  {Boolean} isValid Will be true if form validation passes
+       * @return {Void}
+       */
+      $scope.comment = function(isValid, item) {
+        if (isValid) {
+          var commentContent = this.content;
+          var post = appPosts.single.get({postId: item._id}, function() {
+            post.comment = commentContent;
+            delete post.res;
+            delete post.success;
+            post.$comment({postId: item._id}, function() {
+              $timeout(function() {$scope.updateFeed();}, 800);
+            });
+          });
+        } else {
+          
+        }
+      };
+
+      
     }
   ])
   ;

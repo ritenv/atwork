@@ -95,6 +95,8 @@ ul.unstyled {
     width: 64px;
     height: 64px;
     margin-left: 0; }
+  .post-listing .single-post {
+    align-items: initial; }
   .post-listing p {
     padding: 6px;
     font-size: 100%; }

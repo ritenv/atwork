@@ -44,6 +44,13 @@ module.exports = function(System) {
 
   routes.push({
     method: 'post',
+    path: '/:postId/comment',
+    handler: posts.comment,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'post',
     path: '/:postId/unlike',
     handler: posts.unlike,
     authorized: true

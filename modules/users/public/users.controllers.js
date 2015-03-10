@@ -115,7 +115,7 @@ angular.module('atwork.users')
       };
 
       /**
-       * Like the post
+       * Like the post (TODO: Duplicate code, move to directives)
        * @param  {Object} item The item object
        * @return {Void}      
        */
@@ -129,7 +129,7 @@ angular.module('atwork.users')
       };
 
       /**
-       * Unlike the post
+       * Unlike the post (TODO: Duplicate code, move to directives)
        * @param  {Object} item The item object
        * @return {Void}      
        */
@@ -140,6 +140,27 @@ angular.module('atwork.users')
             $timeout(function() {$scope.getTimeline();}, 800);
           });
         });
+      };
+
+      /**
+       * Comment on a post (TODO: Duplicate code, move to directives)
+       * @param  {Boolean} isValid Will be true if form validation passes
+       * @return {Void}
+       */
+      $scope.comment = function(isValid, item) {
+        if (isValid) {
+          var commentContent = this.content;
+          var post = appPosts.single.get({postId: item._id}, function() {
+            post.comment = commentContent;
+            delete post.res;
+            delete post.success;
+            post.$comment({postId: item._id}, function() {
+              $timeout(function() {$scope.getTimeline();}, 800);
+            });
+          });
+        } else {
+          
+        }
       };
 
       $scope.$watch('avatar', function () {

@@ -34,6 +34,22 @@ var PostSchema = new Schema({
     required: true,
     get: escapeProperty
   },
+  comments: [{
+    created: {
+      type: Date,
+      default: Date.now
+    },
+    content: {
+      type: String,
+      required: true,
+      get: escapeProperty
+    },
+    creator: {
+      type: Schema.ObjectId,
+      required: true,
+      ref: 'User'
+    }
+  }],
   likes: [{
     type: Schema.ObjectId,
     required: false,

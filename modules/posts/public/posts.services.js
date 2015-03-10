@@ -7,9 +7,6 @@ angular.module('atwork.posts')
         single: $resource('posts/:postId/:action', {
             postId: '@_id'
           }, {
-            // update: {
-            //   method: 'PUT'
-            // },
             like: {
               method: 'POST',
               params: {action: 'like'}
@@ -17,6 +14,10 @@ angular.module('atwork.posts')
             unlike: {
               method: 'POST',
               params: {action: 'unlike'}
+            },
+            comment: {
+              method: 'POST',
+              params: {action: 'comment'}
             }
           }),
         feed: $resource('posts/'),
