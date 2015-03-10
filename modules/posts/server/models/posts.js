@@ -34,6 +34,14 @@ var PostSchema = new Schema({
     required: true,
     get: escapeProperty
   },
+  replies: [{
+    content: String,
+    creator: {
+      type: Schema.ObjectId,
+      required: true,
+      ref: 'User'
+    }
+  }],
   likes: [{
     type: Schema.ObjectId,
     required: false,

@@ -17,12 +17,12 @@
       <md-button class="md-raised" ng-click="reset()" ng-if="postForm.$submitted && postForm.$invalid">
         Cancel
       </md-button>
-    </form>  
+    </form>
   </md-content>
   
   <md-content class="post-listing">
     <md-item ng-repeat="item in feed">
-      <md-item-content>
+      <md-item-content class="single-post">
         <div class="md-tile-left">
           <img ng-src="{{item.creator.face || '/images/user.jpg'}}" class="face" alt="{{item.creator.name}}">
         </div>
@@ -39,7 +39,28 @@
             <a href="#" class="comment"><span>Comment</span></a>
           </span>
           <small>{{::item.created | date:'medium'}}</small>
+          <div layout="row" layout-wrap>
+            <form flex="50" flex-sm="100" flex-md="100" name="replyForm" ng-submit="comment(replyForm.$valid, item)" novalidate>
+              <md-input-container>
+                <label>Write your reply...</label>
+                <textarea name="content" ng-model="content" id="#status" cols="30" rows="2" required md-maxlength="500" minlength="3"></textarea>
+                <div ng-messages="replyForm.content.$error" ng-show="replyForm.$submitted">
+                  <div ng-message="required">Write your post first.</div>
+                  <div ng-message="md-maxlength">That's too long!</div>
+                  <div ng-message="minlength">That's too short. Write more?</div>
+                </div>
+              </md-input-container>
+
+              <md-button class="md-primary md-raised">
+                Share
+              </md-button>
+              <md-button class="md-raised" ng-click="reset()" ng-if="postForm.$submitted && postForm.$invalid">
+                Cancel
+              </md-button>
+            </form>
+          </div>
         </div>
+
       </md-item-content>
     </md-item>
   </md-content>

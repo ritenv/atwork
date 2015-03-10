@@ -12,7 +12,6 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.create = function(req, res) {
-
     var post = new Post(req.body);
     post.creator = req.user._id;
 
@@ -23,7 +22,29 @@ module.exports = function(System) {
       return json.happy(post, res);
     });
   };
-  
+
+  /**
+   * Create a new comment
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
+  obj.comment = function(req, res) {
+    var postId = req.params.postId;
+    Post.findOne({ _id: postId }).exec(function(err, post) {
+      post.replies.push({
+        creator: req.user._id,
+        content: req.body.comment
+      });
+      post.save(function(err) {
+        if (err) {
+          return json.unhappy(err, res);
+        }
+        return json.happy(post, res);
+      });
+    });
+  };
+
   /**
    * Get posts written by the current user
    * @param  {Object} req The request object
