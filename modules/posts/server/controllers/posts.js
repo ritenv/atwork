@@ -36,15 +36,6 @@ module.exports = function(System) {
         creator: req.user._id,
         content: req.body.comment
       });
-      post.comments.sort(function(a, b) {
-        a = new Date(a.created);
-        b = new Date(b.created);
-        if (b > a) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
       post.save(function(err) {
         if (err) {
           return json.unhappy(err, res);
