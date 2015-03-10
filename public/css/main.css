@@ -101,7 +101,8 @@ ul.unstyled {
     padding: 6px;
     font-size: 100%; }
   .post-listing small {
-    padding: 6px; }
+    padding: 6px;
+    opacity: 0.4; }
 
 .user-profile .user-profile-info .face {
   width: 128px;
