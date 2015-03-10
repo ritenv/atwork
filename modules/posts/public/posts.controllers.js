@@ -27,6 +27,11 @@ angular.module('atwork.posts')
       };
       $scope.updateFeed();
 
+      /**
+       * Like the post
+       * @param  {Object} item The item object
+       * @return {Void}      
+       */
       $scope.doLike = function(item) {
         item.liked = true;
         var post = appPosts.single.get({postId: item._id}, function() {
@@ -36,6 +41,11 @@ angular.module('atwork.posts')
         });
       };
 
+      /**
+       * Unlike the post
+       * @param  {Object} item The item object
+       * @return {Void}      
+       */
       $scope.undoLike = function(item) {
         item.liked = false;
         var post = appPosts.single.get({postId: item._id}, function() {

@@ -114,6 +114,34 @@ angular.module('atwork.users')
         });
       };
 
+      /**
+       * Like the post
+       * @param  {Object} item The item object
+       * @return {Void}      
+       */
+      $scope.doLike = function(item) {
+        item.liked = true;
+        var post = appPosts.single.get({postId: item._id}, function() {
+          post.$like({postId: item._id}, function() {
+            $timeout(function() {$scope.getTimeline();}, 800);
+          });
+        });
+      };
+
+      /**
+       * Unlike the post
+       * @param  {Object} item The item object
+       * @return {Void}      
+       */
+      $scope.undoLike = function(item) {
+        item.liked = false;
+        var post = appPosts.single.get({postId: item._id}, function() {
+          post.$unlike({postId: item._id}, function() {
+            $timeout(function() {$scope.getTimeline();}, 800);
+          });
+        });
+      };
+
       $scope.$watch('avatar', function () {
         if ($scope.avatar && $scope.avatar.length) {
           $scope.uploadAvatar($scope.avatar);
