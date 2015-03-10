@@ -36,10 +36,12 @@
           </span>
           <span>-</span>
           <span class="comments primaryColors">
-            <a href="#" class="comment"><span>Comment</span></a>
+            <a ng-if="!item.commentEnabled" ng-click="item.commentEnabled = true" href="#" class="comment"><span>Comment</span></a>
           </span>
           <small>{{::item.created | date:'medium'}}</small>
-          <div layout="row" layout-wrap>
+          
+          <!-- Comment -->
+          <div layout="row" layout-wrap ng-if="item.commentEnabled">
             <form flex="50" flex-sm="100" flex-md="100" name="replyForm" ng-submit="comment(replyForm.$valid, item)" novalidate>
               <md-input-container>
                 <label>Write your reply...</label>
@@ -59,6 +61,34 @@
               </md-button>
             </form>
           </div>
+
+          <!-- Comments -->
+          <div>
+            <md-item ng-repeat="comment in item.comments">
+              <md-item-content class="single-post">
+                <div class="md-tile-left">
+                  <img ng-src="{{comment.creator.face || '/images/user.jpg'}}" class="face" alt="{{comment.creator.name}}">
+                </div>
+                <div class="md-tile-content">
+                  <md-button class="md-accent" href="/profile/{{comment.creator._id}}">{{::comment.creator.name}}</md-button>
+                  <p>{{::comment.content}}</p>
+                  <!-- <span class="likes primaryColors">
+                    <a ng-if="!item.liked" class="like" ng-click="doLike(item)"><span class="fa fa-thumbs-o-up"></span> Like</a>
+                    <a ng-if="item.liked" class="unlike" ng-click="undoLike(item)"><span class="fa fa-thumbs-up"></span> Unlike</a>
+                    <a ng-if="item.likeCount" href="#"><span>({{item.likeCount}})</span></a>
+                  </span> -->
+                  <!-- <span>-</span>
+                  <span class="comments primaryColors">
+                    <a href="#" class="comment"><span>Comment</span></a>
+                  </span> -->
+                  <small>{{::comment.created | date:'medium'}}</small>
+                </div>
+              </md-item-content>
+            </md-item>
+
+          </div>
+
+
         </div>
 
       </md-item-content>

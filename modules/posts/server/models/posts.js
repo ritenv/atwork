@@ -35,6 +35,10 @@ var PostSchema = new Schema({
     get: escapeProperty
   },
   comments: [{
+    created: {
+      type: Date,
+      default: Date.now
+    },
     content: {
       type: String,
       required: true,

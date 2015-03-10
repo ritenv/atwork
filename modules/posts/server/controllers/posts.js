@@ -36,6 +36,15 @@ module.exports = function(System) {
         creator: req.user._id,
         content: req.body.comment
       });
+      post.comments.sort(function(a, b) {
+        a = new Date(a);
+        b = new Date(b);
+        if (b > a) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
       post.save(function(err) {
         if (err) {
           return json.unhappy(err, res);
@@ -77,7 +86,7 @@ module.exports = function(System) {
   obj.feed = function(req, res) {
     //TODO: pagination
     var user = req.user;
-    Post.find({ creator: { $in: user.following.concat(user._id) } }, null, {sort: {created: -1}}).populate('creator').exec(function(err, posts) {
+    Post.find({ creator: { $in: user.following.concat(user._id) } }, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {
