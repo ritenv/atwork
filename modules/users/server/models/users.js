@@ -20,7 +20,7 @@ var validateUniqueEmail = function(value, callback) {
   var User = mongoose.model('User');
   User.find({
     $and: [{
-      email: new RegExp(value, 'i')
+      email: new RegExp('^' + value + '$', 'i')
     }, {
       _id: {
         $ne: this._id
