@@ -34,8 +34,12 @@ var PostSchema = new Schema({
     required: true,
     get: escapeProperty
   },
-  replies: [{
-    content: String,
+  comments: [{
+    content: {
+      type: String,
+      required: true,
+      get: escapeProperty
+    },
     creator: {
       type: Schema.ObjectId,
       required: true,

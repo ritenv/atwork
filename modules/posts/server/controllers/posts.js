@@ -32,7 +32,7 @@ module.exports = function(System) {
   obj.comment = function(req, res) {
     var postId = req.params.postId;
     Post.findOne({ _id: postId }).exec(function(err, post) {
-      post.replies.push({
+      post.comments.push({
         creator: req.user._id,
         content: req.body.comment
       });
