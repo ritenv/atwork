@@ -64,29 +64,15 @@ angular.module('atwork.users')
       };
 
       /**
-       * Get the user's timeline
-       * @return {Void}
+       * Disable posting on the feed template
+       * @type {Boolean}
        */
-      $scope.getTimeline = function() {
-        /**
-         * Disable posting on the feed template
-         * @type {Boolean}
-         */
-        $scope.noPosting = true;
-
-        /**
-         * Now get the data
-         */
-        var timelineData = appPosts.timeline.get({userId: userId}, function() {
-          $scope.feed = timelineData.res.records;
-        });
-      };
+      $scope.noPosting = true;
 
       /**
        * Call it once by default
        */
       $scope.getProfile();
-      $scope.getTimeline();
 
       /**
        * Follow the active user
@@ -112,56 +98,6 @@ angular.module('atwork.users')
             $timeout(function() {$scope.getProfile();}, 800);
           });
         });
-      };
-
-      /**
-       * Like the post (TODO: Duplicate code, move to directives)
-       * @param  {Object} item The item object
-       * @return {Void}      
-       */
-      $scope.doLike = function(item) {
-        item.liked = true;
-        var post = appPosts.single.get({postId: item._id}, function() {
-          post.$like({postId: item._id}, function() {
-            angular.extend(item, post.res.record);
-          });
-        });
-      };
-
-      /**
-       * Unlike the post (TODO: Duplicate code, move to directives)
-       * @param  {Object} item The item object
-       * @return {Void}      
-       */
-      $scope.undoLike = function(item) {
-        item.liked = false;
-        var post = appPosts.single.get({postId: item._id}, function() {
-          post.$unlike({postId: item._id}, function() {
-            angular.extend(item, post.res.record);
-          });
-        });
-      };
-
-      /**
-       * Comment on a post (TODO: Duplicate code, move to directives)
-       * @param  {Boolean} isValid Will be true if form validation passes
-       * @return {Void}
-       */
-      $scope.comment = function(isValid, item) {
-        if (isValid) {
-          var commentContent = this.content;
-          var post = appPosts.single.get({postId: item._id}, function() {
-            post.comment = commentContent;
-            delete post.res;
-            delete post.success;
-            post.$comment({postId: item._id}, function() {
-              angular.extend(item, post.res.record);
-              item.commentEnabled = false;
-            });
-          });
-        } else {
-          
-        }
       };
 
       $scope.$watch('avatar', function () {

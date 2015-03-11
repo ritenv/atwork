@@ -11,6 +11,7 @@ var Config = require('./config/' + (process.env.NODE_ENV || 'development'));
 var bodyParser = require('body-parser');
 var multer = require('multer'); 
 var morgan = require('morgan');
+var path = require('path');
 
 /**
  * Middleware
@@ -100,7 +101,9 @@ var loadPlugins = function(startingPath, System) {
   }
   var files = fs.readdirSync(helpersPath); //not allowing subfolders for now inside 'helpers' folder
   files.forEach(function(file) {
-    
+    if (path.extname(file) !== '.js') {
+      return true;
+    }
     var plugin = require(helpersPath + '/' + file)(System);
     System.plugins[plugin.register.attributes.key] = plugin.register();
     console.log('Loaded plugin: ' + file);

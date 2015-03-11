@@ -4,7 +4,25 @@ var Post = mongoose.model('Post');
 module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
-  var ws = System.plugins.webSocket;
+  var sck = System.webSocket;
+
+  /**
+   * Post related socket emmissions
+   */
+  sck.on('connection', function(socket){
+    socket.on('like', function(postId) {
+      socket.broadcast.emit('like', postId);
+    });
+    socket.on('unlike', function(postId) {
+      socket.broadcast.emit('unlike', postId);
+    });
+    socket.on('comment', function(postId) {
+      socket.broadcast.emit('comment', postId);
+    });
+    socket.on('feed', function(postId) {
+      socket.broadcast.emit('feed', postId);
+    });
+  });
 
   /**
    * Create a new post
@@ -15,9 +33,7 @@ module.exports = function(System) {
   obj.create = function(req, res) {
     var post = new Post(req.body);
     post.creator = req.user._id;
-
     post.save(function(err) {
-      ws.broadcast('feed', 1);
       if (err) {
         return json.unhappy(err, res);
       }
@@ -49,7 +65,6 @@ module.exports = function(System) {
       });
       post.save(function(err) {
         post = post.afterSave(req.user);
-        ws.broadcast('like', post._id);
         if (err) {
           return json.unhappy(err, res);
         }
@@ -122,6 +137,7 @@ module.exports = function(System) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
+        post = post.afterSave(req.user);
         return json.happy({
           record: post
         }, res);
@@ -148,7 +164,7 @@ module.exports = function(System) {
         post.likes.push(req.user._id);
         post.save(function(err, item) {
           post = post.afterSave(req.user);
-          ws.broadcast('like', post._id);
+          // ws.broadcast('like', post._id);
           if (err) {
             return json.unhappy(err, res);
           }
@@ -178,7 +194,7 @@ module.exports = function(System) {
           post.likes.splice(post.likes.indexOf(req.user._id), 1);
           post.save(function(err, item) {
             post = post.afterSave(req.user);
-            ws.broadcast('like', post._id);
+            // ws.broadcast('unlike', post._id);
             if (err) {
               return json.unhappy(err, res);
             }

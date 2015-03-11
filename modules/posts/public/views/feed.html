@@ -20,7 +20,7 @@
     </form>
   </md-content>
   
-  <md-content class="post-listing">
+  <md-content class="post-listing" ng-controller="PostsCtrl">
     <md-card ng-show="newFeedCount">
       <md-button ng-click="updateFeed()" class="md-primary md-raised">Load New Items ({{newFeedCount}})</md-button>
     </md-card>

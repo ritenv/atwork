@@ -31,7 +31,14 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
 ])
 .factory('appWebSocket', [
   function($location) {
-    return window.io();
+    var socket = window.io();
+    socket.on('connect', function() {
+      console.log('Connected');
+    });
+    socket.on('disconnect', function() {
+      console.log('Disonnected');
+    });
+    return socket;
   }
 ])
 .factory('appToast', [
