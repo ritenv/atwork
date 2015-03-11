@@ -89,13 +89,6 @@ PostSchema.methods = {
     var obj = this;
     obj.liked = obj.likes.indexOf(user._id) != -1;
     return obj;
-  },
-  isAccessible: function(user, cb) {
-    if (user.following.indexOf(this.creator) !== -1 && user.following.indexOf(this.creator._id) !== -1 ) {
-      return true;
-    } else {
-      return false;
-    }
   }
 };
 
