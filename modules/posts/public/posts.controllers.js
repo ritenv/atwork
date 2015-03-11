@@ -37,9 +37,21 @@ angular.module('atwork.posts')
       };
       $scope.updateFeed();
 
-      var updateNewCount = function() {
-        $scope.newFeedCount++;
-        $scope.$digest();
+      var updateNewCount = function(data) {
+        var followers = data.followers;
+        var creator = data.creator;
+        if (creator === userId) {
+          $scope.newFeedCount++;
+          $scope.$digest();
+        } else {
+          var thisUser = angular.fromJson(appStorage.get('user'))._id;
+          followers.map(function(user) {
+            if (user._id === thisUser) {
+              $scope.newFeedCount++;
+              $scope.$digest();
+            }
+          });
+        }
       };
 
       /**

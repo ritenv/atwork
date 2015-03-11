@@ -20,7 +20,13 @@ module.exports = function(System) {
       socket.broadcast.emit('comment', postId);
     });
     socket.on('feed', function(postId) {
-      socket.broadcast.emit('feed', postId);
+      //get all followers of the creator
+      var User = mongoose.model('User');
+      Post.findOne({ _id: postId }).exec(function(err, post) {
+        User.find({following: post.creator}, '_id', function(err, followers) {
+          socket.broadcast.emit('feed', {followers: followers, creator: post.creator});
+        });
+      });
     });
   });
 
