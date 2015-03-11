@@ -114,7 +114,10 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.single = function(req, res) {
-    Post.findOne({_id: req.params.postId}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
+    Post.findOne({
+      _id: req.params.postId
+    })
+    .populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
