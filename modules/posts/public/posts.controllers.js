@@ -31,7 +31,9 @@ angular.module('atwork.posts')
       $scope.updateFeed();
 
       var updateNewCount = function() {
+        console.log('Recd')
         $scope.newFeedCount++;
+        $scope.$digest();
       };
 
       /**

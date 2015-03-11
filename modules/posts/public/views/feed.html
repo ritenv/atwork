@@ -21,7 +21,7 @@
   </md-content>
   
   <md-content class="post-listing">
-    <md-card ng-if="newFeedCount">
+    <md-card ng-show="newFeedCount">
       <md-button ng-click="updateFeed()" class="md-primary md-raised">Load New Items ({{newFeedCount}})</md-button>
     </md-card>
     <md-item ng-repeat="item in feed">
