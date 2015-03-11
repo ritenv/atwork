@@ -15,6 +15,7 @@ angular.module('atwork.posts')
       $scope.content = '';
       $scope.lastUpdated = 0;
       $scope.postForm = '';
+      $scope.newFeedCount = 0;
 
       /**
        * Update feed items
@@ -24,9 +25,14 @@ angular.module('atwork.posts')
         $scope.lastUpdated = Date.now();
         $scope.feedData = appPosts.feed.get(function() {
           $scope.feed = $scope.feedData.res.records;
+          $scope.newFeedCount = 0;
         });
       };
       $scope.updateFeed();
+
+      var updateNewCount = function() {
+        $scope.newFeedCount++;
+      };
 
       /**
        * Update a single item in the existing list if it exists
@@ -53,6 +59,7 @@ angular.module('atwork.posts')
       appWebSocket.on('like', updateItem);
       appWebSocket.on('unlike', updateItem);
       appWebSocket.on('comment', updateItem);
+      appWebSocket.on('feed', updateNewCount);
 
       /**
        * Like the post

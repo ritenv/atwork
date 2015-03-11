@@ -17,6 +17,7 @@ module.exports = function(System) {
     post.creator = req.user._id;
 
     post.save(function(err) {
+      ws.broadcast('feed', 1);
       if (err) {
         return json.unhappy(err, res);
       }
