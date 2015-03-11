@@ -28,6 +28,23 @@ angular.module('atwork.posts')
       };
       $scope.updateFeed();
 
+      var updateItem = function(postId) {
+        var filteredItems = $scope.feed.filter(function(candidate, i) {
+          return candidate._id == postId;
+        });
+        var item = filteredItems.pop();
+        var post = appPosts.single.get({postId: postId}, function() {
+          angular.extend(item, post.res.record);
+        });
+      };
+
+      /**
+       * Enable socket listeners
+       */
+      appWebSocket.on('like', updateItem);
+      appWebSocket.on('unlike', updateItem);
+      appWebSocket.on('comment', updateItem);
+
       /**
        * Like the post
        * @param  {Object} item The item object

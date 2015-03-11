@@ -12,10 +12,6 @@ var bodyParser = require('body-parser');
 var multer = require('multer'); 
 var morgan = require('morgan');
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
-
 /**
  * Middleware
  */
@@ -178,6 +174,12 @@ module.exports = {
    * @type {Object}
    */
   plugins: {},
+
+  /**
+   * Expose the web socket connection
+   * @type {Object}
+   */
+  webSocket: io,
 
   /**
    * Function to initialize the system and load all dependencies
