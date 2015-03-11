@@ -123,7 +123,7 @@ angular.module('atwork.users')
         item.liked = true;
         var post = appPosts.single.get({postId: item._id}, function() {
           post.$like({postId: item._id}, function() {
-            $timeout(function() {$scope.getTimeline();}, 800);
+            angular.extend(item, post.res.record);
           });
         });
       };
@@ -137,7 +137,7 @@ angular.module('atwork.users')
         item.liked = false;
         var post = appPosts.single.get({postId: item._id}, function() {
           post.$unlike({postId: item._id}, function() {
-            $timeout(function() {$scope.getTimeline();}, 800);
+            angular.extend(item, post.res.record);
           });
         });
       };
@@ -155,7 +155,8 @@ angular.module('atwork.users')
             delete post.res;
             delete post.success;
             post.$comment({postId: item._id}, function() {
-              $timeout(function() {$scope.getTimeline();}, 800);
+              angular.extend(item, post.res.record);
+              item.commentEnabled = false;
             });
           });
         } else {

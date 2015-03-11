@@ -36,30 +36,38 @@ describe('<Unit Test>', function() {
       temps = {};
       user = new User({
         name: 'Full name',
-        email: 'test@test.com',
-        password: 'password'
+        email: 'test@asdf.com',
+        password: 'password',
+        provider: 'local',
+        roles: ['authenticated']
       });
 
       user2 = new User({
         name: 'Full name 2',
-        email: 'test@test2.com',
-        password: 'password'
+        email: 'test@abcd.com',
+        password: 'password',
+        provider: 'local',
+        roles: ['authenticated']
       });
 
-      user.save(function() {
-        user2.save(function() {
-
+      user.save(function(err) {
+        if (err) {
+          throw err;
+        }
+        user2.save(function(err) {
+          if (err) {
+            throw err;
+          }
           post = new Post({
             content: 'Test Post',
-            creator: user._id
-          });
-
-          post2 = new Post({
-            content: 'Test Post',
-            creator: user2._id
+            creator: user
           });
 
           post.save(function() {
+            post2 = new Post({
+              content: 'Test Post',
+              creator: user2
+            });
             post2.save(function() {
               samplePosts.push(post._id);
               samplePosts.push(post2._id);
@@ -340,14 +348,12 @@ describe('<Unit Test>', function() {
         var doComment = function(expectToFail, cb) {
           posts.comment(sampleRequest, {
             send: function(output) {
-              console.log('expectToFail');
-              console.log(expectToFail);
               if (!expectToFail) {
                 expect(output.success).to.equal(1);
-                expect(output.res).to.be.instanceof(Object);
-                expect(output.res.comments).to.be.instanceof(Array).to.have.length(1);
-                expect(output.res.comments).to.have.length(1);
-                expect(output.res.comments[0].content).to.equal(sampleRequest.body.comment);
+                expect(output.res.record).to.be.instanceof(Object);
+                expect(output.res.record.comments).to.be.instanceof(Array).to.have.length(1);
+                expect(output.res.record.comments).to.have.length(1);
+                expect(output.res.record.comments[0].content).to.equal(sampleRequest.body.comment);
                 cb();
               } else {
                 expect(output.success).to.equal(0);
@@ -419,8 +425,6 @@ describe('<Unit Test>', function() {
         });
       };
     });
-  
-
   });
 });
 

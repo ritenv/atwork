@@ -31,16 +31,19 @@ module.exports = function(System) {
    */
   obj.comment = function(req, res) {
     var postId = req.params.postId;
-    Post.findOne({ _id: postId }).exec(function(err, post) {
+    Post.findOne({ _id: postId }).populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
       post.comments.push({
-        creator: req.user._id,
+        creator: req.user,
         content: req.body.comment
       });
       post.save(function(err) {
+        post = post.afterSave(req.user);
         if (err) {
           return json.unhappy(err, res);
         }
-        return json.happy(post, res);
+        return json.happy({
+          record: post
+        }, res);
       });
     });
   };
@@ -59,7 +62,7 @@ module.exports = function(System) {
         json.unhappy(err, res);
       } else {
         posts.map(function(e) {
-          e.liked = e.likes.indexOf(req.user._id) != -1;
+          e = e.afterSave(req.user);
         });
         json.happy({
           records: posts
@@ -83,7 +86,7 @@ module.exports = function(System) {
       } else {
 
         posts.map(function(e) {
-          e.liked = e.likes.indexOf(req.user._id) != -1;
+          e = e.afterSave(req.user);
         });
 
         json.happy({
@@ -120,7 +123,7 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.like = function(req, res) {
-    Post.findOne({_id: req.params.postId}).exec(function(err, post) {
+    Post.findOne({_id: req.params.postId}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
@@ -129,6 +132,7 @@ module.exports = function(System) {
         }
         post.likes.push(req.user._id);
         post.save(function(err, item) {
+          post = post.afterSave(req.user);
           if (err) {
             return json.unhappy(err, res);
           }
@@ -150,13 +154,14 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.unlike = function(req, res) {
-    Post.findOne({_id: req.params.postId}).exec(function(err, post) {
+    Post.findOne({_id: req.params.postId}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
         if (post.likes.indexOf(req.user._id) !== -1) {
           post.likes.splice(post.likes.indexOf(req.user._id), 1);
           post.save(function(err, item) {
+            post = post.afterSave(req.user);
             if (err) {
               return json.unhappy(err, res);
             }
