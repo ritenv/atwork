@@ -28,13 +28,22 @@ angular.module('atwork.posts')
       };
       $scope.updateFeed();
 
+      /**
+       * Update a single item in the existing list if it exists
+       * @param  {[type]} postId [description]
+       * @return {[type]}        [description]
+       */
       var updateItem = function(postId) {
-        var filteredItems = $scope.feed.filter(function(candidate, i) {
-          return candidate._id == postId;
-        });
-        var item = filteredItems.pop();
-        var post = appPosts.single.get({postId: postId}, function() {
-          angular.extend(item, post.res.record);
+        var filteredItems = $scope.feed.map(function(candidate, i) {
+          if (candidate._id == postId) {
+            (function(item) {
+              if (item._id == postId) {
+                var post = appPosts.single.get({postId: postId}, function() {
+                  angular.extend(item, post.res.record);
+                });
+              }
+            })(candidate);
+          }
         });
       };
 
