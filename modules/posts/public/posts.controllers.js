@@ -100,13 +100,14 @@ angular.module('atwork.posts')
       $scope.comment = function(isValid, item) {
         if (isValid) {
           var commentContent = this.content;
+          var $this = this;
           var post = appPosts.single.get({postId: item._id}, function() {
             post.comment = commentContent;
             delete post.res;
             delete post.success;
             post.$comment({postId: item._id}, function() {
-              // $timeout(function() {$scope.updateFeed();}, 800);
               angular.extend(item, post.res.record);
+              item.commentEnabled = false;
             });
           });
         } else {
