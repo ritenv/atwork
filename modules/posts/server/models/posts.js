@@ -84,6 +84,11 @@ PostSchema.methods = {
       obj.likeCount = 0;
     }
     return obj;
+  },
+  afterSave: function(user) {
+    var obj = this;
+    obj.liked = obj.likes.indexOf(user._id) != -1;
+    return obj;
   }
 };
 
