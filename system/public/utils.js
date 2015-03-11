@@ -29,6 +29,11 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
     return $location;
   }
 ])
+.factory('appWebSocket', [
+  function($location) {
+    return window.io();
+  }
+])
 .factory('appToast', [
   '$mdToast',
   function($mdToast) {

@@ -10,7 +10,8 @@ angular.module('atwork.posts')
     'appToast',
     'appStorage',
     'appLocation',
-    function($scope, $rootScope, $timeout, appPosts, appAuth, appToast, appStorage, appLocation) {
+    'appWebSocket',
+    function($scope, $rootScope, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket) {
       $scope.content = '';
       $scope.lastUpdated = 0;
       $scope.postForm = '';

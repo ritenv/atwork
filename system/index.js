@@ -3,12 +3,18 @@
  */
 var express = require('express');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var fs = require('fs');
 var mongoose = require('mongoose');
 var Config = require('./config/' + (process.env.NODE_ENV || 'development'));
 var bodyParser = require('body-parser');
 var multer = require('multer'); 
 var morgan = require('morgan');
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
 
 /**
  * Middleware
@@ -52,7 +58,7 @@ function startServer() {
   app.use(function(req, res) {
     res.redirect('/index.html');
   });
-  var server = app.listen(Config.server.port, function() {
+  var server = http.listen(Config.server.port, function() {
     var host = server.address().address
     var port = server.address().port
 
