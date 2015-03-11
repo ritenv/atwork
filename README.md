@@ -1,3 +1,5 @@
+![travis-build](https://api.travis-ci.org/matterial/atwork.svg)
+
          |                       |    
     ,---.|---     . . .,---.,---.|__/ 
     ,---||        | | ||   ||    |  \ 
