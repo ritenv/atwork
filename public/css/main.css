@@ -96,7 +96,8 @@ ul.unstyled {
     height: 64px;
     margin-left: 0; }
   .post-listing .single-post {
-    align-items: initial; }
+    align-items: initial;
+    -webkit-align-items: initial; }
   .post-listing p {
     padding: 6px;
     font-size: 100%; }

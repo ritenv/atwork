@@ -4,6 +4,31 @@ var Post = mongoose.model('Post');
 module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
+  var sck = System.webSocket;
+
+  /**
+   * Post related socket emmissions
+   */
+  sck.on('connection', function(socket){
+    socket.on('like', function(postId) {
+      socket.broadcast.emit('like', postId);
+    });
+    socket.on('unlike', function(postId) {
+      socket.broadcast.emit('unlike', postId);
+    });
+    socket.on('comment', function(postId) {
+      socket.broadcast.emit('comment', postId);
+    });
+    socket.on('feed', function(postId) {
+      //get all followers of the creator
+      var User = mongoose.model('User');
+      Post.findOne({ _id: postId }).exec(function(err, post) {
+        User.find({following: post.creator}, '_id', function(err, followers) {
+          socket.broadcast.emit('feed', {followers: followers, creator: post.creator});
+        });
+      });
+    });
+  });
 
   /**
    * Create a new post
@@ -14,7 +39,6 @@ module.exports = function(System) {
   obj.create = function(req, res) {
     var post = new Post(req.body);
     post.creator = req.user._id;
-
     post.save(function(err) {
       if (err) {
         return json.unhappy(err, res);
@@ -35,6 +59,15 @@ module.exports = function(System) {
       post.comments.push({
         creator: req.user,
         content: req.body.comment
+      });
+      post.comments.sort(function(a, b) {
+        var dt1 = new Date(a.created);
+        var dt2 = new Date(b.created);
+        if (dt1 > dt2) {
+          return -1;
+        } else {
+          return 1;
+        }
       });
       post.save(function(err) {
         post = post.afterSave(req.user);
@@ -103,10 +136,14 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.single = function(req, res) {
-    Post.findOne({_id: req.params.postId}).populate('creator').exec(function(err, post) {
+    Post.findOne({
+      _id: req.params.postId
+    })
+    .populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
+        post = post.afterSave(req.user);
         return json.happy({
           record: post
         }, res);
@@ -133,6 +170,7 @@ module.exports = function(System) {
         post.likes.push(req.user._id);
         post.save(function(err, item) {
           post = post.afterSave(req.user);
+          // ws.broadcast('like', post._id);
           if (err) {
             return json.unhappy(err, res);
           }
@@ -162,6 +200,7 @@ module.exports = function(System) {
           post.likes.splice(post.likes.indexOf(req.user._id), 1);
           post.save(function(err, item) {
             post = post.afterSave(req.user);
+            // ws.broadcast('unlike', post._id);
             if (err) {
               return json.unhappy(err, res);
             }

@@ -4,28 +4,82 @@ angular.module('atwork.posts')
   .controller('PostsCtrl', [
     '$scope',
     '$rootScope',
+    '$routeParams',
     '$timeout',
     'appPosts',
     'appAuth',
     'appToast',
     'appStorage',
     'appLocation',
-    function($scope, $rootScope, $timeout, appPosts, appAuth, appToast, appStorage, appLocation) {
+    'appWebSocket',
+    function($scope, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket) {
       $scope.content = '';
       $scope.lastUpdated = 0;
       $scope.postForm = '';
+      $scope.newFeedCount = 0;
+      var userId = $routeParams.userId;
 
       /**
        * Update feed items
        * @return {Void}
        */
       $scope.updateFeed = function() {
-        $scope.lastUpdated = Date.now();
-        $scope.feedData = appPosts.feed.get(function() {
-          $scope.feed = $scope.feedData.res.records;
-        });
+        if (userId) { //Get timeline
+          var timelineData = appPosts.timeline.get({userId: userId}, function() {
+            $scope.feed = timelineData.res.records;
+          });
+        } else { //Get feed
+          var feedData = appPosts.feed.get(function() {
+            $scope.feed = feedData.res.records;
+          });
+        }
+        $scope.newFeedCount = 0;
       };
       $scope.updateFeed();
+
+      var updateNewCount = function(data) {
+        var followers = data.followers;
+        var creator = data.creator;
+        if (creator === userId) {
+          $scope.newFeedCount++;
+          $scope.$digest();
+        } else {
+          var thisUser = angular.fromJson(appStorage.get('user'))._id;
+          followers.map(function(user) {
+            if (user._id === thisUser) {
+              $scope.newFeedCount++;
+              $scope.$digest();
+            }
+          });
+        }
+      };
+
+      /**
+       * Update a single item in the existing list if it exists
+       * @param  {[type]} postId [description]
+       * @return {[type]}        [description]
+       */
+      var updateItem = function(postId) {
+        var filteredItems = $scope.feed.map(function(candidate, i) {
+          if (candidate._id == postId) {
+            (function(item) {
+              if (item._id == postId) {
+                var post = appPosts.single.get({postId: postId}, function() {
+                  angular.extend(item, post.res.record);
+                });
+              }
+            })(candidate);
+          }
+        });
+      };
+
+      /**
+       * Enable socket listeners
+       */
+      appWebSocket.on('like', updateItem);
+      appWebSocket.on('unlike', updateItem);
+      appWebSocket.on('comment', updateItem);
+      appWebSocket.on('feed', updateNewCount);
 
       /**
        * Like the post
@@ -37,6 +91,7 @@ angular.module('atwork.posts')
         var post = appPosts.single.get({postId: item._id}, function() {
           post.$like({postId: item._id}, function() {
             angular.extend(item, post.res.record);
+            appWebSocket.emit('like', item._id);
           });
         });
       };
@@ -51,6 +106,7 @@ angular.module('atwork.posts')
         var post = appPosts.single.get({postId: item._id}, function() {
           post.$unlike({postId: item._id}, function() {
             angular.extend(item, post.res.record);
+            appWebSocket.emit('unlike', item._id);
           });
         });
       };
@@ -79,6 +135,7 @@ angular.module('atwork.posts')
           });
           post.$save(function(response) {
             if (response.success) {
+              appWebSocket.emit('feed', response.res._id);
               appToast('You have posted successfully.');
               $scope.updateFeed();
               $scope.reset();
@@ -107,6 +164,7 @@ angular.module('atwork.posts')
             delete post.success;
             post.$comment({postId: item._id}, function() {
               angular.extend(item, post.res.record);
+              appWebSocket.emit('comment', item._id);
               item.commentEnabled = false;
             });
           });

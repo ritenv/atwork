@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="PostsCtrl">
   <md-content class="post-writer" ng-show="!noPosting">
     <form name="postForm" ng-submit="create(postForm.$valid)" novalidate>
       <md-input-container>
@@ -21,6 +21,9 @@
   </md-content>
   
   <md-content class="post-listing">
+    <md-card ng-show="newFeedCount">
+      <md-button ng-click="updateFeed()" class="md-primary md-raised">Load New Items ({{newFeedCount}})</md-button>
+    </md-card>
     <md-item ng-repeat="item in feed">
       <md-item-content class="single-post">
         <div class="md-tile-left">

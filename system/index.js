@@ -3,12 +3,15 @@
  */
 var express = require('express');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var fs = require('fs');
 var mongoose = require('mongoose');
 var Config = require('./config/' + (process.env.NODE_ENV || 'development'));
 var bodyParser = require('body-parser');
 var multer = require('multer'); 
 var morgan = require('morgan');
+var path = require('path');
 
 /**
  * Middleware
@@ -52,7 +55,7 @@ function startServer() {
   app.use(function(req, res) {
     res.redirect('/index.html');
   });
-  var server = app.listen(Config.server.port, function() {
+  var server = http.listen(Config.server.port, function() {
     var host = server.address().address
     var port = server.address().port
 
@@ -98,7 +101,9 @@ var loadPlugins = function(startingPath, System) {
   }
   var files = fs.readdirSync(helpersPath); //not allowing subfolders for now inside 'helpers' folder
   files.forEach(function(file) {
-    
+    if (path.extname(file) !== '.js') {
+      return true;
+    }
     var plugin = require(helpersPath + '/' + file)(System);
     System.plugins[plugin.register.attributes.key] = plugin.register();
     console.log('Loaded plugin: ' + file);
@@ -172,6 +177,12 @@ module.exports = {
    * @type {Object}
    */
   plugins: {},
+
+  /**
+   * Expose the web socket connection
+   * @type {Object}
+   */
+  webSocket: io,
 
   /**
    * Function to initialize the system and load all dependencies

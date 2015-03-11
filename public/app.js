@@ -8,7 +8,9 @@ app.controller('AppCtrl', [
   '$timeout',
   'appLocation',
   'appAuth',
-  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth) {
+  'appWebSocket',
+  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket) {
+
     $scope.barTitle = '';
     $scope.search = '';
 
