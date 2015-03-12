@@ -91,7 +91,7 @@ module.exports = function(System) {
     var userId = req.params.userId || req.user._id;
     //TODO: pagination
     var criteria = { creator: userId };
-    if (req.query.timestamp) {
+    if (req.query && req.query.timestamp) {
       criteria.created = { $gte: req.query.timestamp };
     }
     Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
@@ -118,7 +118,7 @@ module.exports = function(System) {
     //TODO: pagination
     var user = req.user;
     var criteria = { creator: { $in: user.following.concat(user._id) } };
-    if (req.query.timestamp) {
+    if (req.query && req.query.timestamp) {
       criteria.created = { $gte: req.query.timestamp };
     }
     Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
