@@ -233,13 +233,14 @@ angular.module('atwork.users')
     '$scope',
     '$mdBottomSheet',
     '$location',
-    function($scope, $mdBottomSheet, $location) {
+    'appStorage',
+    function($scope, $mdBottomSheet, $location, appStorage) {
       $scope.items = [
         { 
           name: 'Profile',
           icon: 'fa-user',
           handler: function() {
-            $location.url('/me');
+            $location.url('/profile/' + angular.fromJson(appStorage.get('user'))._id);
           }
         },
         { 

@@ -52,8 +52,11 @@ var moduleURL = 'modules';
  * @return {Void}
  */
 function startServer() {
-  app.use(function(req, res) {
-    res.redirect('/index.html');
+  app.use(function(req, res, next) {
+    //res.redirect('/index.html');
+    var output = fs.readFileSync(__dirname + '/../public/index.html');
+    res.type('html').send(output);
+    next();
   });
   var server = http.listen(Config.server.port, function() {
     var host = server.address().address
