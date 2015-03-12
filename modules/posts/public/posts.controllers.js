@@ -17,6 +17,7 @@ angular.module('atwork.posts')
       $scope.lastUpdated = 0;
       $scope.postForm = '';
       $scope.newFeedCount = 0;
+      $scope.feed = [];
       var userId = $routeParams.userId;
 
       /**
@@ -25,12 +26,14 @@ angular.module('atwork.posts')
        */
       $scope.updateFeed = function() {
         if (userId) { //Get timeline
-          var timelineData = appPosts.timeline.get({userId: userId}, function() {
-            $scope.feed = timelineData.res.records;
+          var timelineData = appPosts.timeline.get({userId: userId, timestamp: $scope.lastUpdated}, function() {
+            $scope.feed = timelineData.res.records.concat($scope.feed);
+            $scope.lastUpdated = Date.now();
           });
         } else { //Get feed
-          var feedData = appPosts.feed.get(function() {
-            $scope.feed = feedData.res.records;
+          var feedData = appPosts.feed.get({timestamp: $scope.lastUpdated}, function() {
+            $scope.feed = feedData.res.records.concat($scope.feed);
+            $scope.lastUpdated = Date.now();
           });
         }
         $scope.newFeedCount = 0;
