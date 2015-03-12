@@ -90,7 +90,11 @@ module.exports = function(System) {
   obj.timeline = function(req, res) {
     var userId = req.params.userId || req.user._id;
     //TODO: pagination
-    Post.find({ creator: userId }, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
+    var criteria = { creator: userId };
+    if (req.query && req.query.timestamp) {
+      criteria.created = { $gte: req.query.timestamp };
+    }
+    Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {
@@ -113,7 +117,11 @@ module.exports = function(System) {
   obj.feed = function(req, res) {
     //TODO: pagination
     var user = req.user;
-    Post.find({ creator: { $in: user.following.concat(user._id) } }, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
+    var criteria = { creator: { $in: user.following.concat(user._id) } };
+    if (req.query && req.query.timestamp) {
+      criteria.created = { $gte: req.query.timestamp };
+    }
+    Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {
