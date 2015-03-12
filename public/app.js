@@ -56,7 +56,6 @@ app.controller('AppCtrl', [
         appLocation.url('/login');
       } else {
         $scope.barTitle = '';
-        appLocation.url('/feed');
       }
       
     });
