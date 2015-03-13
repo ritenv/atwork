@@ -49,7 +49,7 @@
             <small hide-sm hide-md>{{::item.created | date:'medium'}}</small>
 
           </div>
-          <small hide-lg>{{::item.created | date:'medium'}}</small>
+          <small hide-gt-md>{{::item.created | date:'medium'}}</small>
           
           <!-- Comment -->
           <div layout="row" layout-wrap ng-if="item.commentEnabled">
