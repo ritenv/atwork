@@ -4,6 +4,7 @@ var Post = mongoose.model('Post');
 module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
+  var event = System.plugins.event;
   var sck = System.webSocket;
 
   /**
@@ -40,6 +41,8 @@ module.exports = function(System) {
     var post = new Post(req.body);
     post.creator = req.user._id;
     post.save(function(err) {
+      post = post.afterSave(req.user);
+      event.trigger('newpost', {post: post, actor: req.user});
       if (err) {
         return json.unhappy(err, res);
       }
@@ -71,6 +74,7 @@ module.exports = function(System) {
       });
       post.save(function(err) {
         post = post.afterSave(req.user);
+        event.trigger('comment', {post: post, actor: req.user});
         if (err) {
           return json.unhappy(err, res);
         }
@@ -178,7 +182,7 @@ module.exports = function(System) {
         post.likes.push(req.user._id);
         post.save(function(err, item) {
           post = post.afterSave(req.user);
-          // ws.broadcast('like', post._id);
+          event.trigger('like', {post: post, actor: req.user});
           if (err) {
             return json.unhappy(err, res);
           }
@@ -208,7 +212,7 @@ module.exports = function(System) {
           post.likes.splice(post.likes.indexOf(req.user._id), 1);
           post.save(function(err, item) {
             post = post.afterSave(req.user);
-            // ws.broadcast('unlike', post._id);
+            event.trigger('unlike', {post: post, actor: req.user});
             if (err) {
               return json.unhappy(err, res);
             }
