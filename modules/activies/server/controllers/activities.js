@@ -4,7 +4,11 @@ var Activity = mongoose.model('Activity');
 module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
-  var sck = System.webSocket;
+  var event = System.plugins.event;
+  
+  event.on('like', function(post) {
+    console.log(post.content, 'has been liked');
+  });
 
   /**
    * Get activities for a user

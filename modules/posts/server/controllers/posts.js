@@ -4,6 +4,7 @@ var Post = mongoose.model('Post');
 module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
+  var event = System.plugins.event;
   var sck = System.webSocket;
 
   /**
@@ -178,7 +179,7 @@ module.exports = function(System) {
         post.likes.push(req.user._id);
         post.save(function(err, item) {
           post = post.afterSave(req.user);
-          // ws.broadcast('like', post._id);
+          event.trigger('like', post);
           if (err) {
             return json.unhappy(err, res);
           }
