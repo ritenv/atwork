@@ -89,6 +89,9 @@ ul.unstyled {
   margin: 16px;
   background-size: cover;
 }
+.mute {
+  opacity: 0.4;
+}
 .clickable {
   cursor: pointer;
 }
@@ -133,13 +136,17 @@ ul.unstyled {
   }
   small {
     padding: 6px;
-    opacity: 0.4;
+    @extend .mute;
   }
   .likes {
     
   }
 }
-
+.activities-listing {
+  p {
+    margin: 0 5px;
+  }
+}
 .user-profile {
   .user-profile-info {
     .face {

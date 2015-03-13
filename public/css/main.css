@@ -72,6 +72,9 @@ ul.unstyled {
   margin: 16px;
   background-size: cover; }
 
+.mute, .post-listing small {
+  opacity: 0.4; }
+
 .clickable {
   cursor: pointer; }
 
@@ -102,8 +105,10 @@ ul.unstyled {
     padding: 6px;
     font-size: 100%; }
   .post-listing small {
-    padding: 6px;
-    opacity: 0.4; }
+    padding: 6px; }
+
+.activities-listing p {
+  margin: 0 5px; }
 
 .user-profile .user-profile-info .face {
   width: 128px;

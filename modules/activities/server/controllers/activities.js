@@ -5,20 +5,15 @@ module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
   var event = System.plugins.event;
+  ['like', 'unlike', 'comment', 'newpost'].map(function(action) {
+    event.on(action, function(data) {
+      var post = data.post;
+      var actor = data.actor;
+      console.log(post.content, 'has been liked by', actor.name);
+      obj.create(action, actor, post);
+    });
+  });
   
-  event.on('like', function(data) {
-    var post = data.post;
-    var actor = data.actor;
-    console.log(post.content, 'has been liked by', actor.name);
-    obj.create('like', actor, post);
-  });
-  event.on('unlike', function(data) {
-    var post = data.post;
-    var actor = data.actor;
-    console.log(post.content, 'has been unlike by', actor.name);
-    obj.create('unlike', actor, post);
-  });
-
   /**
    * Create a new activity
    * @param  {Object} req Request
@@ -48,8 +43,8 @@ module.exports = function(System) {
   obj.feed = function(req, res) {
     //TODO: pagination
     var userId = req.params.userId;
-    var criteria = { creator: userId };
-    Activity.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('post').exec(function(err, posts) {
+    var criteria = { actor: userId };
+    Activity.find(criteria, null, {sort: {created: -1}}).populate('actor').populate('post').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {

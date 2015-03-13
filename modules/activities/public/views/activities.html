@@ -4,7 +4,20 @@
     <md-card ng-show="newActivitiesCount">
       <md-button ng-click="updateActivities()" class="md-primary md-raised">Load New Items ({{newActivitiesCount}})</md-button>
     </md-card>
-    
+    <md-item ng-repeat="item in actions">
+      <md-item-content class="single-activity">
+        <p class="primaryColors">
+          <small class="mute">{{::item.created | date:'short'}}</small>
+          <span>
+            <a href="/profile/{{item.actor._id}}">{{::item.actor.name}}</a> 
+            <span ng-if="item.action=='like'">liked this </span>
+            <span ng-if="item.action=='unlike'">removed the like from this </span>
+            <span ng-if="item.action=='comment'">commented on this </span>
+            <span ng-if="item.action=='newpost'">wrote a new </span>
+            <a href="/posts/{{item.post._id}}">Post</a>.</span>
+        </p>
+          
+      </md-item-content>
+    </md-item>
   </md-content>
-
 </div>

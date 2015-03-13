@@ -52,11 +52,11 @@ ActivitySchema.methods = {
    */
   toJSON: function() {
     var obj = this.toObject();
-    if (obj.creator) {
-      delete obj.creator.token;
-      delete obj.creator.hashed_password;
-      delete obj.creator.salt;
-      delete obj.creator.following;
+    if (obj.actor) {
+      delete obj.actor.token;
+      delete obj.actor.hashed_password;
+      delete obj.actor.salt;
+      delete obj.actor.following;
     }
     return obj;
   }
