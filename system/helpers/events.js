@@ -1,18 +1,18 @@
 var registeredEvents = {};
-var registerType = function(type) {
+var registerType = function(e) {
   if (typeof registeredEvents[e] !== 'object' || registeredEvents[e].constructor.name !== 'Array') {
     registeredEvents[e] = [];
   }
 };
-var isRegisteredEvent = function(type) {
+var isRegisteredEvent = function(e) {
   return (typeof registeredEvents[e] === 'object' && registeredEvents[e].constructor.name === 'Array');
 };
-var registerEvent = function(e, cb, args) {
-  registeredEvents[e].push({cb: cb, args: args});
+var registerEvent = function(e, cb) {
+  registeredEvents[e].push(cb);
 };
 var triggerEvent = function(e, args) {
-  registeredEvents[e].map(function(item) {
-    item.cb(item.args);
+  registeredEvents[e].map(function(cb) {
+    cb(args);
   });
 };
 module.exports = function(System) {
