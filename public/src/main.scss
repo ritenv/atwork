@@ -144,7 +144,10 @@ ul.unstyled {
 }
 .activities-listing {
   p {
-    margin: 0 5px;
+    margin: 5px 0;
+  }
+  strong {
+    text-transform: uppercase;
   }
 }
 .user-profile {

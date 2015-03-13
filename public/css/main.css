@@ -108,7 +108,9 @@ ul.unstyled {
     padding: 6px; }
 
 .activities-listing p {
-  margin: 0 5px; }
+  margin: 5px 0; }
+.activities-listing strong {
+  text-transform: uppercase; }
 
 .user-profile .user-profile-info .face {
   width: 128px;
