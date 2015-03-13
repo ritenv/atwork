@@ -12,6 +12,12 @@ module.exports = function(System) {
     console.log(post.content, 'has been liked by', actor.name);
     obj.create('like', actor, post);
   });
+  event.on('unlike', function(data) {
+    var post = data.post;
+    var actor = data.actor;
+    console.log(post.content, 'has been unlike by', actor.name);
+    obj.create('unlike', actor, post);
+  });
 
   /**
    * Create a new activity
