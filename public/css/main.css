@@ -98,6 +98,8 @@ ul.unstyled {
     width: 64px;
     height: 64px;
     margin-left: 0; }
+  .post-listing .post-actions {
+    padding: 0 6px; }
   .post-listing .single-post {
     align-items: initial;
     -webkit-align-items: initial; }

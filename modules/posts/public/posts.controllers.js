@@ -53,7 +53,7 @@ angular.module('atwork.posts')
         if (creator === userId) {
           $scope.newFeedCount++;
           $scope.$digest();
-        } else {
+        } else if (!userId && !postId) {
           var thisUser = angular.fromJson(appStorage.get('user'))._id;
           followers.map(function(user) {
             if (user._id === thisUser) {

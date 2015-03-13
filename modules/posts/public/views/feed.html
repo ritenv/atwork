@@ -32,16 +32,24 @@
         <div class="md-tile-content">
           <md-button class="md-accent" href="/profile/{{item.creator._id}}">{{::item.creator.name}}</md-button>
           <p>{{::item.content}}</p>
-          <span class="likes primaryColors">
-            <a ng-if="!item.liked" class="like" ng-click="doLike(item)"><span class="fa fa-thumbs-o-up"></span> Like</a>
-            <a ng-if="item.liked" class="unlike" ng-click="undoLike(item)"><span class="fa fa-thumbs-up"></span> Unlike</a>
-            <a ng-if="item.likeCount" href="#"><span>({{item.likeCount}})</span></a>
-          </span>
-          <span>-</span>
-          <span class="comments primaryColors">
-            <a ng-if="!item.commentEnabled" ng-click="item.commentEnabled = true" href="#" class="comment"><span>Comment</span></a>
-          </span>
-          <small>{{::item.created | date:'medium'}}</small>
+          <div class="post-actions">
+            <span class="likes primaryColors">
+              <a ng-if="!item.liked" class="like" ng-click="doLike(item)"><span class="fa fa-thumbs-o-up"></span> Like</a>
+              <a ng-if="item.liked" class="unlike" ng-click="undoLike(item)"><span class="fa fa-thumbs-up"></span> Unlike</a>
+              <a ng-if="item.likeCount" href="#"><span>({{item.likeCount}})</span></a>
+            </span>
+            <span>-</span>
+            <span class="comments primaryColors">
+              <a ng-if="!item.commentEnabled" ng-click="item.commentEnabled = true" href="#" class="comment"><span>Comment</span></a>
+            </span>
+            <span>-</span>
+            <span class="view primaryColors">
+              <a href="/post/{{::item._id}}" class="view"><span>View</span></a>
+            </span>
+            <small hide-sm hide-md>{{::item.created | date:'medium'}}</small>
+
+          </div>
+          <small hide-lg>{{::item.created | date:'medium'}}</small>
           
           <!-- Comment -->
           <div layout="row" layout-wrap ng-if="item.commentEnabled">
