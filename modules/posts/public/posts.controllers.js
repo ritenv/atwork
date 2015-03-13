@@ -19,6 +19,7 @@ angular.module('atwork.posts')
       $scope.newFeedCount = 0;
       $scope.feed = [];
       var userId = $routeParams.userId;
+      var postId = $routeParams.postId;
 
       /**
        * Update feed items
@@ -28,6 +29,12 @@ angular.module('atwork.posts')
         if (userId) { //Get timeline
           var timelineData = appPosts.timeline.get({userId: userId, timestamp: $scope.lastUpdated}, function() {
             $scope.feed = timelineData.res.records.concat($scope.feed);
+            $scope.lastUpdated = Date.now();
+          });
+        } else if (postId) { //Get timeline
+          $scope.noPosting = true;
+          var timelineData = appPosts.single.get({postId: postId}, function() {
+            $scope.feed = [timelineData.res.record];
             $scope.lastUpdated = Date.now();
           });
         } else { //Get feed

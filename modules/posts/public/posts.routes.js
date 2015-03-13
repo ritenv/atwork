@@ -9,6 +9,9 @@ angular.module('atwork.posts')
       .when('/', {
         templateUrl: '/modules/posts/views/feed.html'
       })
+      .when('/post/:postId', {
+        templateUrl: '/modules/posts/views/feed.html'
+      })
       ;
     $locationProvider.html5Mode(true);
   }]);
