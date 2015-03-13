@@ -179,7 +179,7 @@ module.exports = function(System) {
         post.likes.push(req.user._id);
         post.save(function(err, item) {
           post = post.afterSave(req.user);
-          event.trigger('like', post);
+          event.trigger('like', {post: post, actor: req.user});
           if (err) {
             return json.unhappy(err, res);
           }

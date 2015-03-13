@@ -6,9 +6,32 @@ module.exports = function(System) {
   var json = System.plugins.JSON;
   var event = System.plugins.event;
   
-  event.on('like', function(post) {
-    console.log(post.content, 'has been liked');
+  event.on('like', function(data) {
+    var post = data.post;
+    var actor = data.actor;
+    console.log(post.content, 'has been liked by', actor.name);
+    obj.create('like', actor, post);
   });
+
+  /**
+   * Create a new activity
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
+  obj.create = function(action, actor, post) {
+    var activity = new Activity({
+      actor: actor,
+      post: post,
+      action: action
+    });
+    activity.save(function(err) {
+      if (err) {
+        return err;
+      }
+      return activity;
+    });
+  };
 
   /**
    * Get activities for a user
