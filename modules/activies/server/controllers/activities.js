@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Post = mongoose.model('Post');
+var Activity = mongoose.model('Activity');
 
 module.exports = function(System) {
   var obj = {};
@@ -16,7 +16,7 @@ module.exports = function(System) {
     //TODO: pagination
     var userId = req.params.userId;
     var criteria = { creator: userId };
-    Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('post').exec(function(err, posts) {
+    Activity.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('post').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {
