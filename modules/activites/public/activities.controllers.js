@@ -13,7 +13,7 @@ angular.module('atwork.activities')
     'appLocation',
     'appWebSocket',
     function($scope, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket) {
-      
+      window.alert('Test');
       
     }
   ])
