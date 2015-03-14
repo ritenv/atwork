@@ -8,7 +8,8 @@
     "start": "node index",
     "karma": "node node_modules/karma/bin/karma start karma.conf.js",
     "mocha": "./node_modules/.bin/istanbul cover --report html node_modules/.bin/_mocha -- ./modules/**/server/tests/**/*.js -R spec -r tools/test/mocha-req.js",
-    "test": "npm run mocha  && npm run karma"
+    "test": "npm run mocha  && npm run karma",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "author": "Riten Vagadiya",
   "license": "MIT",
