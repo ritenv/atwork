@@ -8,6 +8,8 @@ var io = require('socket.io')(http);
 var fs = require('fs');
 var mongoose = require('mongoose');
 var Config = require('./config/' + (process.env.npm_config_production?'production' : 'development'));
+console.log((process.env.npm_config_production?'production' : 'development'));
+console.log(Config);
 var bodyParser = require('body-parser');
 var multer = require('multer'); 
 var morgan = require('morgan');
