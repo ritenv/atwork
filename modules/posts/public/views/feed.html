@@ -40,7 +40,7 @@
         </div>
         <div class="md-tile-content">
           <md-button class="md-accent" href="/profile/{{item.creator._id}}">{{::item.creator.name}}</md-button>
-          <p>{{::item.content}}</p>
+          <p class="primaryColors" ng-bind-html="item.content | appPostFormat"></p>
           <div class="post-actions">
             <span class="likes primaryColors">
               <a ng-if="!item.liked" class="like" ng-click="doLike(item)"><span class="fa fa-thumbs-o-up"></span> Like</a>

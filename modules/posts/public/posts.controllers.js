@@ -19,8 +19,13 @@ angular.module('atwork.posts')
       $scope.newFeedCount = 0;
       $scope.feed = [];
       $scope.feedsFilter = '';
+      var hashtag = $routeParams.hashtag;
       var userId = $routeParams.userId;
       var postId = $routeParams.postId;
+
+      if (hashtag) {
+        $scope.feedsFilter = '#' + hashtag;
+      }
 
       /**
        * Update feed items
@@ -57,8 +62,10 @@ angular.module('atwork.posts')
         }
         if (!newValue) {
           $scope.lastUpdated = 0;
+          $scope.noPosting = false;
           $scope.updateFeed();
         } else {
+          $scope.noPosting = true;
           $scope.updateFeed();
         }
       });
