@@ -2,7 +2,8 @@ body {
   font-size: 14px; }
 
 a {
-  text-decoration: none; }
+  text-decoration: none;
+  cursor: pointer; }
 
 .primaryColors a {
   color: #009688; }

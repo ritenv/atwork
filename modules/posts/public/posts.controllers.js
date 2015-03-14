@@ -18,6 +18,7 @@ angular.module('atwork.posts')
       $scope.postForm = '';
       $scope.newFeedCount = 0;
       $scope.feed = [];
+      $scope.feedsFilter = '';
       var userId = $routeParams.userId;
       var postId = $routeParams.postId;
 
@@ -27,25 +28,40 @@ angular.module('atwork.posts')
        */
       $scope.updateFeed = function() {
         if (userId) { //Get timeline
-          var timelineData = appPosts.timeline.get({userId: userId, timestamp: $scope.lastUpdated}, function() {
+          var timelineData = appPosts.timeline.get({userId: userId, timestamp: $scope.lastUpdated, filter: $scope.feedsFilter}, function() {
             $scope.feed = timelineData.res.records.concat($scope.feed);
             $scope.lastUpdated = Date.now();
           });
-        } else if (postId) { //Get timeline
+        } else if (postId) { //Get single post
           $scope.noPosting = true;
           var timelineData = appPosts.single.get({postId: postId}, function() {
             $scope.feed = [timelineData.res.record];
             $scope.lastUpdated = Date.now();
           });
         } else { //Get feed
-          var feedData = appPosts.feed.get({timestamp: $scope.lastUpdated}, function() {
+          var feedData = appPosts.feed.get({timestamp: $scope.lastUpdated, filter: $scope.feedsFilter}, function() {
             $scope.feed = feedData.res.records.concat($scope.feed);
             $scope.lastUpdated = Date.now();
           });
         }
         $scope.newFeedCount = 0;
       };
-      $scope.updateFeed();
+
+      /**
+       * Check if feed needs to be filtered
+       * If not, call $scope.updateFeed() anyway as first run
+       */
+      $scope.$watch('feedsFilter', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          $scope.feed = [];
+        }
+        if (!newValue) {
+          $scope.lastUpdated = 0;
+          $scope.updateFeed();
+        } else {
+          $scope.updateFeed();
+        }
+      });
 
       var updateNewCount = function(data) {
         var followers = data.followers;
