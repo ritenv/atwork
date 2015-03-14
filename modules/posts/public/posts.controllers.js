@@ -34,6 +34,7 @@ angular.module('atwork.posts')
        */
       $scope.updateFeed = function() {
         if (userId) { //Get timeline
+          $scope.noPosting = true;
           var timelineData = appPosts.timeline.get({userId: userId, timestamp: $scope.lastUpdated, filter: $scope.feedsFilter}, function() {
             $scope.feed = timelineData.res.records.concat($scope.feed);
             $scope.lastUpdated = Date.now();
