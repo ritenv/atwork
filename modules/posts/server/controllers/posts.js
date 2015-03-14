@@ -98,6 +98,10 @@ module.exports = function(System) {
     if (req.query && req.query.timestamp) {
       criteria.created = { $gte: req.query.timestamp };
     }
+    if (req.query && req.query.filter) {
+      delete criteria.created;
+      criteria.content = new RegExp(req.query.filter, 'i');
+    }
     Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
@@ -125,6 +129,11 @@ module.exports = function(System) {
     if (req.query && req.query.timestamp) {
       criteria.created = { $gte: req.query.timestamp };
     }
+    if (req.query && req.query.filter) {
+      delete criteria.created;
+      criteria.content = new RegExp(req.query.filter, 'i');
+    }
+    console.log(criteria);
     Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
