@@ -10,7 +10,6 @@ app.controller('AppCtrl', [
   'appAuth',
   'appWebSocket',
   function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket) {
-
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -40,11 +39,16 @@ app.controller('AppCtrl', [
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();
       $scope.barTitle = '';
-      
+      appWebSocket.emit('online', {token: appAuth.getToken()});
     });
     $scope.$on('loggedOut', function() {
       $scope.updateLoginStatus();
       $scope.barTitle = 'atWork';
+    });
+    appWebSocket.on('connect', function() {
+      if (appAuth.isLoggedIn()) {
+        appWebSocket.emit('online', {token: appAuth.getToken()});
+      }
     });
 
     
@@ -56,6 +60,7 @@ app.controller('AppCtrl', [
         appLocation.url('/login');
       } else {
         $scope.barTitle = '';
+        $scope.$broadcast('loggedIn');
       }
       
     });
