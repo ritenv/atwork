@@ -19,7 +19,7 @@
       </md-button>
     </form>
   </md-content>
-  <md-content class="primaryColors feedsFilter">
+  <md-content class="primaryColors feedsFilter" ng-show="!noFiltering">
     <div layout="column">
       <a class="filter" ng-click="feedsFilterEnabled = !feedsFilterEnabled" ><span class="fa fa-search"></span> Filter</a>
       <md-input-container ng-show="feedsFilterEnabled" class="no-margin">

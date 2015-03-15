@@ -43,6 +43,7 @@ angular.module('atwork.posts')
             $scope.lastUpdated = Date.now();
           });
         } else if (postId) { //Get single post
+          $scope.noFiltering = true;
           $scope.noPosting = true;
           var timelineData = appPosts.single.get({postId: postId}, function() {
             $scope.feed = [timelineData.res.record];
