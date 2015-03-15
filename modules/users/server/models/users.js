@@ -85,6 +85,14 @@ var UserSchema = new Schema({
     required: true,
     ref: 'User'
   }],
+  socketId: {
+    type: String,
+    default: ''
+  },
+  loggedIn: {
+    type: Boolean,
+    default: false
+  },
   salt: String,
   token: String,
   resetPasswordToken: String,

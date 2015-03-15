@@ -6,6 +6,39 @@ module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
 
+  var sck = System.webSocket;
+
+  /**
+   * User related socket emmissions
+   */
+  sck.on('connection', function(socket){
+    socket.on('online', function(data) {
+      User.findOne({token: data.token}, function(err, user) {
+        if (user) {
+          socket.userId = user._id;
+          user.socketId = socket.id;
+          user.loggedIn = true;
+          user.save(function(err) {
+            console.log(user.name, 'is online.');
+          });
+        }
+      });
+    });
+    socket.on('disconnect', function(data) {
+      User.findOne({_id: socket.userId}, function(err, user) {
+        if (user) {
+          delete socket.userId;
+          user.socketId = '';
+          user.loggedIn = false;
+          user.save(function(err) {
+            console.log(user.name, 'disconnected.');
+          });
+        }
+      });
+    });
+
+  });
+
   /**
    * Create / register a new user
    * @param  {Object} req Request

@@ -8,6 +8,9 @@ angular.module('atwork.users', ['atwork.system'])
         isLoggedIn: function() {
           return appStorage.get('userToken');
         },
+        getToken: function() {
+          return appStorage.get('userToken');
+        },
         getUser: function() {
           var serialized = appStorage.get('user');
           if (serialized) {
