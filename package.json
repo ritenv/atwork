@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
+    "dev": "node index",
     "karma": "node node_modules/karma/bin/karma start karma.conf.js",
     "mocha": "./node_modules/.bin/istanbul cover --report html node_modules/.bin/_mocha -- ./modules/**/server/tests/**/*.js -R spec -r tools/test/mocha-req.js",
     "test": "npm run mocha  && npm run karma",
