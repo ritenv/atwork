@@ -4,13 +4,13 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
 .factory('appStorage', function() {
   return {
     get: function(item) {
-      return sessionStorage.getItem(item);
+      return localStorage.getItem(item);
     },
     set: function(item, val) {
-      return sessionStorage.setItem(item, val);
+      return localStorage.setItem(item, val);
     },
     remove: function(item) {
-      return sessionStorage.removeItem(item);
+      return localStorage.removeItem(item);
     }
   }
 })
