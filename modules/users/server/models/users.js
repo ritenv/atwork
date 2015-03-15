@@ -89,6 +89,10 @@ var UserSchema = new Schema({
     type: String,
     default: ''
   },
+  loggedIn: {
+    type: Boolean,
+    default: false
+  },
   salt: String,
   token: String,
   resetPasswordToken: String,

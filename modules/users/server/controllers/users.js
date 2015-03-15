@@ -17,6 +17,7 @@ module.exports = function(System) {
         if (user) {
           socket.userId = user._id;
           user.socketId = socket.id;
+          user.loggedIn = true;
           user.save(function(err) {
             console.log(user.name, 'is online.');
           });
@@ -28,6 +29,7 @@ module.exports = function(System) {
         if (user) {
           delete socket.userId;
           user.socketId = '';
+          user.loggedIn = false;
           user.save(function(err) {
             console.log(user.name, 'disconnected.');
           });
