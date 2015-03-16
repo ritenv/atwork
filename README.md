@@ -23,7 +23,9 @@
 
 ## Contribution
 
-Contributions are highly encouraged. I am looking for developers to help me out in carrying this project forward - so if you're interested, check out the issues section and you can pick any that interests you in order to get started. If you have any questions, just get in touch via the twitter handle [@ritenv](http://twitter.com/@ritenv).
+Contributions are very much welcome!
+
+I am looking for developers to help me out in carrying this project forward - so if you're interested, check out the issues section and you can pick any that interests you in order to get started. If you have any questions, just get in touch via the twitter handle [@ritenv](http://twitter.com/@ritenv).
 
 ## Background
 
