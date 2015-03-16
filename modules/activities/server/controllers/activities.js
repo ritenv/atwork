@@ -5,6 +5,10 @@ module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
   var event = System.plugins.event;
+  
+  /**
+   * Event listeners for post activities
+   */
   ['like', 'unlike', 'comment', 'newpost'].map(function(action) {
     event.on(action, function(data) {
       var post = data.post;
