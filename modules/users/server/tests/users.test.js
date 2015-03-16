@@ -24,9 +24,11 @@ describe('<Unit Test>', function() {
        */
       temps.user = new User({
         name: 'John Doe',
-        email: 'test@example.com',
-        designation: 'Manager',
-        password: '123456'
+        email: 'test@asdf.com',
+        username: 'test123',
+        password: 'password',
+        provider: 'local',
+        roles: ['authenticated']
       });
 
       done();

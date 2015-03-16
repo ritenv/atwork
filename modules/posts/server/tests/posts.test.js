@@ -37,6 +37,7 @@ describe('<Unit Test>', function() {
       user = new User({
         name: 'Full name',
         email: 'test@asdf.com',
+        username: 'test123',
         password: 'password',
         provider: 'local',
         roles: ['authenticated']
@@ -45,6 +46,7 @@ describe('<Unit Test>', function() {
       user2 = new User({
         name: 'Full name 2',
         email: 'test@abcd.com',
+        username: 'testjjk',
         password: 'password',
         provider: 'local',
         roles: ['authenticated']
