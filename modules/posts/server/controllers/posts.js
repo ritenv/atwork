@@ -32,6 +32,21 @@ module.exports = function(System) {
   });
 
   /**
+   * Event based notifications
+   */
+  ['like', 'comment'].map(function(action) {
+    event.on(action, function(data) {
+      var post = data.post;
+      var actor = data.actor;
+      post.notifyUsers({
+        postId: post._id,
+        userId: actor._id,
+        type: action
+      });
+    });
+  });
+
+  /**
    * Create a new post
    * @param  {Object} req Request
    * @param  {Object} res Response
@@ -72,6 +87,7 @@ module.exports = function(System) {
           return 1;
         }
       });
+      post.subscribe(req.user._id);
       post.save(function(err) {
         post = post.afterSave(req.user);
         event.trigger('comment', {post: post, actor: req.user});
@@ -188,6 +204,7 @@ module.exports = function(System) {
           return json.unhappy('You have already liked the post', res);
         }
         post.likes.push(req.user._id);
+        post.subscribe(req.user._id);
         post.save(function(err, item) {
           post = post.afterSave(req.user);
           event.trigger('like', {post: post, actor: req.user});

@@ -99,6 +99,21 @@ var UserSchema = new Schema({
     type: Boolean,
     default: false
   },
+  notifications: [{
+    postId: {
+      type: Schema.ObjectId,
+      ref: 'Post'
+    },
+    userId: {
+      type: Schema.ObjectId,
+      ref: 'Post'
+    },
+    created: {
+      type: Date,
+      default: Date.now
+    },
+    type: String
+  }],
   salt: String,
   token: String,
   resetPasswordToken: String,
@@ -166,6 +181,24 @@ UserSchema.methods = {
    */
   authenticate: function(plainText) {
     return this.hashPassword(plainText) === this.hashed_password;
+  },
+  
+
+  notify: function(data) {
+    // do not notify self
+    var thisUser = this;
+    if (thisUser._id.toString() === data.userId.toString()) {
+      return false;
+    }
+    if (thisUser.socketId) {
+      console.log(thisUser.name, 'is notified in the browser.');
+    } else {
+      console.log(thisUser.name, 'is notified via email.');
+    }
+    this.notifications.shift(data);
+    return this.save(function(err, user) {
+      return user;
+    });
   },
 
   /**

@@ -13,7 +13,7 @@ module.exports = function(System) {
     event.on(action, function(data) {
       var post = data.post;
       var actor = data.actor;
-      console.log(post.content, 'has been liked by', actor.name);
+      console.log(post.content, 'has been', action, 'by', actor.name);
       obj.create(action, actor, post);
     });
   });

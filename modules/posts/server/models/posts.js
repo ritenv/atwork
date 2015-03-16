@@ -50,6 +50,11 @@ var PostSchema = new Schema({
       ref: 'User'
     }
   }],
+  subscribers: [{
+    type: Schema.ObjectId,
+    required: false,
+    ref: 'User'
+  }],
   likes: [{
     type: Schema.ObjectId,
     required: false,
@@ -89,6 +94,25 @@ PostSchema.methods = {
     var obj = this;
     obj.liked = obj.likes.indexOf(user._id) != -1;
     return obj;
+  },
+  subscribe: function(userId) {
+    if (this.subscribers.indexOf(userId) === -1 && this._id !== userId) { //cannot subscribe to own post
+      this.subscribers.push(userId);
+    }
+  },
+  notifyUsers: function(data) {
+    // var User = mongoose.model('User');
+    var notification = {
+      postId: this._id,
+      userId: data.userId,
+      type: data.type
+    };
+    this.populate('creator subscribers', function(err, post) {
+      post.subscribers.map(function(user) {
+        user.notify(notification);
+      });
+      post.creator.notify(notification);
+    });
   }
 };
 
