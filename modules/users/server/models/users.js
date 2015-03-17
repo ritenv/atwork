@@ -184,13 +184,15 @@ UserSchema.methods = {
   },
   
 
-  notify: function(data) {
+  notify: function(data, System) {
     // do not notify self
     var thisUser = this;
     if (thisUser._id.toString() === data.userId.toString()) {
       return false;
     }
     if (thisUser.socketId) {
+      var notifications = System.plugins.notifications;
+      notifications.send(thisUser.socketId, data);
       console.log(thisUser.name, 'is notified in the browser.');
     } else {
       console.log(thisUser.name, 'is notified via email.');

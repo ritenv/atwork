@@ -29,3 +29,5 @@ public/uploads
 
 # Users Environment Variables
 .lock-wscript
+
+/**/.DS_Store

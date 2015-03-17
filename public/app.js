@@ -1,4 +1,4 @@
-var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'atwork.activities', 'ngMaterial']);
+var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'atwork.activities', 'atwork.notifications', 'ngMaterial']);
 
 app.controller('AppCtrl', [
   '$scope', 
@@ -41,14 +41,19 @@ app.controller('AppCtrl', [
       $scope.barTitle = '';
       appWebSocket.emit('online', {token: appAuth.getToken()});
     });
+
     $scope.$on('loggedOut', function() {
       $scope.updateLoginStatus();
       $scope.barTitle = 'atWork';
     });
+
     appWebSocket.on('connect', function() {
       if (appAuth.isLoggedIn()) {
         appWebSocket.emit('online', {token: appAuth.getToken()});
       }
+      appWebSocket.on('notification', function(data) {
+        console.log(data);
+      });
     });
 
     
