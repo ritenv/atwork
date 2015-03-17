@@ -9,7 +9,7 @@ angular.module('atwork.notifications', ['atwork.system'])
 			if (data.type === 'like') {
 				data.message = 'Your post has been liked.';
 			} else if (data.type === 'comment') {
-				data.message = 'There is a new comment on your post.';
+				data.message = 'There is a new comment.';
 			}
 			data.then = function () {
 				appLocation.url('/post/' + data.postId);
