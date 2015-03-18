@@ -100,7 +100,7 @@ PostSchema.methods = {
       this.subscribers.push(userId);
     }
   },
-  notifyUsers: function(data) {
+  notifyUsers: function(data, System) {
     // var User = mongoose.model('User');
     var notification = {
       postId: this._id,
@@ -109,9 +109,9 @@ PostSchema.methods = {
     };
     this.populate('creator subscribers', function(err, post) {
       post.subscribers.map(function(user) {
-        user.notify(notification);
+        user.notify(notification, System);
       });
-      post.creator.notify(notification);
+      post.creator.notify(notification, System);
     });
   }
 };

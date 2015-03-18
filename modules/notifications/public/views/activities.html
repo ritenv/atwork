@@ -1,0 +1,24 @@
+<div ng-controller="ActivitiesCtrl">
+  
+  <md-content class="activities-listing">
+    <md-card ng-show="newActivitiesCount">
+      <md-button ng-click="updateActivities()" class="md-primary md-raised">Load New Items ({{newActivitiesCount}})</md-button>
+    </md-card>
+    <md-item ng-repeat="item in actions">
+      <md-item-content class="single-activity">
+        <p class="primaryColors">
+          <small class="mute">{{::item.created | date:'short'}}</small>
+          <span>
+            I have
+            <span ng-if="item.action=='like'"><a href="/post/{{item.post._id}}">liked</a> this </span>
+            <span ng-if="item.action=='unlike'"><a href="/post/{{item.post._id}}">removed my like</a> from this </span>
+            <span ng-if="item.action=='comment'"><a href="/post/{{item.post._id}}">commented</a> on this </span>
+            <span ng-if="item.action=='newpost'"><a href="/post/{{item.post._id}}">written</a> a new </span>
+            Post.
+          </span>
+        </p>
+          
+      </md-item-content>
+    </md-item>
+  </md-content>
+</div>

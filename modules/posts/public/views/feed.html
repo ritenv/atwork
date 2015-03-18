@@ -51,7 +51,7 @@
             <span class="comments primaryColors">
               <a ng-if="!item.commentEnabled" ng-click="item.commentEnabled = true" href="#" class="comment"><span>Comment</span></a>
             </span>
-            <span>-</span>
+            <span ng-if="!item.commentEnabled" >-</span>
             <span class="view primaryColors">
               <a href="/post/{{::item._id}}" class="view"><span>View</span></a>
             </span>

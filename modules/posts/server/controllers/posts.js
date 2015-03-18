@@ -42,7 +42,7 @@ module.exports = function(System) {
         postId: post._id,
         userId: actor._id,
         type: action
-      });
+      }, System);
     });
   });
 
