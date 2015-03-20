@@ -56,7 +56,8 @@ var UserSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    get: escapeProperty
+    get: escapeProperty,
+    match: [/^\w+$/, 'Please enter only alphanumeric values for username']
   },
   email: {
     type: String,
