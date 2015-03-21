@@ -19,6 +19,7 @@ angular.module('atwork.posts')
       $scope.newFeedCount = 0;
       $scope.feed = [];
       $scope.feedsFilter = '';
+      $scope.limitComments = true;
 
       var hashtag = $routeParams.hashtag;
       var userId = $routeParams.userId;
@@ -35,7 +36,9 @@ angular.module('atwork.posts')
       $scope.updateFeed = function() {
         if (userId) { //Get timeline
           $scope.noPosting = true;
-          var timelineData = appPosts.timeline.get({userId: userId, timestamp: $scope.lastUpdated, filter: $scope.feedsFilter}, function() {
+          $scope.limitComments = true;
+
+          var timelineData = appPosts.timeline.get({userId: userId, timestamp: $scope.lastUpdated, filter: $scope.feedsFilter, limitComments: $scope.limitComments}, function() {
             if ($scope.feedsFilter) {
               $scope.feed = [];
             }
@@ -45,12 +48,16 @@ angular.module('atwork.posts')
         } else if (postId) { //Get single post
           $scope.noFiltering = true;
           $scope.noPosting = true;
-          var timelineData = appPosts.single.get({postId: postId}, function() {
+          delete $scope.limitComments;
+
+          var timelineData = appPosts.single.get({postId: postId, limitComments: $scope.limitComments}, function() {
             $scope.feed = [timelineData.res.record];
             $scope.lastUpdated = Date.now();
           });
         } else { //Get feed
-          var feedData = appPosts.feed.get({timestamp: $scope.lastUpdated, filter: $scope.feedsFilter}, function() {
+          $scope.limitComments = true;
+          
+          var feedData = appPosts.feed.get({timestamp: $scope.lastUpdated, filter: $scope.feedsFilter, limitComments: $scope.limitComments}, function() {
             if ($scope.feedsFilter) {
               $scope.feed = [];
             }

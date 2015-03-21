@@ -89,7 +89,7 @@ module.exports = function(System) {
       });
       post.subscribe(req.user._id);
       post.save(function(err) {
-        post = post.afterSave(req.user);
+        post = post.afterSave(req.user, req.query.limitComments);
         event.trigger('comment', {post: post, actor: req.user});
         if (err) {
           return json.unhappy(err, res);
@@ -123,7 +123,7 @@ module.exports = function(System) {
         json.unhappy(err, res);
       } else {
         posts.map(function(e) {
-          e = e.afterSave(req.user);
+          e = e.afterSave(req.user, req.query.limitComments);
         });
         json.happy({
           records: posts
@@ -153,9 +153,8 @@ module.exports = function(System) {
       if (err) {
         json.unhappy(err, res);
       } else {
-
         posts.map(function(e) {
-          e = e.afterSave(req.user);
+          e = e.afterSave(req.user, req.query.limitComments);
         });
 
         json.happy({
@@ -179,7 +178,7 @@ module.exports = function(System) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
-        post = post.afterSave(req.user);
+        post = post.afterSave(req.user, req.query.limitComments);
         return json.happy({
           record: post
         }, res);
@@ -206,7 +205,7 @@ module.exports = function(System) {
         post.likes.push(req.user._id);
         post.subscribe(req.user._id);
         post.save(function(err, item) {
-          post = post.afterSave(req.user);
+          post = post.afterSave(req.user, req.query.limitComments);
           event.trigger('like', {post: post, actor: req.user});
           if (err) {
             return json.unhappy(err, res);
@@ -236,7 +235,7 @@ module.exports = function(System) {
         if (post.likes.indexOf(req.user._id) !== -1) {
           post.likes.splice(post.likes.indexOf(req.user._id), 1);
           post.save(function(err, item) {
-            post = post.afterSave(req.user);
+            post = post.afterSave(req.user, req.query.limitComments);
             event.trigger('unlike', {post: post, actor: req.user});
             if (err) {
               return json.unhappy(err, res);

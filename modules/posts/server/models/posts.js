@@ -63,6 +63,10 @@ var PostSchema = new Schema({
   liked: {
     type: Boolean,
     default: false
+  },
+  hasMoreComments: {
+    type: Number,
+    default: 0
   }
 });
 
@@ -90,9 +94,13 @@ PostSchema.methods = {
     }
     return obj;
   },
-  afterSave: function(user) {
+  afterSave: function(user, limitComments) {
     var obj = this;
     obj.liked = obj.likes.indexOf(user._id) != -1;
+    if (limitComments && obj.comments && obj.comments.length > 3) {
+      obj.hasMoreComments = obj.comments.length - 3;
+      obj.comments = obj.comments.slice(0, 3);
+    }
     return obj;
   },
   subscribe: function(userId) {
