@@ -90,6 +90,8 @@ describe('<Unit Test>', function() {
 
         var sampleRequest = {
           user: user,
+          params: {},
+          query: {},
           body: {
             content: 'Sample post for testing'
           }
@@ -107,6 +109,8 @@ describe('<Unit Test>', function() {
 
         var sampleRequest = {
           user: user,
+          params: {},
+          query: {},
           body: {
             content: ''
           }
@@ -123,6 +127,7 @@ describe('<Unit Test>', function() {
         expect(posts).respondTo('create');
 
         var sampleRequest = {
+          params: {},
           body: {
             content: 'Sample post for testing'
           }
@@ -145,8 +150,10 @@ describe('<Unit Test>', function() {
 
         var sampleRequest = {
           params: {
-            userId: user._id
+            userId: user._id,
+            limitComments: true
           },
+          query: {},
           user: user
         };
         posts.timeline(sampleRequest, {
@@ -173,6 +180,7 @@ describe('<Unit Test>', function() {
           params: {
             postId: post._id
           },
+          query: {},
           user: user
         };
         posts.single(sampleRequest, {
@@ -192,6 +200,7 @@ describe('<Unit Test>', function() {
           params: {
             postId: 'invalid-id'
           },
+          query: {},
           user: user
         };
         posts.single(sampleRequest, {
@@ -208,6 +217,7 @@ describe('<Unit Test>', function() {
           params: {
             postId: user._id
           },
+          query: {},
           user: user
         };
         posts.single(sampleRequest, {
@@ -231,6 +241,7 @@ describe('<Unit Test>', function() {
           params: {
             postId: post2._id
           },
+          query: {},
           user: user
         };
 
@@ -316,6 +327,7 @@ describe('<Unit Test>', function() {
         expect(posts).respondTo('feed');
 
         var sampleRequest = {
+          query: {},
           user: user
         };
         posts.feed(sampleRequest, {
@@ -342,6 +354,7 @@ describe('<Unit Test>', function() {
           params: {
             postId: post._id
           },
+          query: {},
           body: {
             comment: 'Sample comment'
           },
