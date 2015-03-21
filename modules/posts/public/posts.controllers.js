@@ -56,7 +56,7 @@ angular.module('atwork.posts')
           });
         } else { //Get feed
           $scope.limitComments = true;
-          
+
           var feedData = appPosts.feed.get({timestamp: $scope.lastUpdated, filter: $scope.feedsFilter, limitComments: $scope.limitComments}, function() {
             if ($scope.feedsFilter) {
               $scope.feed = [];
@@ -207,6 +207,16 @@ angular.module('atwork.posts')
       $scope.comment = function(isValid, item) {
         if (isValid) {
           var commentContent = this.content;
+          
+          /**
+           * Enable client side comments update for faster response time
+           */
+          item.commentEnabled = false;
+          item.comments.unshift({
+            creator: appAuth.getUser(),
+            content: commentContent
+          });
+
           var $this = this;
           var post = appPosts.single.get({postId: item._id}, function() {
             post.comment = commentContent;
