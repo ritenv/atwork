@@ -129,7 +129,9 @@ module.exports = function(System) {
         json.unhappy(err, res);
       } else {
         var morePages = System.config.settings.perPage < posts.length;
-        posts.pop();
+        if (morePages) {
+          posts.pop();
+        }
         posts.map(function(e) {
           e = e.afterSave(req.user, req.query.limitComments);
         });
@@ -169,7 +171,9 @@ module.exports = function(System) {
         json.unhappy(err, res);
       } else {
         var morePages = System.config.settings.perPage < posts.length;
-        posts.pop();
+        if (morePages) {
+          posts.pop();
+        }
         posts.map(function(e) {
           e = e.afterSave(req.user, req.query.limitComments);
         });

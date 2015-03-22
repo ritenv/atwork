@@ -62,6 +62,13 @@ module.exports = function(System) {
   });
 
   routes.push({
+    method: 'put',
+    path: '/',
+    handler: users.modify,
+    authorized: true
+  });
+
+  routes.push({
     method: 'get',
     path: '/search/:keyword',
     handler: users.search,
