@@ -108,6 +108,11 @@ angular.module('atwork.posts')
            */
           $scope.noPosting = true;
           /**
+           * No load-more button
+           * @type {Boolean}
+           */
+          $scope.noMorePosts = true;
+          /**
            * Get ready to show all comments
            */
           delete $scope.limitComments;
@@ -151,7 +156,7 @@ angular.module('atwork.posts')
             /**
              * If it's a filter request, emoty the feeds
              */
-            if ($scope.feedsFilter) {
+            if ($scope.feedsFilter && !options.append) {
               $scope.feed = [];
             }
             /**
