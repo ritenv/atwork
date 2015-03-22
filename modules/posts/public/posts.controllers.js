@@ -21,6 +21,7 @@ angular.module('atwork.posts')
       $scope.feedsFilter = '';
       $scope.limitComments = true;
       $scope.feedPage = 0;
+      $scope.showBack = false;
 
       var hashtag = $routeParams.hashtag;
       var userId = $routeParams.userId;
@@ -99,6 +100,7 @@ angular.module('atwork.posts')
              * Set the updated timestamp
              */
             $scope.lastUpdated = Date.now();
+            $scope.showBack = false;
           });
         } else if (postId) {
           /**
@@ -140,6 +142,7 @@ angular.module('atwork.posts')
              * Set the last updated timestamp
              */
             $scope.lastUpdated = Date.now();
+            $scope.showBack = true;
           });
         } else {
           /**
@@ -189,6 +192,7 @@ angular.module('atwork.posts')
              * Set the updated timestamp
              */
             $scope.lastUpdated = Date.now();
+            $scope.showBack = false;
           });
         }
         $scope.newFeedCount = 0;
