@@ -43,54 +43,135 @@ angular.module('atwork.posts')
       $scope.updateFeed = function(options) {
         options = options || {};
 
-        if (userId) { //Get timeline
+        if (userId) {
+          /**
+           * TIMELINE: If there is a userId, let's load feeds of the specific user
+           */
+          /**
+           * Disable posting
+           * @type {Boolean}
+           */
           $scope.noPosting = true;
+          /**
+           * Show limited comments
+           * @type {Boolean}
+           */
           $scope.limitComments = true;
 
+          /**
+           * Prepare the request
+           */
           var timelineData = appPosts.timeline.get({
-            userId: userId, 
-            timestamp: 
-            $scope.lastUpdated, 
-            filter: $scope.feedsFilter, 
+            userId: userId,
+            timestamp: $scope.lastUpdated,
+            filter: $scope.feedsFilter,
             limitComments: $scope.limitComments,
             page: $scope.feedPage
           }, function() {
+            /**
+             * If it's a filter request, emoty the feeds
+             */
             if ($scope.feedsFilter) {
               $scope.feed = [];
             }
-            $scope.feed = timelineData.res.records.concat($scope.feed);
+            /**
+             * Check whether to append to feed (at bottom) or insert (at top)
+             */
+            if (!options.append) {
+              $scope.feed = timelineData.res.records.concat($scope.feed);
+            } else {
+              $scope.feed = $scope.feed.concat(timelineData.res.records);
+            }
+            /**
+             * If no posts found, hide the loadmore button
+             */
+            if (!timelineData.res.records.length) {
+              $scope.noMorePosts = true;
+            }
+            /**
+             * Set the updated timestamp
+             */
             $scope.lastUpdated = Date.now();
           });
-        } else if (postId) { //Get single post
+        } else if (postId) {
+          /**
+           * SINGLE: If there is a postId, let's load a single feed
+           */
+          /**
+           * Disable filtering if its a single feed
+           * @type {Boolean}
+           */
           $scope.noFiltering = true;
+          /**
+           * Disable posting
+           * @type {Boolean}
+           */
           $scope.noPosting = true;
+          /**
+           * Get ready to show all comments
+           */
           delete $scope.limitComments;
 
-          var timelineData = appPosts.single.get({postId: postId, limitComments: $scope.limitComments}, function() {
+          /**
+           * Prepare the request
+           */
+          var timelineData = appPosts.single.get({
+            postId: postId, 
+            limitComments: $scope.limitComments
+          }, function() {
+            /**
+             * The retrieved record is the only one to show
+             * @type {Array}
+             */
             $scope.feed = [timelineData.res.record];
+            /**
+             * Set the last updated timestamp
+             */
             $scope.lastUpdated = Date.now();
           });
-        } else { //Get feed
+        } else {
+          /**
+           * FEED: If there is no postId and no userId, let's load the user's latest feed
+           */
+          /**
+           * Limit comments
+           * @type {Boolean}
+           */
           $scope.limitComments = true;
 
+          /**
+           * Prepare the request
+           */
           var feedData = appPosts.feed.get({
             timestamp: $scope.lastUpdated, 
             filter: $scope.feedsFilter, 
             limitComments: $scope.limitComments,
             page: $scope.feedPage
           }, function() {
+            /**
+             * If it's a filter request, emoty the feeds
+             */
             if ($scope.feedsFilter) {
               $scope.feed = [];
             }
+            /**
+             * Check whether to append to feed (at bottom) or insert (at top)
+             */
             if (!options.append) {
               $scope.feed = feedData.res.records.concat($scope.feed);
             } else {
               $scope.feed = $scope.feed.concat(feedData.res.records);
             }
-            $scope.lastUpdated = Date.now();
+            /**
+             * If no posts found, hide the loadmore button
+             */
             if (!feedData.res.records.length) {
               $scope.noMorePosts = true;
             }
+            /**
+             * Set the updated timestamp
+             */
+            $scope.lastUpdated = Date.now();
           });
         }
         $scope.newFeedCount = 0;

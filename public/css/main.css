@@ -12,6 +12,9 @@ a {
   .primaryColors a:hover {
     color: #333; }
 
+.secondaryColors {
+  color: #B0BEC5; }
+
 /** ====== Sidenav Related BEGIN ====== */
 .site-sidenav md-toolbar h1 {
   font-size: 1.25em;
@@ -47,6 +50,9 @@ a {
 
 /** ====== Sidenav Related END ====== */
 /** ====== General typo BEGIN ====== */
+.breathing-space {
+  margin: 20px 0; }
+
 md-list .md-button {
   color: inherit;
   font-weight: 500;
