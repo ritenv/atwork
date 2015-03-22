@@ -6,5 +6,8 @@ module.exports = {
     host: 'localhost',
     port: process.env.PORT || 8111
   },
-  secret: 'atworksecret'
+  secret: 'atworksecret',
+  settings: {
+  	perPage: 10
+  }
 };

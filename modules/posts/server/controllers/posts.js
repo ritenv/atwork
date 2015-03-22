@@ -118,7 +118,13 @@ module.exports = function(System) {
       delete criteria.created;
       criteria.content = new RegExp(req.query.filter, 'i');
     }
-    Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
+    Post.find(criteria, null, {sort: {created: -1}})
+    .populate('creator')
+    .populate('comments')
+    .populate('comments.creator')
+    .skip(parseInt(req.query.page) * System.config.settings.perPage)
+    .limit(System.config.settings.perPage)
+    .exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {
@@ -149,7 +155,13 @@ module.exports = function(System) {
       delete criteria.created;
       criteria.content = new RegExp(req.query.filter, 'i');
     }
-    Post.find(criteria, null, {sort: {created: -1}}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, posts) {
+    Post.find(criteria, null, {sort: {created: -1}})
+    .populate('creator')
+    .populate('comments')
+    .populate('comments.creator')
+    .skip(parseInt(req.query.page) * System.config.settings.perPage)
+    .limit(System.config.settings.perPage)
+    .exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {

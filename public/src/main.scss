@@ -1,6 +1,6 @@
 $primaryColor: #009688;
 $linkHoverColor: #333;
-
+$secondaryColor: #B0BEC5;
 body {
   font-size: 14px;
 }
@@ -18,6 +18,9 @@ a {
       color: $linkHoverColor;
     }
   }
+}
+.secondaryColors {
+  color: $secondaryColor;
 }
 
 /** ====== Sidenav Related BEGIN ====== */
@@ -61,6 +64,9 @@ a {
 /** ====== Sidenav Related END ====== */
 
 /** ====== General typo BEGIN ====== */
+.breathing-space {
+  margin: 20px 0;
+}
 md-list .md-button {
   color: inherit;
   font-weight: 500;

@@ -109,6 +109,11 @@
 
       </md-item-content>
     </md-item>
+    
   </md-content>
+  <md-card ng-hide="noMorePosts">
+    <md-button class="md-raised md-primary" ng-click="loadMore()"><span>Load More</span></md-button>
+  </md-card>
+  <p ng-show="noMorePosts" class="breathing-space secondaryColors">Nothing more to load.</p>
 
 </div>
