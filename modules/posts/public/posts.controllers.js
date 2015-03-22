@@ -20,6 +20,7 @@ angular.module('atwork.posts')
       $scope.feed = [];
       $scope.feedsFilter = '';
       $scope.limitComments = true;
+      $scope.feedPage = 0;
 
       var hashtag = $routeParams.hashtag;
       var userId = $routeParams.userId;
@@ -29,16 +30,31 @@ angular.module('atwork.posts')
         $scope.feedsFilter = '#' + hashtag;
       }
 
+      $scope.loadMore = function() {
+        $scope.feedPage++;
+        $scope.lastUpdated = 0;
+        $scope.updateFeed({append: true});
+      };
+
       /**
        * Update feed items
        * @return {Void}
        */
-      $scope.updateFeed = function() {
+      $scope.updateFeed = function(options) {
+        options = options || {};
+
         if (userId) { //Get timeline
           $scope.noPosting = true;
           $scope.limitComments = true;
 
-          var timelineData = appPosts.timeline.get({userId: userId, timestamp: $scope.lastUpdated, filter: $scope.feedsFilter, limitComments: $scope.limitComments}, function() {
+          var timelineData = appPosts.timeline.get({
+            userId: userId, 
+            timestamp: 
+            $scope.lastUpdated, 
+            filter: $scope.feedsFilter, 
+            limitComments: $scope.limitComments,
+            page: $scope.feedPage
+          }, function() {
             if ($scope.feedsFilter) {
               $scope.feed = [];
             }
@@ -57,12 +73,24 @@ angular.module('atwork.posts')
         } else { //Get feed
           $scope.limitComments = true;
 
-          var feedData = appPosts.feed.get({timestamp: $scope.lastUpdated, filter: $scope.feedsFilter, limitComments: $scope.limitComments}, function() {
+          var feedData = appPosts.feed.get({
+            timestamp: $scope.lastUpdated, 
+            filter: $scope.feedsFilter, 
+            limitComments: $scope.limitComments,
+            page: $scope.feedPage
+          }, function() {
             if ($scope.feedsFilter) {
               $scope.feed = [];
             }
-            $scope.feed = feedData.res.records.concat($scope.feed);
+            if (!options.append) {
+              $scope.feed = feedData.res.records.concat($scope.feed);
+            } else {
+              $scope.feed = $scope.feed.concat(feedData.res.records);
+            }
             $scope.lastUpdated = Date.now();
+            if (!feedData.res.records.length) {
+              $scope.noMorePosts = true;
+            }
           });
         }
         $scope.newFeedCount = 0;
