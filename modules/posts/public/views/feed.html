@@ -1,4 +1,9 @@
 <div ng-controller="PostsCtrl">
+  <md-button class="md-primary md-raised" ng-click="back()" ng-show="noPosting">
+    <md-inline-list-icon class="fa fa-chevron-left"></md-inline-list-icon> Back
+  </md-button>
+  <br>
+  <br>
   <md-content class="post-writer" ng-show="!noPosting">
     <form name="postForm" ng-submit="create(postForm.$valid)" novalidate>
       <md-input-container>

@@ -30,6 +30,14 @@ angular.module('atwork.posts')
         $scope.feedsFilter = '#' + hashtag;
       }
 
+      /**
+       * Back for history
+       * @return {Void}
+       */
+      $scope.back = function() {
+        history.go(-1);
+      };
+
       $scope.loadMore = function() {
         $scope.feedPage++;
         $scope.lastUpdated = 0;
