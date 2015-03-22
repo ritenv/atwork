@@ -59,6 +59,24 @@ module.exports = function(System) {
       return json.happy(user, res);
     });
   };
+
+  /**
+   * Modify an existing user
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
+  obj.modify = function (req, res) {
+    var user = req.user;
+    user.name = req.body.name;
+    user.designation = req.body.designation;
+    user.save(function(err) {
+      if (err) {
+        return json.unhappy(err, res);
+      }
+      return json.happy(user, res);
+    });
+  };
   
   /**
    * Check if the user credentials are valid
