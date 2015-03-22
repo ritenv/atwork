@@ -1,6 +1,7 @@
 <div class="user-profile">
   <md-content class="user-profile-info">
     <!-- <md-card-content> -->
+      <p ng-if="selfProfile && !profile.face"><strong>Tip: Click photo to edit</strong></p>
       <md-item>
         <md-item-content>
           <div class="md-tile-left">
@@ -41,6 +42,7 @@
                 </md-button>
                 <br><br>
               </form>
+              <p class="mute">(Below values cannot be updated)</p>
               <h3>@{{::profile.username}}</h3>
             </div>
             <h4>{{::profile.email}}</h4>
