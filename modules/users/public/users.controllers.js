@@ -52,6 +52,28 @@ angular.module('atwork.users')
         return $location.url('/');
       }
 
+      $scope.editProfile = function() {
+        $scope.editMode = true;
+      };
+
+      $scope.updateProfile = function(isValid) {
+        if (isValid) {
+          var user = appUsers.single.get({userId: userId}, function() {
+            user.$update(function(response) {
+              if (response.success) {
+                appToast('Your profile ahs been saved.');
+                $scope.editMode = false;
+              } else {
+                $scope.failure = true;
+                appToast(response.res.message);
+              }
+            });
+          });
+        } else {
+          appToast('Something is missing.');
+        }
+      };
+
       /**
        * Get the user's profile
        * @return {Void}

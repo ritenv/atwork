@@ -11,10 +11,41 @@
             <img src="images/spacer.gif" style="background-image: url('{{profile.face || '/images/user.jpg'}}')" class="face {{!selfProfile?'':'clickable'}}" alt="{{profile.name}}" ng-file-select ng-accept="'image/*'" ng-model="avatar">
           </div>
           <div class="md-tile-content">
-            <h2>{{::profile.name}}</h2>
-            <h3>{{::profile.designation}}</h3>
+            <div ng-if="!editMode">
+              <h2>{{::profile.name}}</h2>
+              <h3>@{{::profile.username}}</h3>
+              <h3>{{::profile.designation}}</h3>
+            </div>
+            <div ng-if="editMode">
+              <form name="userForm" ng-submit="updateProfile(userForm.$valid)" novalidate>
+                <md-input-container>
+                  <label>Full Name</label>
+                  <input name="name" ng-model="profile.name" required md-maxlength="100" minlength="5">
+                  <div ng-messages="userForm.name.$error" ng-show="userForm.bio.$dirty">
+                    <div ng-message="required">This is required!</div>
+                    <div ng-message="md-maxlength">That's too long!</div>
+                    <div ng-message="minlength">That's too short!</div>
+                  </div>
+                </md-input-container>
+                <md-input-container>
+                  <label>Designation</label>
+                  <input name="name" ng-model="profile.designation" required md-maxlength="100" minlength="2">
+                  <div ng-messages="userForm.designation.$error" ng-show="userForm.bio.$dirty">
+                    <div ng-message="required">This is required!</div>
+                    <div ng-message="md-maxlength">That's too long!</div>
+                    <div ng-message="minlength">That's too short!</div>
+                  </div>
+                </md-input-container>
+                <md-button class="md-primary md-raised" ng-if="editMode">
+                  Update
+                </md-button>
+                <br><br>
+              </form>
+              <h3>@{{::profile.username}}</h3>
+            </div>
             <h4>{{::profile.email}}</h4>
             <br>
+
             <md-button class="md-primary md-raised" ng-click="follow()" ng-if="!selfProfile && alreadyFollowing===false">
               <md-inline-list-icon class="fa fa-plus"></md-inline-list-icon>
               <span>Follow</span>
@@ -22,6 +53,10 @@
             <md-button class="" ng-click="unfollow()" ng-if="!selfProfile && alreadyFollowing===true">
               <md-inline-list-icon class="fa fa-minus-circle"></md-inline-list-icon>
               <span>Unfollow</span>
+            </md-button>
+            <md-button class="" ng-click="editProfile()" ng-if="selfProfile && !editMode">
+              <md-inline-list-icon class="fa fa-pencil"></md-inline-list-icon>
+              <span>Edit Profile</span>
             </md-button>
           </div>
         </md-item-content>
