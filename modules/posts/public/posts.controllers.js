@@ -83,11 +83,10 @@ angular.module('atwork.posts')
               $scope.feed = $scope.feed.concat(timelineData.res.records);
             }
             /**
-             * If no posts found, hide the loadmore button
+             * Check if there are more pages
+             * @type {Boolean}
              */
-            if (!timelineData.res.records.length) {
-              $scope.noMorePosts = true;
-            }
+            $scope.noMorePosts = !timelineData.res.morePages;
             /**
              * Set the updated timestamp
              */
@@ -173,6 +172,11 @@ angular.module('atwork.posts')
             if (!feedData.res.records.length) {
               $scope.noMorePosts = true;
             }
+            /**
+             * Check if there are more pages
+             * @type {Boolean}
+             */
+            $scope.noMorePosts = !feedData.res.morePages;
             /**
              * Set the updated timestamp
              */

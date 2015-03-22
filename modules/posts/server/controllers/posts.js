@@ -123,16 +123,19 @@ module.exports = function(System) {
     .populate('comments')
     .populate('comments.creator')
     .skip(parseInt(req.query.page) * System.config.settings.perPage)
-    .limit(System.config.settings.perPage)
+    .limit(System.config.settings.perPage+1)
     .exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {
+        var morePages = System.config.settings.perPage < posts.length;
+        posts.pop();
         posts.map(function(e) {
           e = e.afterSave(req.user, req.query.limitComments);
         });
         json.happy({
-          records: posts
+          records: posts,
+          morePages: morePages
         }, res);
       }
     });
@@ -160,17 +163,20 @@ module.exports = function(System) {
     .populate('comments')
     .populate('comments.creator')
     .skip(parseInt(req.query.page) * System.config.settings.perPage)
-    .limit(System.config.settings.perPage)
+    .limit(System.config.settings.perPage+1)
     .exec(function(err, posts) {
       if (err) {
         json.unhappy(err, res);
       } else {
+        var morePages = System.config.settings.perPage < posts.length;
+        posts.pop();
         posts.map(function(e) {
           e = e.afterSave(req.user, req.query.limitComments);
         });
 
         json.happy({
-          records: posts
+          records: posts,
+          morePages: morePages
         }, res);
       }
     });

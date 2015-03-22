@@ -8,6 +8,6 @@ module.exports = {
   },
   secret: 'atworksecret',
   settings: {
-  	perPage: 10
+  	perPage: 3
   }
 };
