@@ -118,8 +118,14 @@ ul.unstyled {
   .face {
     @extend .small;
   }
-  .item a {
-    border-bottom: 1px solid $secondaryColor !important;
+  .item {
+    button, a {
+      p {
+        max-width: 240px !important;
+        white-space: normal;
+      }
+      border-bottom: 1px solid $secondaryColor !important;
+    }
   }
   .title-item {
     text-align: center;
