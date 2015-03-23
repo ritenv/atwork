@@ -62,7 +62,7 @@
                 <span hide-sm flex>{{barTitle}}</span>
                 
                 <md-button ng-if="isLoggedIn" ng-click="showUserNotifications($event)">
-                  <md-inline-list-icon class="fa fa-bell"> 3 </md-inline-list-icon>
+                  <md-inline-list-icon class="fa fa-bell notification-count"> 3 </md-inline-list-icon>
                 </md-button>
                 <md-button ng-if="isLoggedIn" ng-click="showUserActions($event)">
                   <span>{{user.name}}</span>
@@ -75,14 +75,14 @@
             <div class="notifications md-whiteframe-z1" ng-if="isLoggedIn && notificationShown">
               <md-content>
                 <md-list>
-                  <md-item class="item" ng-repeat="n in [user, user.name, user.username]">
+                  <md-item class="item" ng-repeat="n in user.notifications">
                     <md-button ng-click="clearSearch()">
                       <md-item-content>
                           <div class="md-tile-left">
                             <img ng-src="{{user.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
                           </div>
                           <div class="md-tile-content">
-                            <p>Aarohi liked your comment. Aarohi liked your comment. Aarohi liked your comment.</p>
+                            <p><strong>Aarohi</strong> commented on a post you liked.</p>
                           </div>
                       </md-item-content>
                     </md-button>

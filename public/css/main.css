@@ -91,6 +91,9 @@ ul.unstyled {
 
 /** ====== General typo END ====== */
 /** ====== Users BEGIN ====== */
+.notification-count {
+  color: yellow; }
+
 .notifications {
   position: absolute;
   z-index: 2;
@@ -100,7 +103,8 @@ ul.unstyled {
     border-bottom: 1px solid #B0BEC5 !important; }
     .notifications .item button p, .notifications .item a p {
       max-width: 240px !important;
-      white-space: normal; }
+      white-space: normal;
+      font-size: 80% !important; }
   .notifications .title-item {
     text-align: center; }
 

@@ -109,6 +109,9 @@ ul.unstyled {
 /** ====== General typo END ====== */
 
 /** ====== Users BEGIN ====== */
+.notification-count {
+  color: yellow;
+}
 .notifications {
   position: absolute;
   z-index: 2;
@@ -123,6 +126,7 @@ ul.unstyled {
       p {
         max-width: 240px !important;
         white-space: normal;
+        font-size: 80% !important;
       }
       border-bottom: 1px solid $secondaryColor !important;
     }

@@ -113,7 +113,7 @@ var UserSchema = new Schema({
       type: Date,
       default: Date.now
     },
-    type: String
+    notificationType: String
   }],
   salt: String,
   token: String,
@@ -188,6 +188,7 @@ UserSchema.methods = {
   notify: function(data, System) {
     // do not notify self
     var thisUser = this;
+
     if (thisUser._id.toString() === data.userId.toString()) {
       return false;
     }
@@ -198,8 +199,8 @@ UserSchema.methods = {
     } else {
       console.log(thisUser.name, 'is notified via email.');
     }
-    this.notifications.shift(data);
-    return this.save(function(err, user) {
+    thisUser.notifications.push(data);
+    return thisUser.save(function(err, user) {
       return user;
     });
   },

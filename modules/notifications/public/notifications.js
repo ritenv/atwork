@@ -6,9 +6,9 @@ angular.module('atwork.notifications', ['atwork.system'])
 	'appWebSocket',
 	function(appLocation, appNotification, appWebSocket) {
 		appWebSocket.on('notification', function (data) {
-			if (data.type === 'like') {
+			if (data.notificationType === 'like') {
 				data.message = 'Your post has been liked.';
-			} else if (data.type === 'comment') {
+			} else if (data.notificationType === 'comment') {
 				data.message = 'There is a new comment.';
 			}
 			data.then = function () {

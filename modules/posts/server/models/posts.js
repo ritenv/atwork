@@ -113,10 +113,13 @@ PostSchema.methods = {
     var notification = {
       postId: this._id,
       userId: data.userId,
-      type: data.type
+      notificationType: data.type
     };
     this.populate('creator subscribers', function(err, post) {
       post.subscribers.map(function(user) {
+        if (user._id.toString() === post.creator._id.toString()) {
+          return;
+        }
         user.notify(notification, System);
       });
       post.creator.notify(notification, System);
