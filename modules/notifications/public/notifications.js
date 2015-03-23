@@ -14,7 +14,8 @@ angular.module('atwork.notifications', ['atwork.system'])
 			data.then = function () {
 				appLocation.url('/post/' + data.postId);
 			};
-			appNotification(data);
+
+			appNotification.show(data);
 		});
 	}
 ]);

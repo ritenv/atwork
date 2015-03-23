@@ -5,18 +5,20 @@ angular.module('atwork.notifications')
   	'$resource',
   	'$mdToast',
     function($resource, $mdToast) {
-      return function(data) {
-      	var toast = $mdToast.simple()
-      	  .content(data.message)
-      	  .action('VIEW')
-      	  .highlightAction(false)
-      	  .position('top right');
-      	$mdToast.show(toast).then(function() {
-      		if (data.then) {
-      			data.then();
-      		}
-      	});
-      };
+      return {
+        show: function(data) {
+        	var toast = $mdToast.simple()
+        	  .content(data.message)
+        	  .action('VIEW')
+        	  .highlightAction(false)
+        	  .position('top right');
+        	$mdToast.show(toast).then(function() {
+        		if (data.then) {
+        			data.then();
+        		}
+        	});
+        }
+      }
     }
   ])
   ;
