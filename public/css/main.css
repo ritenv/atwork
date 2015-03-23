@@ -72,12 +72,16 @@ ul.unstyled {
   margin-bottom: 0;
   padding-bottom: 0; }
 
-.circular-image, .user-listing .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .post-listing .face, .user-profile .user-profile-info .face {
+.circular-image, .user-listing .face, .notifications .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .post-listing .face, .user-profile .user-profile-info .face {
   border-radius: 100px;
   width: 48px;
   height: 48px;
   margin: 16px;
   background-size: cover; }
+
+.small, .notifications .face {
+  width: 24px;
+  height: 24px; }
 
 .mute, .post-listing small {
   opacity: 0.4; }
@@ -87,7 +91,17 @@ ul.unstyled {
 
 /** ====== General typo END ====== */
 /** ====== Users BEGIN ====== */
-.user-listing .md-button, .search-results .md-button, .user-profile .user-profile-details .user-profile-following .md-button {
+.notifications {
+  position: absolute;
+  z-index: 2;
+  margin-top: 0;
+  right: 0; }
+  .notifications .item a {
+    border-bottom: 1px solid #B0BEC5 !important; }
+  .notifications .title-item {
+    text-align: center; }
+
+.user-listing .md-button, .notifications .md-button, .search-results .md-button, .user-profile .user-profile-details .user-profile-following .md-button {
   display: block;
   text-transform: none; }
 

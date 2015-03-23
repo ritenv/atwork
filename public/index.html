@@ -61,6 +61,9 @@
                 </md-button>
                 <span hide-sm flex>{{barTitle}}</span>
                 
+                <md-button ng-if="isLoggedIn" ng-click="showUserNotifications($event)">
+                  <md-inline-list-icon class="fa fa-bell">{{notifications.count}}</md-inline-list-icon>
+                </md-button>
                 <md-button ng-if="isLoggedIn" ng-click="showUserActions($event)">
                   <span>{{user.name}}</span>
                 </md-button>
@@ -69,9 +72,27 @@
 
 
           <div layout="column" flex id="content">
-              <md-content layout="column" flex class="md-padding">
-                <div ng-view></div>
+            <div class="notifications md-whiteframe-z1" ng-if="isLoggedIn">
+              <md-content>
+                <md-list>
+                  <md-item class="item" ng-repeat="n in [user, user.name, user.username]">
+                    <md-button href="/profile/{{item._id}}" ng-click="clearSearch()">
+                      <md-item-content>
+                          <div class="md-tile-left">
+                            <img ng-src="{{user.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                          </div>
+                          <div class="md-tile-content">
+                            <h4>Aarohi liked your comment.</h4>
+                          </div>
+                      </md-item-content>
+                    </md-button>
+                  </md-item>
+                </md-list>
               </md-content>
+            </div>
+            <md-content layout="column" flex class="md-padding">
+              <div ng-view></div>
+            </md-content>
           </div>
           
       </div>
