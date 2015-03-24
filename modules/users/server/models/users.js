@@ -214,6 +214,15 @@ UserSchema.methods = {
       user: data.userId,
       notificationType: data.notificationType
     });
+    thisUser.notifications.sort(function(a, b) {
+      var dt1 = new Date(a.created);
+      var dt2 = new Date(b.created);
+      if (dt1 > dt2) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
     return thisUser.save(function(err, user) {
       return user;
     });

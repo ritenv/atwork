@@ -20,7 +20,7 @@ angular.module('atwork.notifications')
      * The event will be broadcasted when new notifications are received
      */
     $rootScope.$on('notification', function(e, data) {
-      $scope.notificationCount = data.unread;
+      $scope.updateNotifications();
     });
 
     /**
@@ -40,6 +40,7 @@ angular.module('atwork.notifications')
         $scope.items = record.res.notifications;
         $scope.notificationCount = record.res.notifications.length;
       });
+      $scope.showUserNotifications();
     };
 
     /**

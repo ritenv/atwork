@@ -125,10 +125,13 @@ ul.unstyled {
   .item {
     button, a {
       p {
-        color: #444;
         max-width: 240px !important;
+      }
+      p, span {
+        color: #444;
         white-space: normal;
-        font-size: 80% !important;
+        font-size: 100% !important;
+        line-height: normal;
       }
       border-bottom: 1px solid $secondaryColor !important;
     }
