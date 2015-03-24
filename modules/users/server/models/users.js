@@ -113,7 +113,11 @@ var UserSchema = new Schema({
       type: Date,
       default: Date.now
     },
-    notificationType: String
+    notificationType: String,
+    unread: {
+      type: Boolean,
+      default: true
+    }
   }],
   salt: String,
   token: String,
@@ -236,6 +240,7 @@ UserSchema.methods = {
   toJSON: function() {
     var obj = this.toObject();
     delete obj.hashed_password;
+    delete obj.notifications;
     delete obj.salt;
     delete obj.token;
     delete obj.following;

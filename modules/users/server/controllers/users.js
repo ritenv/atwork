@@ -237,6 +237,28 @@ module.exports = function(System) {
   };
 
   /**
+   * Return a single user's notification
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}     
+   */
+  obj.notifications = function(req, res) {
+    User.findOne({_id: req.user._id}).populate('notifications').exec(function(err, user) {
+      if (err) {
+        return json.unhappy(err, res);
+      } else if (user) {
+        //now get followers
+        return json.happy({
+          record: user,
+          notifications: user.notifications
+        }, res);
+      } else {
+        return json.unhappy({message: 'User not found'}, res);
+      }
+    });
+  };
+
+  /**
    * Self as json
    * @param  {Object} req Request
    * @param  {Object} res Response

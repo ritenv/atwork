@@ -6,10 +6,17 @@ angular.module('atwork.notifications')
 	'appUsers',
 	'appNotification',
 	'appWebSocket',
-	function($scope, appLocation, appNotification, appWebSocket) {
+	function($scope, appLocation, appUsers, appNotification, appWebSocket) {
     $scope.notificationShown = false;
+    $scope.items = [];
+
 		$scope.showUserNotifications = function($event) {
 		  $scope.notificationShown = !$scope.notificationShown;
 		};
+
+    var user = appUsers.single.get({}, function () {
+      console.log(user);
+    });
+
 	}
 ]);
