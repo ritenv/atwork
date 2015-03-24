@@ -51,9 +51,6 @@ app.controller('AppCtrl', [
       if (appAuth.isLoggedIn()) {
         appWebSocket.emit('online', {token: appAuth.getToken()});
       }
-      appWebSocket.on('notification', function(data) {
-        console.log(data);
-      });
     });
 
     

@@ -62,24 +62,38 @@
                 <span hide-sm flex>{{barTitle}}</span>
                 <div ng-controller="notificationsCtrl">
                   <md-button ng-if="isLoggedIn" ng-click="showUserNotifications($event)">
-                    <md-inline-list-icon class="fa fa-bell notification-count"> 3 </md-inline-list-icon>
+                    <md-inline-list-icon class="fa fa-bell notification-count"> <span ng-if="notificationCount">{{notificationCount}} </span></md-inline-list-icon>
                   </md-button>
                   
                   <div class="notifications md-whiteframe-z1" ng-if="isLoggedIn && notificationShown">
                     <md-content>
                       <md-list>
-                        <md-item class="item" ng-repeat="n in items">
-                          <md-button ng-click="clearSearch()">
+                        <!-- notif loop start -->
+                        <md-item class="item" ng-repeat="item in items">
+                          <md-button href="/post/{{item.post._id}}" ng-click="markRead(item)">
                             <md-item-content>
                                 <div class="md-tile-left">
-                                  <img ng-src="{{user.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                                  <img ng-src="{{item.user.face || '/images/user.jpg'}}" class="face" alt="{{item.user.name}}">
                                 </div>
                                 <div class="md-tile-content">
-                                  <p><strong>Aarohi</strong> commented on a post you liked.</p>
+                                  <p>{{item.display.text}}</p>
                                 </div>
                             </md-item-content>
                           </md-button>
                         </md-item>
+                        <!-- notif loop -->
+
+                        <!-- no notif start -->
+                        <md-item class="item" ng-if="!items.length">
+                          <md-button>
+                            <md-item-content>
+                                <div class="md-tile-content">
+                                  <p>No unread notifications.</p>
+                                </div>
+                            </md-item-content>
+                          </md-button>
+                        </md-item>
+                        <!-- no notif -->
                       </md-list>
                     </md-content>
                   </div>

@@ -101,13 +101,13 @@ var UserSchema = new Schema({
     default: false
   },
   notifications: [{
-    postId: {
+    post: {
       type: Schema.ObjectId,
       ref: 'Post'
     },
-    userId: {
+    user: {
       type: Schema.ObjectId,
-      ref: 'Post'
+      ref: 'User'
     },
     created: {
       type: Date,
@@ -198,12 +198,22 @@ UserSchema.methods = {
     }
     if (thisUser.socketId) {
       var notifications = System.plugins.notifications;
+
+      //get total unread count
+      var unread = thisUser.notifications.filter(function(item) {
+        return item.unread;
+      }).length;
+      data.unread = unread;
       notifications.send(thisUser.socketId, data);
       console.log(thisUser.name, 'is notified in the browser.');
     } else {
       console.log(thisUser.name, 'is notified via email.');
     }
-    thisUser.notifications.push(data);
+    thisUser.notifications.push({
+      post: data.postId,
+      user: data.userId,
+      notificationType: data.notificationType
+    });
     return thisUser.save(function(err, user) {
       return user;
     });

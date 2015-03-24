@@ -1,11 +1,13 @@
 'use strict';
 angular.module('atwork.notifications', ['atwork.system'])
 .run([
+  '$rootScope',
 	'appLocation',
 	'appNotification',
 	'appWebSocket',
-	function(appLocation, appNotification, appWebSocket) {
+	function($rootScope, appLocation, appNotification, appWebSocket) {
 		appWebSocket.on('notification', function (data) {
+      $rootScope.$broadcast('notification', data);
 			if (data.notificationType === 'like') {
 				data.message = 'Your post has been liked.';
 			} else if (data.notificationType === 'comment') {

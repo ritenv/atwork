@@ -243,17 +243,59 @@ module.exports = function(System) {
    * @return {Void}     
    */
   obj.notifications = function(req, res) {
-    User.findOne({_id: req.user._id}).populate('notifications').exec(function(err, user) {
+    User.findOne({_id: req.user._id, 'notifications.unread': true})
+    .lean()
+    .populate('notifications')
+    .populate('notifications.post')
+    .populate('notifications.user')
+    .exec(function(err, user) {
+      if (err) {
+        return json.unhappy(err, res);
+      } else if (user) {
+        user.notifications = user.notifications.filter(function(item) {
+          return item.unread;
+        });
+        return json.happy({
+          record: user,
+          notifications: user.notifications.slice(0, 10)
+        }, res);
+      } else {
+        return json.happy({message: 'No unread notifications.'}, res);
+      }
+    });
+  };
+
+  /**
+   * Return a single user's notification
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}     
+   */
+  obj.markRead = function(req, res) {
+    User.findOne({_id: req.user._id, 'notifications.unread': true})
+    .populate('notifications')
+    .populate('notifications.post')
+    .populate('notifications.user')
+    .exec(function(err, user) {
       if (err) {
         return json.unhappy(err, res);
       } else if (user) {
         //now get followers
-        return json.happy({
-          record: user,
-          notifications: user.notifications
-        }, res);
+        user.notifications.map(function(item) {
+          if (item._id.toString() === req.params.notificationId) {
+            item.unread = false;
+          }
+        });
+        user.save(function () {
+          user.notifications = user.notifications.filter(function(item) {
+            return item.unread;
+          });
+          return json.happy({
+            notifications: user.notifications.slice(0, 10)
+          }, res);
+        });
       } else {
-        return json.unhappy({message: 'User not found'}, res);
+        return json.happy({message: 'Already marked as unread.'}, res);
       }
     });
   };
