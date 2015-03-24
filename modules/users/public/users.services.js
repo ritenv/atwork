@@ -19,7 +19,8 @@ angular.module('atwork.users')
               params: {action: 'unfollow'}
             }
           }),
-        auth: $resource('users/authenticate')
+        auth: $resource('users/authenticate'),
+        notifications: $resource('users/notifications/:notificationId')
       }
     }
   ])

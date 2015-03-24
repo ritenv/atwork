@@ -101,19 +101,23 @@ var UserSchema = new Schema({
     default: false
   },
   notifications: [{
-    postId: {
+    post: {
       type: Schema.ObjectId,
       ref: 'Post'
     },
-    userId: {
+    user: {
       type: Schema.ObjectId,
-      ref: 'Post'
+      ref: 'User'
     },
     created: {
       type: Date,
       default: Date.now
     },
-    type: String
+    notificationType: String,
+    unread: {
+      type: Boolean,
+      default: true
+    }
   }],
   salt: String,
   token: String,
@@ -188,18 +192,38 @@ UserSchema.methods = {
   notify: function(data, System) {
     // do not notify self
     var thisUser = this;
+
     if (thisUser._id.toString() === data.userId.toString()) {
       return false;
     }
     if (thisUser.socketId) {
       var notifications = System.plugins.notifications;
+
+      //get total unread count
+      var unread = thisUser.notifications.filter(function(item) {
+        return item.unread;
+      }).length;
+      data.unread = unread;
       notifications.send(thisUser.socketId, data);
       console.log(thisUser.name, 'is notified in the browser.');
     } else {
       console.log(thisUser.name, 'is notified via email.');
     }
-    this.notifications.shift(data);
-    return this.save(function(err, user) {
+    thisUser.notifications.push({
+      post: data.postId,
+      user: data.userId,
+      notificationType: data.notificationType
+    });
+    thisUser.notifications.sort(function(a, b) {
+      var dt1 = new Date(a.created);
+      var dt2 = new Date(b.created);
+      if (dt1 > dt2) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    return thisUser.save(function(err, user) {
       return user;
     });
   },
@@ -235,6 +259,7 @@ UserSchema.methods = {
   toJSON: function() {
     var obj = this.toObject();
     delete obj.hashed_password;
+    delete obj.notifications;
     delete obj.salt;
     delete obj.token;
     delete obj.following;

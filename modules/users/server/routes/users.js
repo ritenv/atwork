@@ -56,6 +56,20 @@ module.exports = function(System) {
 
   routes.push({
     method: 'get',
+    path: '/notifications',
+    handler: users.notifications,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'get',
+    path: '/notifications/:notificationId',
+    handler: users.markRead,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'get',
     path: '/:userId',
     handler: users.single,
     authorized: true

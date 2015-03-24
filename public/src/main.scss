@@ -96,6 +96,10 @@ ul.unstyled {
   margin: 16px;
   background-size: cover;
 }
+.small {
+  width: 24px;
+  height: 24px;
+}
 .mute {
   opacity: 0.4;
 }
@@ -105,7 +109,37 @@ ul.unstyled {
 /** ====== General typo END ====== */
 
 /** ====== Users BEGIN ====== */
-
+.notification-count {
+  color: yellow;
+}
+.notifications {
+  position: absolute;
+  z-index: 2;
+  margin-top: 0;
+  top: 64px;
+  right: 0;
+  @extend .user-listing;
+  .face {
+    @extend .small;
+  }
+  .item {
+    button, a {
+      p {
+        max-width: 240px !important;
+      }
+      p, span {
+        color: #444;
+        white-space: normal;
+        font-size: 100% !important;
+        line-height: normal;
+      }
+      border-bottom: 1px solid $secondaryColor !important;
+    }
+  }
+  .title-item {
+    text-align: center;
+  }
+}
 .user-listing {
   .md-button {
     display: block;
