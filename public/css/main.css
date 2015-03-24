@@ -98,10 +98,12 @@ ul.unstyled {
   position: absolute;
   z-index: 2;
   margin-top: 0;
+  top: 64px;
   right: 0; }
   .notifications .item button, .notifications .item a {
     border-bottom: 1px solid #B0BEC5 !important; }
     .notifications .item button p, .notifications .item a p {
+      color: #444;
       max-width: 240px !important;
       white-space: normal;
       font-size: 80% !important; }

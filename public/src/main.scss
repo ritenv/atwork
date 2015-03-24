@@ -116,6 +116,7 @@ ul.unstyled {
   position: absolute;
   z-index: 2;
   margin-top: 0;
+  top: 64px;
   right: 0;
   @extend .user-listing;
   .face {
@@ -124,6 +125,7 @@ ul.unstyled {
   .item {
     button, a {
       p {
+        color: #444;
         max-width: 240px !important;
         white-space: normal;
         font-size: 80% !important;

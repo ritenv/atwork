@@ -12,11 +12,7 @@ app.controller('AppCtrl', [
   function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket) {
     $scope.barTitle = '';
     $scope.search = '';
-    $scope.notificationShown = false;
 
-    $scope.showUserNotifications = function($event) {
-      $scope.notificationShown = !$scope.notificationShown;
-    };
     $scope.toggleSidenav = function(menuId) {
       $mdSidenav(menuId).toggle();
     };
