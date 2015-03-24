@@ -32,6 +32,11 @@ angular.module('atwork.notifications')
 		  $scope.notificationShown = !$scope.notificationShown;
 		};
 
+    /**
+     * Mark notification as read
+     * @param  {Object} item The item object
+     * @return {Void}
+     */
     $scope.markRead = function (item) {
       var record = appUsers.notifications.get({notificationId: item._id}, function () {
         record.res.notifications.map(function (item) {
