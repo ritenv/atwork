@@ -196,9 +196,8 @@ UserSchema.methods = {
     if (thisUser._id.toString() === data.userId.toString()) {
       return false;
     }
+    var notifications = System.plugins.notifications;
     if (thisUser.socketId) {
-      var notifications = System.plugins.notifications;
-
       //get total unread count
       var unread = thisUser.notifications.filter(function(item) {
         return item.unread;
@@ -208,6 +207,7 @@ UserSchema.methods = {
       console.log(thisUser.name, 'is notified in the browser.');
     } else {
       console.log(thisUser.name, 'is notified via email.');
+      notifications.sendByEmail(thisUser, data);
     }
     thisUser.notifications.push({
       post: data.postId,

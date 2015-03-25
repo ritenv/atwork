@@ -8,6 +8,11 @@ module.exports = {
   },
   secret: 'atworksecret',
   settings: {
-  	perPage: 10
+  	perPage: 10,
+  	email: {
+  		service: 'Gmail',
+  		username: 'darwinmanfield@gmail.com',
+  		password: 'thisisthewrongpassword'
+  	}
   }
 };

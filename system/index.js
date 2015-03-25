@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer'); 
 var morgan = require('morgan');
 var path = require('path');
+var nodemailer = require('nodemailer');
 
 /**
  * Middleware
@@ -228,6 +229,18 @@ module.exports = {
    * @type {Object}
    */
   config: {},
+
+  /**
+   * The mailer object to send out emails
+   * @type {Object}
+   */
+  mailer: nodemailer.createTransport({
+    service: Config.settings.email.service,
+    auth: {
+      user: Config.settings.email.username,
+      pass: Config.settings.email.password
+    }
+  }),
 
   /**
    * Wrapping the server's route function 
