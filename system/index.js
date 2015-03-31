@@ -253,8 +253,8 @@ module.exports = {
     /**
      * Finally, load dependencies and start the server
      */
-    loadSettings($this, function() {
-      loadModules($this, function() {
+    loadModules($this, function() {
+      loadSettings($this, function() {
         systemRoutes($this);
         startServer();
       });
