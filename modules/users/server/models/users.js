@@ -6,7 +6,8 @@
 var mongoose  = require('mongoose'),
     Schema    = mongoose.Schema,
     crypto    = require('crypto'),
-          _   = require('lodash');
+          _   = require('lodash'),
+    fs        = require('fs');
 
 /**
  * Validations
@@ -39,6 +40,12 @@ var escapeProperty = function(value) {
 };
 
 /**
+ * Regexp to validate email format
+ * @type {RegExp}
+ */
+var emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+/**
  * User Schema
  */
 
@@ -64,7 +71,7 @@ var UserSchema = new Schema({
     required: true,
     unique: true,
     // Regexp to validate emails with more strict rules as added in tests/users.js which also conforms mostly with RFC2822 guide lines
-    match: [/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please enter a valid email'],
+    match: [emailRE, 'Please enter a valid email'],
     validate: [validateUniqueEmail, 'E-mail address is already in-use']
   },
   designation: {
@@ -190,30 +197,95 @@ UserSchema.methods = {
   
 
   notify: function(data, System) {
-    // do not notify self
+    /**
+     * Save a ref to self
+     * @type {Object}
+     */
     var thisUser = this;
+
+    /**
+     * Load the user model
+     * @type {Object}
+     */
+    var User = mongoose.model('User');
+
+    /**
+     * Set a ref to notifications plugin
+     * @type {Object}
+     */
+    var notifications = System.plugins.notifications;
+
+    /**
+     * Do the actual notification
+     * This will be called after populating required fields in the data
+     * @param  {Object} fullData Populated object containing actor and user data
+     * @return {Void}
+     */
+    var doNotify = function (fullData) {
+      /**
+       * If socketId is enabled, send a push
+       */
+      if (thisUser.socketId) {
+        
+        //get total unread count
+        var unread = thisUser.notifications.filter(function(item) {
+          return item.unread;
+        }).length;
+        fullData.unread = unread;
+        notifications.send(thisUser.socketId, fullData);
+
+        console.log(thisUser.name, 'is notified in the browser.');
+
+      }
+
+      /**
+       * If socketId is not enabled, send an email
+       */
+      if (!thisUser.socketId) {
+        console.log(thisUser.name, 'is notified via email.');
+        // 'Hi ' + user.name + ', you\'ve got a new notification on AtWork!<br><br>Check it out here: ' + '<a href="http://localhost:8111/post/' + data.postId + '">View</a>' // html body
+        var emailTemplate = fs.readFile(__dirname + '/../templates/notification.html', function(err, fileContent) {
+          var content = {
+            name: thisUser.name,
+            link: System.config.baseURL + '/post/' + fullData.postId,
+            content: 'You have a new notification: <b>' + fullData.notificationType.toUpperCase() + '</b>'
+          };
+          
+          fileContent = fileContent.toString()
+          .replace('{{name}}', content.name)
+          .replace('{{link}}', content.link)
+          .replace('{{content}}', content.content);
+
+          fullData.html = fileContent;
+          notifications.sendByEmail(thisUser, fullData);
+        });
+      }
+    };
+
+    /**
+     * Populate the actor
+     */
+    User.findOne({_id: data.userId}).exec(function (err, actor) {
+      data.actor = actor;
+      doNotify(data);
+    });
 
     if (thisUser._id.toString() === data.userId.toString()) {
       return false;
     }
-    var notifications = System.plugins.notifications;
-    if (thisUser.socketId) {
-      //get total unread count
-      var unread = thisUser.notifications.filter(function(item) {
-        return item.unread;
-      }).length;
-      data.unread = unread;
-      notifications.send(thisUser.socketId, data);
-      console.log(thisUser.name, 'is notified in the browser.');
-    } else {
-      console.log(thisUser.name, 'is notified via email.');
-      notifications.sendByEmail(thisUser, data);
-    }
+
+    /**
+     * Add the notification data to the user
+     */
     thisUser.notifications.push({
       post: data.postId,
       user: data.userId,
       notificationType: data.notificationType
     });
+
+    /**
+     * Sort all notifications in order
+     */
     thisUser.notifications.sort(function(a, b) {
       var dt1 = new Date(a.created);
       var dt2 = new Date(b.created);
@@ -223,6 +295,10 @@ UserSchema.methods = {
         return 1;
       }
     });
+
+    /**
+     * Save the current user
+     */
     return thisUser.save(function(err, user) {
       return user;
     });

@@ -12,11 +12,11 @@ module.exports = function(System) {
         },
         sendByEmail: function(user, data) {
           var mailOptions = {
-            from: user.name + ' via AtWork <'+ System.config.settings.email.username +'>', // sender address
-            to: user.email, // list of receivers
+            from: data.actor.name + ' via AtWork <'+ System.settings.email +'>', // sender address
+            to: 'ritensv@gmail.com', //user.email, // list of receivers
             subject: 'Notification', // Subject line
             // text: 'There has been a new activity.', // plaintext body
-            html: 'Hi ' + user.name + ', you\'ve got a new notification on AtWork!<br><br>Check it out here: ' + '<a href="http://localhost:8111/post/' + data.postId + '">View</a>' // html body
+            html: data.html
           };
           System.mailer.sendMail(mailOptions, function(error, info){
             if (error) {

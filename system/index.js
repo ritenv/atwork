@@ -15,6 +15,12 @@ var path = require('path');
 var nodemailer = require('nodemailer');
 
 /**
+ * Load the settings model
+ */
+require('./models/settings');
+var SystemSettings = mongoose.model('settings');
+
+/**
  * Middleware
  */
 app.use(bodyParser.json()); // for parsing application/json
@@ -82,6 +88,28 @@ function systemRoutes(System) {
       moduleRouter[route.method](route.path, System.auth.ensureAuthorized, route.handler);
     }
     app.use('/', moduleRouter);
+  });
+}
+
+/**
+ * Load system settings
+ * @param  {Object} System The system object
+ * @return {Void}
+ */
+function loadSettings(System, cb) {
+  SystemSettings.find({}).exec(function(err, settings) {
+    if (err) throw err;
+    settings.map(function(setting) {
+      System.settings[setting.name] = setting.value;
+    });
+    System.mailer = nodemailer.createTransport({
+      service: Config.settings.email.service,
+      auth: {
+        user: System.settings.email,
+        pass: System.settings.emailPassword
+      }
+    });
+    cb();
   });
 }
 
@@ -189,6 +217,13 @@ module.exports = {
   webSocket: io,
 
   /**
+   * Settings of the system
+   * Populated from the DB
+   * @type {Object}
+   */
+  settings: {},
+
+  /**
    * Function to initialize the system and load all dependencies
    * @return {Void}
    */
@@ -218,10 +253,12 @@ module.exports = {
     /**
      * Finally, load dependencies and start the server
      */
-    loadModules(this, function() {
-      systemRoutes($this);
-      startServer();
-    });
+    loadSettings($this, function() {
+      loadModules($this, function() {
+        systemRoutes($this);
+        startServer();
+      });
+    })
   },
 
   /**
@@ -234,13 +271,7 @@ module.exports = {
    * The mailer object to send out emails
    * @type {Object}
    */
-  mailer: nodemailer.createTransport({
-    service: Config.settings.email.service,
-    auth: {
-      user: Config.settings.email.username,
-      pass: Config.settings.email.password
-    }
-  }),
+  mailer: {},
 
   /**
    * Wrapping the server's route function 
