@@ -5,6 +5,7 @@ var jwt = require('jsonwebtoken');
 module.exports = function(System) {
   var obj = {};
   var json = System.plugins.JSON;
+  var event = System.plugins.event;
 
   var sck = System.webSocket;
 
@@ -37,6 +38,21 @@ module.exports = function(System) {
       });
     });
 
+  });
+
+  /**
+   * Event based notifications
+   */
+  ['follow'].map(function(action) {
+    event.on(action, function(data) {
+      var user = data.user;
+      var actor = data.actor;
+      user.notify({
+        userId: user._id,
+        actorId: actor._id,
+        notificationType: action
+      }, System);
+    });
   });
 
   /**
@@ -142,6 +158,11 @@ module.exports = function(System) {
       } else {
         currUser.following.push(user._id);
         currUser.save(function(err, item) {
+          /**
+           * Notify the user
+           */
+          event.trigger('follow', {user: user, actor: req.user});
+
           if (err) {
             return json.unhappy(err, res);
           }
@@ -248,6 +269,7 @@ module.exports = function(System) {
     .populate('notifications')
     .populate('notifications.post')
     .populate('notifications.user')
+    .populate('notifications.actor')
     .exec(function(err, user) {
       if (err) {
         return json.unhappy(err, res);
@@ -323,7 +345,25 @@ module.exports = function(System) {
    */
   obj.search = function(req, res) {
     var keyword = req.param('keyword');
-    User.find({name: new RegExp(keyword, 'ig'), _id: {$ne: req.user._id}}, null, {sort: {name: 1}}).exec(function(err, items) {
+    var criteria = {};
+    if (req.query.onlyUsernames) {
+      criteria = { username: new RegExp(keyword, 'ig') };
+    } else {
+      criteria = {
+        $or: [
+          { name: new RegExp(keyword, 'ig') },
+          { username: new RegExp(keyword, 'ig') }
+        ]
+      };
+    }
+
+    /**
+     * Avoid self
+     * @type {String}
+     */
+    criteria._id = {$ne: req.user._id};
+
+    User.find(criteria, null, {sort: {name: 1}}).exec(function(err, items) {
       if (err) {
         return json.unhappy(err, res);
       }

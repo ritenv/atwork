@@ -70,10 +70,10 @@
                       <md-list>
                         <!-- notif loop start -->
                         <md-item class="item" ng-repeat="item in items">
-                          <md-button href="/post/{{item.post._id}}" ng-click="markRead(item)">
+                          <md-button href="{{item.href}}" ng-click="markRead(item)">
                             <md-item-content>
                                 <div class="md-tile-left">
-                                  <img ng-src="{{item.user.face || '/images/user.jpg'}}" class="face" alt="{{item.user.name}}">
+                                  <img ng-src="{{item.actor.face || '/images/user.jpg'}}" class="face" alt="{{item.actor.name}}">
                                 </div>
                                 <div class="md-tile-content">
                                   <p>{{::item.display.text}}</p>
@@ -119,6 +119,7 @@
 
       </md-sidenav> -->
       <!-- Angular Material Dependencies -->
+      <script src="/bower_components/jquery/dist/jquery.min.js"></script>
       <script src="/bower_components/angular/angular.js"></script>
       <script src="/bower_components/angular-aria/angular-aria.js"></script>
       <script src="/bower_components/angular-animate/angular-animate.js"></script>

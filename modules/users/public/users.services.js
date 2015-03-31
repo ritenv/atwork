@@ -28,9 +28,13 @@ angular.module('atwork.users')
     '$resource',
     function($resource) {
       var search = $resource('users/search/:keyword', {}, {query: {isArray: false}});
-      return function(keyword) {
+      return function(keyword, onlyUsernames) {
         //implement search logic here
-        var promise = search.query({keyword: keyword}).$promise;
+        var criteria = {keyword: keyword};
+        if (onlyUsernames) {
+          criteria.onlyUsernames = true;
+        }
+        var promise = search.query(criteria).$promise;
         return promise;
       };
     }

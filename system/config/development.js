@@ -1,6 +1,7 @@
 'use strict';
 console.log('Config in development');
 module.exports = {
+  baseURL: 'http://localhost:8111',
   db: process.env.MONGOHQ_URL || 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/atwork-dev',
   server: {
     host: 'localhost',
@@ -8,6 +9,9 @@ module.exports = {
   },
   secret: 'atworksecret',
   settings: {
-  	perPage: 10
+  	perPage: 10,
+  	email: {
+  		service: 'Gmail'
+  	}
   }
 };

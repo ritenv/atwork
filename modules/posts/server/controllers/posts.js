@@ -40,7 +40,7 @@ module.exports = function(System) {
       var actor = data.actor;
       post.notifyUsers({
         postId: post._id,
-        userId: actor._id,
+        actorId: actor._id,
         type: action
       }, System);
     });
@@ -57,6 +57,30 @@ module.exports = function(System) {
     post.creator = req.user._id;
     post.save(function(err) {
       post = post.afterSave(req.user);
+
+      /**
+       * Notify mentioned users
+       */
+      post.getMentionedUsers(function(err, users) {
+        users.map(function(user) {
+          /**
+           * Notify the mentioned users
+           */
+          user.notify({
+            actorId: req.user._id,
+            postId: post._id,
+            notificationType: 'mention'
+          }, System);
+
+          /**
+           * Subscribe the mentioned users for future notifications
+           */
+          post.subscribe(user._id);
+          post.save();
+
+        });
+      });
+
       event.trigger('newpost', {post: post, actor: req.user});
       if (err) {
         return json.unhappy(err, res);
@@ -177,7 +201,6 @@ module.exports = function(System) {
         posts.map(function(e) {
           e = e.afterSave(req.user, req.query.limitComments);
         });
-
         json.happy({
           records: posts,
           morePages: morePages
@@ -201,6 +224,34 @@ module.exports = function(System) {
         return json.unhappy(err, res);
       } else if (post) {
         post = post.afterSave(req.user, req.query.limitComments);
+
+        /**
+         * Mark all notifications as read, for the current user, for this single post
+         */
+        if (req.query.allowMarking) {
+          var userModified = false;
+          req.user.notifications.map(function(notification) {
+            /**
+             * Mark unread only those that are related to a post, not a user
+             */
+            if (!notification.post) return;
+
+            if (notification.post.toString() === post._id.toString()) {
+              notification.unread = false;
+              userModified = true;
+            }
+          });
+
+          if (userModified) {
+            req.user.save(function(err, user) {
+              console.log('Marked as read.');
+              if (req.user.socketId) {
+                sck.to(req.user.socketId).emit('notification');
+              }
+            });
+          }
+        }
+
         return json.happy({
           record: post
         }, res);

@@ -57,6 +57,11 @@ angular.module('atwork.notifications')
         if (record.res.notifications) {
           record.res.notifications.map(function (item) {
             item.display = appNotificationText(item);
+            if (item.post) {
+              item.href = '/post/' + item.post._id
+            } else if (item.user) {
+              item.href = '/profile/' + item.actor._id
+            }
           });
         }
         $scope.items = record.res.notifications;

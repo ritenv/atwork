@@ -12,7 +12,8 @@ angular.module('atwork.posts')
     'appStorage',
     'appLocation',
     'appWebSocket',
-    function($scope, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket) {
+    'appUsersSearch',
+    function($scope, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket, appUsersSearch) {
       $scope.content = '';
       $scope.lastUpdated = 0;
       $scope.postForm = '';
@@ -22,6 +23,7 @@ angular.module('atwork.posts')
       $scope.limitComments = true;
       $scope.feedPage = 0;
       $scope.showBack = false;
+      $scope.mentionsResults = [];
 
       var hashtag = $routeParams.hashtag;
       var userId = $routeParams.userId;
@@ -131,7 +133,8 @@ angular.module('atwork.posts')
            */
           var timelineData = appPosts.single.get({
             postId: postId, 
-            limitComments: $scope.limitComments
+            limitComments: $scope.limitComments,
+            allowMarking: true
           }, function() {
             /**
              * The retrieved record is the only one to show
@@ -300,6 +303,62 @@ angular.module('atwork.posts')
         $timeout(function() {
           $scope.postForm.$setPristine();
           $scope.postForm.$setUntouched();
+        });
+      };
+
+      /**
+       * Search for mentions
+       * @param  {String} content The content in which to look for the string
+       * @return {Void}
+       */
+      var replaceCandidate = null;
+      $scope.checkMentions = function(content, element) {
+        if (!content) return;
+        /**
+         * Mention format will be @xyz, searching only end of text
+         */
+        var re = /@([A-Za-z0-9_]+)$/g;
+
+        /**
+         * The length should never be more than 1
+         * @type {Array}
+         */
+        var mentions = content.match(re);
+
+        if (mentions && mentions.length === 1 && mentions[0].length >= 4) {
+          appUsersSearch(mentions[0].replace('@',''), false).then(function(response) {
+            $scope.mentionsResults = response.res.items;
+          });
+        } else {
+          $scope.mentionsResults = [];
+        }
+        
+        /**
+         * Remember the element
+         */
+        replaceCandidate = element;
+
+        /**
+         * Placement
+         */
+        var elem = angular.element(replaceCandidate);
+        angular.element('.mentions-results').css({top: elem.offset().top });
+      };
+
+      /**
+       * Replace selected mentions
+       * @param  {String} username The selected item's username
+       * @return {Void}
+       */
+      $scope.replaceName = function(username) {
+        var re = /@([A-Za-z0-9_]+)$/g;
+        // $scope.content = $scope.content.replace(re, '@' + username);
+        var elem = angular.element(replaceCandidate);
+        elem.val(elem.val().replace(re, '@' + username) + ' ');
+        $timeout(function() {
+          elem.change();
+          elem.focus();
+          $scope.mentionsResults = [];
         });
       };
 
