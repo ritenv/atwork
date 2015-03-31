@@ -155,7 +155,10 @@ ul.unstyled {
   margin-top: -26px;
   @extend .user-listing;
 }
-
+.mentions-results {
+  position: absolute;
+  margin-top: 0px;
+}
 .post-writer {
   margin-bottom: 20px;
 }

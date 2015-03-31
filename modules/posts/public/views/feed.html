@@ -8,7 +8,7 @@
     <form name="postForm" ng-submit="create(postForm.$valid)" novalidate>
       <md-input-container>
         <label>What do you want to share?</label>
-        <textarea name="content" ng-model="content" id="#status" cols="30" rows="2" required md-maxlength="500" minlength="3"></textarea>
+        <textarea ng-change="checkMentions(content, '#status')" name="content" ng-model="content" id="status" cols="30" rows="2" required md-maxlength="500" minlength="3"></textarea>
         <div ng-messages="postForm.content.$error" ng-show="postForm.$submitted">
           <div ng-message="required">Write your post first.</div>
           <div ng-message="md-maxlength">That's too long!</div>
@@ -24,6 +24,29 @@
       </md-button>
     </form>
   </md-content>
+  
+  <!-- mentions search -->
+  <div class="search-results mentions-results md-whiteframe-z1" ng-show="mentionsResults.length">
+    <md-content>
+      <md-list>
+        <md-item ng-repeat="item in mentionsResults">
+          <md-button ng-click="replaceName(item.username)">
+            <md-item-content>
+                <div class="md-tile-left">
+                  <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                </div>
+                <div class="md-tile-content">
+                  <h3>{{item.name}}</h3>
+                  <h4>@{{item.username}}</h4>
+                  <h4>{{item.designation}}</h4>
+                </div>
+            </md-item-content>
+          </md-button>
+        </md-item>
+      </md-list>
+    </md-content>
+  </div>
+
   <md-content class="primaryColors feedsFilter" ng-show="!noFiltering">
     <div layout="column">
       <a class="filter" ng-click="feedsFilterEnabled = !feedsFilterEnabled" ><span class="fa fa-search"></span> Filter</a>
@@ -38,6 +61,7 @@
       <md-button ng-click="updateFeed()" class="md-primary md-raised">Load New Items ({{newFeedCount}})</md-button>
     </md-card>
     
+    <p ng-if="!lastUpdated">Loading...</p>
     <md-item ng-repeat="item in feed">
       <md-item-content class="single-post">
         <div class="md-tile-left">
@@ -70,7 +94,8 @@
             <form flex="50" flex-sm="100" flex-md="100" name="replyForm" ng-submit="comment(replyForm.$valid, item)" novalidate>
               <md-input-container>
                 <label>Write your reply...</label>
-                <textarea name="content" ng-model="content" id="#status" cols="30" rows="2" required md-maxlength="500" minlength="3"></textarea>
+                <textarea name="content" ng-model="content" id="status-{{item._id}}" cols="30" rows="2" required md-maxlength="500" minlength="3"></textarea>
+                <!-- ng-change="checkMentions(content, '#status-' + item._id)" -->
                 <div ng-messages="replyForm.content.$error" ng-show="replyForm.$submitted">
                   <div ng-message="required">Write your post first.</div>
                   <div ng-message="md-maxlength">That's too long!</div>
@@ -116,7 +141,7 @@
     </md-item>
     
   </md-content>
-  <md-card ng-hide="noMorePosts">
+  <md-card ng-hide="noMorePosts || !lastUpdated">
     <md-button class="md-raised md-primary" ng-click="loadMore()"><span>Load More</span></md-button>
   </md-card>
   <p ng-show="noMorePosts" class="breathing-space secondaryColors">Nothing more to load.</p>

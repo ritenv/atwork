@@ -116,6 +116,10 @@ var UserSchema = new Schema({
       type: Schema.ObjectId,
       ref: 'User'
     },
+    actor: {
+      type: Schema.ObjectId,
+      ref: 'User'
+    },
     created: {
       type: Date,
       default: Date.now
@@ -204,6 +208,13 @@ UserSchema.methods = {
     var thisUser = this;
 
     /**
+     * If notifications is not an object (array), initialize it
+     */
+    if (!thisUser.notifications || typeof thisUser.notifications !== 'object') {
+      thisUser.notifications = [];
+    }
+
+    /**
      * Load the user model
      * @type {Object}
      */
@@ -248,7 +259,7 @@ UserSchema.methods = {
           var content = {
             name: thisUser.name,
             link: System.config.baseURL + '/post/' + fullData.postId,
-            content: 'You have a new notification: <b>' + fullData.notificationType.toUpperCase() + '</b>'
+            content: fullData.notificationType.toUpperCase()
           };
           
           fileContent = fileContent.toString()
@@ -265,14 +276,10 @@ UserSchema.methods = {
     /**
      * Populate the actor
      */
-    User.findOne({_id: data.userId}).exec(function (err, actor) {
+    User.findOne({_id: data.actorId}).exec(function (err, actor) {
       data.actor = actor;
       doNotify(data);
     });
-
-    if (thisUser._id.toString() === data.userId.toString()) {
-      return false;
-    }
 
     /**
      * Add the notification data to the user
@@ -280,6 +287,7 @@ UserSchema.methods = {
     thisUser.notifications.push({
       post: data.postId,
       user: data.userId,
+      actor: data.actorId,
       notificationType: data.notificationType
     });
 

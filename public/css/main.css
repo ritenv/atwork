@@ -121,6 +121,10 @@ ul.unstyled {
   z-index: 1;
   margin-top: -26px; }
 
+.mentions-results {
+  position: absolute;
+  margin-top: 0px; }
+
 .post-writer {
   margin-bottom: 20px; }
 

@@ -103,26 +103,79 @@ PostSchema.methods = {
     }
     return obj;
   },
+  getMentionedUsers: function(cb) {
+    /**
+     * Mention format will be @xyz
+     */
+    var re = /@([A-Za-z0-9_]+)/g;
+
+    /**
+     * Try to find the usernames
+     * @type {Array}
+     */
+    var usernames = this.content.match(re);
+
+    if (!usernames || !usernames.length) {
+      return [];
+    }
+    
+    /**
+     * Remove the '@' symbol
+     */
+    usernames.map(function(username, i) {
+      usernames[i] = username.substring(1);
+    });
+
+    /**
+     * Find in the db
+     */
+    var User = mongoose.model('User');
+    
+    User.find({username: {$in: usernames} })
+    .exec(function(err, users) {
+      if (cb) {
+        cb(err, users);
+      }
+    });
+  },
   subscribe: function(userId) {
     if (this.subscribers.indexOf(userId) === -1 && this._id !== userId) { //cannot subscribe to own post
       this.subscribers.push(userId);
     }
   },
   notifyUsers: function(data, System) {
-    // var User = mongoose.model('User');
+    
     var notification = {
       postId: this._id,
-      userId: data.userId,
+      actorId: data.actorId,
       notificationType: data.type
     };
     this.populate('creator subscribers', function(err, post) {
       post.subscribers.map(function(user) {
+        /**
+         * Ignore creator, because we have a special call for that later
+         */
         if (user._id.toString() === post.creator._id.toString()) {
           return;
         }
+        /**
+         * Ignore the person taking this action
+         */
+        if (user._id.toString() === data.actorId.toString()) {
+          return;
+        }
+        /**
+         * Notify
+         */
         user.notify(notification, System);
       });
-      post.creator.notify(notification, System);
+
+      /**
+       * Notify creator, if its not the creator taking this action
+       */
+      if (post.creator._id.toString() !== data.actorId.toString()) {
+        post.creator.notify(notification, System);
+      }
     });
   }
 };

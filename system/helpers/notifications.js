@@ -8,16 +8,17 @@ module.exports = function(System) {
     register: function () {
       return {
         send: function(socketId, data) {
+          console.log('NOTIFICATION FOR:', socketId);
           sck.to(socketId).emit('notification', data);
         },
         sendByEmail: function(user, data) {
           var mailOptions = {
-            from: data.actor.name + ' via AtWork <'+ System.settings.email +'>', // sender address
-            to: 'ritensv@gmail.com', //user.email, // list of receivers
+            from: data.actor.name + ' (' + data.notificationType + ')' + ' via AtWork <'+ System.settings.email +'>', // sender address
+            to: user.email, // list of receivers
             subject: 'Notification', // Subject line
-            // text: 'There has been a new activity.', // plaintext body
             html: data.html
           };
+          
           System.mailer.sendMail(mailOptions, function(error, info){
             if (error) {
               console.log(error);
