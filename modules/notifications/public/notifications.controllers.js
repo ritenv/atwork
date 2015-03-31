@@ -33,22 +33,6 @@ angular.module('atwork.notifications')
 		};
 
     /**
-     * Mark notification as read
-     * @param  {Object} item The item object
-     * @return {Void}
-     */
-    $scope.markRead = function (item) {
-      var record = appUsers.notifications.get({notificationId: item._id}, function () {
-        record.res.notifications.map(function (item) {
-          item.display = appNotificationText(item);
-        });
-        $scope.items = record.res.notifications;
-        $scope.notificationCount = record.res.notifications.length;
-      });
-      $scope.showUserNotifications();
-    };
-
-    /**
      * Get notifications 
      * @return {Void}
      */

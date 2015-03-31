@@ -201,6 +201,27 @@ module.exports = function(System) {
         return json.unhappy(err, res);
       } else if (post) {
         post = post.afterSave(req.user, req.query.limitComments);
+
+        /**
+         * Mark all notifications as read, for the current user, for this single post
+         */
+        var userModified = false;
+        req.user.notifications.map(function(notification) {
+          if (notification.post.toString() === post._id.toString()) {
+            notification.unread = false;
+            userModified = true;
+          }
+        });
+
+        if (userModified) {
+          req.user.save(function(err, user) {
+            console.log('Marked as read.');
+            if (req.user.socketId) {
+              sck.to(req.user.socketId).emit('notification');
+            }
+          });
+        }
+
         return json.happy({
           record: post
         }, res);

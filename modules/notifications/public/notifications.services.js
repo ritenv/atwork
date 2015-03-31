@@ -11,7 +11,7 @@ angular.module('atwork.notifications')
             .content(data.message)
             .action('VIEW')
             .highlightAction(false)
-            .position('top right');
+            .position('bottom right');
           $mdToast.show(toast).then(function() {
             if (data.then) {
               data.then();
