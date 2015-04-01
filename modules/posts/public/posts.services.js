@@ -70,7 +70,7 @@ angular.module('atwork.posts')
           },
         ];
 
-        var emotTemplate = '<md-inline-list-icon class="fa {{emoticon}}"></span>';
+        var emotTemplate = '<md-inline-list-icon class="yellow fa {{emoticon}}"></md-inline-list-icon>';
         for (var i in emots) {
           var key = emots[i].key;
           var value = emots[i].value;

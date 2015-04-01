@@ -235,7 +235,22 @@ module.exports = function(System) {
    * @return {Void}     
    */
   obj.single = function(req, res) {
-    User.findOne({_id: req.param('userId')}).populate('following').exec(function(err, user) {
+    /**
+     * The search criteria
+     * @type {Object}
+     */
+    var criteria = {};
+
+    /**
+     * Can accept user's _id or username
+     */
+    if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
+      criteria._id = req.params.userId;
+    } else {
+      criteria.username = req.params.userId;
+    }
+
+    User.findOne(criteria).populate('following').exec(function(err, user) {
       if (err) {
         return json.unhappy(err, res);
       } else if (user) {

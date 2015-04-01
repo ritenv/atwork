@@ -44,6 +44,7 @@ angular.module('atwork.posts')
       $scope.loadMore = function() {
         $scope.feedPage++;
         $scope.lastUpdated = 0;
+        $scope.feed.push({}); //spacer in the UI
         $scope.updateFeed({append: true});
       };
 

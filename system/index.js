@@ -258,7 +258,7 @@ module.exports = {
         systemRoutes($this);
         startServer();
       });
-    })
+    });
   },
 
   /**

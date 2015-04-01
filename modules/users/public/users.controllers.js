@@ -92,6 +92,13 @@ angular.module('atwork.users')
        */
       $scope.getProfile = function() {
         appUsers.single.get({userId: userId}).$promise.then(function(response) {
+          /**
+           * Its possible that we were provided with a username instead of userID
+           * Let's switch to using userId
+           */
+          if (userId) {
+            userId = response.res.record._id;
+          }
           response.res.profile = response.res.record;
           angular.extend($scope, response.res);
         });
@@ -275,7 +282,7 @@ angular.module('atwork.users')
           name: 'Profile',
           icon: 'fa-user',
           handler: function() {
-            $location.url('/profile/' + angular.fromJson(appStorage.get('user'))._id);
+            $location.url('/profile/' + angular.fromJson(appStorage.get('user')).username);
           }
         },
         { 

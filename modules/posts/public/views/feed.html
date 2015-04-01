@@ -63,12 +63,15 @@
     
     <p ng-if="!lastUpdated">Loading...</p>
     <md-item ng-repeat="item in feed">
-      <md-item-content class="single-post">
+      <div ng-if="!item._id" class="feed-spacer">
+        Loaded more below
+      </div>
+      <md-item-content class="single-post" ng-if="item._id">
         <div class="md-tile-left">
           <img ng-src="{{item.creator.face || '/images/user.jpg'}}" class="face" alt="{{item.creator.name}}">
         </div>
         <div class="md-tile-content">
-          <md-button class="md-accent" href="/profile/{{item.creator._id}}">{{::item.creator.name}}</md-button>
+          <md-button class="md-accent" href="/profile/{{item.creator.username}}">{{::item.creator.name}}</md-button>
           <p class="primaryColors" ng-bind-html="item.content | appPostFormat"></p>
           <div class="post-actions">
             <span class="likes primaryColors">
@@ -121,8 +124,8 @@
                   <img ng-src="{{comment.creator.face || '/images/user.jpg'}}" class="face" alt="{{comment.creator.name}}">
                 </div>
                 <div class="md-tile-content">
-                  <md-button class="md-accent" href="/profile/{{comment.creator._id}}">{{::comment.creator.name}}</md-button>
-                  <p>{{::comment.content}}</p>
+                  <md-button class="md-accent" href="/profile/{{comment.creator.username}}">{{::comment.creator.name}}</md-button>
+                  <p ng-bind-html="comment.content | appPostFormat"></p>
                   <small>{{::comment.created | date:'medium'}}</small>
                 </div>
               </md-item-content>
