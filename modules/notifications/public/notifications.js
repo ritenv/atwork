@@ -28,7 +28,7 @@ angular.module('atwork.notifications', ['atwork.system'])
         if (data.postId) {
 				  appLocation.url('/post/' + data.postId);
         } else if (data.userId) {
-          appLocation.url('/profile/' + data.actorId);
+          appLocation.url('/profile/' + data.actor.username);
         }
 			};
 

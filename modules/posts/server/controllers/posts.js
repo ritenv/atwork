@@ -132,39 +132,66 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.timeline = function(req, res) {
+
     var userId = req.params.userId || req.user._id;
-    //TODO: pagination
-    var criteria = { creator: userId };
-    if (req.query && req.query.timestamp) {
-      criteria.created = { $gte: req.query.timestamp };
-    }
-    if (req.query && req.query.filter) {
-      delete criteria.created;
-      criteria.content = new RegExp(req.query.filter, 'i');
-    }
-    Post.find(criteria, null, {sort: {created: -1}})
-    .populate('creator')
-    .populate('comments')
-    .populate('comments.creator')
-    .skip(parseInt(req.query.page) * System.config.settings.perPage)
-    .limit(System.config.settings.perPage+1)
-    .exec(function(err, posts) {
-      if (err) {
-        json.unhappy(err, res);
-      } else {
-        var morePages = System.config.settings.perPage < posts.length;
-        if (morePages) {
-          posts.pop();
-        }
-        posts.map(function(e) {
-          e = e.afterSave(req.user, req.query.limitComments);
-        });
-        json.happy({
-          records: posts,
-          morePages: morePages
-        }, res);
+    
+    /**
+     * This function is called after resolving username to user's _id
+     * @return {Void}
+     */
+    var getPosts = function() {
+      var criteria = { creator: userId };
+      if (req.query && req.query.timestamp) {
+        criteria.created = { $gte: req.query.timestamp };
       }
-    });
+      if (req.query && req.query.filter) {
+        delete criteria.created;
+        criteria.content = new RegExp(req.query.filter, 'i');
+      }
+      Post.find(criteria, null, {sort: {created: -1}})
+      .populate('creator')
+      .populate('comments')
+      .populate('comments.creator')
+      .skip(parseInt(req.query.page) * System.config.settings.perPage)
+      .limit(System.config.settings.perPage+1)
+      .exec(function(err, posts) {
+        if (err) {
+          json.unhappy(err, res);
+        } else {
+          var morePages = System.config.settings.perPage < posts.length;
+          if (morePages) {
+            posts.pop();
+          }
+          posts.map(function(e) {
+            e = e.afterSave(req.user, req.query.limitComments);
+          });
+          json.happy({
+            records: posts,
+            morePages: morePages
+          }, res);
+        }
+      });
+    };
+
+    /**
+     * If provided with username instead of _id, get the _id
+     */
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      var User = mongoose.model('User');
+
+      User.findOne({username: userId}).exec(function(err, user) {
+        if (err) throw err;
+        /**
+         * If user is not found by username, continue using the invalid ID
+         */
+        if (user) {
+          userId = user._id;
+        }
+        return getPosts();
+      });
+    } else {
+      return getPosts();
+    }
   };
 
   /**

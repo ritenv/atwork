@@ -12,6 +12,10 @@ a {
   .primaryColors a:hover {
     color: #333; }
 
+.fa.yellow {
+  color: darkorange;
+  font-size: 19px; }
+
 .secondaryColors {
   color: #B0BEC5; }
 
@@ -144,6 +148,14 @@ ul.unstyled {
     font-size: 100%; }
   .post-listing small {
     padding: 6px; }
+  .post-listing .feed-spacer {
+    background: #eee;
+    padding: 4px;
+    text-align: center;
+    color: #aaa;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin: 15px 0; }
 
 .activities-listing p {
   margin: 5px 0; }

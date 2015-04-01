@@ -60,7 +60,7 @@ angular.module('atwork.notifications')
             if (item.post) {
               item.href = '/post/' + item.post._id
             } else if (item.user) {
-              item.href = '/profile/' + item.actor._id
+              item.href = '/profile/' + item.actor.username
             }
           });
         }
