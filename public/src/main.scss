@@ -1,8 +1,9 @@
 $primaryColor: #795548;
 $linkHoverColor: #333;
 $secondaryColor: #B0BEC5;
-body {
+html, body {
   font-size: 14px;
+  color: #444;
 }
 a {
   text-decoration: none;
@@ -106,6 +107,9 @@ ul.unstyled {
 }
 .mute {
   opacity: 0.4;
+}
+.tiny {
+  font-size: 80%;
 }
 .clickable {
   cursor: pointer;

@@ -79,7 +79,10 @@ function startServer() {
  * @return {Void}
  */
 function systemRoutes(System) {
-  var routes = require('./routes/search')(System);
+  var routes = [];
+  routes = routes.concat(require('./routes/search')(System));
+  routes = routes.concat(require('./routes/settings')(System));
+
   routes.forEach(function(route) {
     var moduleRouter = express.Router();
     if (!route.authorized) {

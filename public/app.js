@@ -1,4 +1,4 @@
-var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'atwork.activities', 'atwork.notifications', 'ngMaterial']);
+var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'atwork.activities', 'atwork.notifications', 'atwork.settings', 'ngMaterial']);
 
 app.controller('AppCtrl', [
   '$scope', 
@@ -9,7 +9,8 @@ app.controller('AppCtrl', [
   'appLocation',
   'appAuth',
   'appWebSocket',
-  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket) {
+  'appSettings',
+  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket, appSettings) {
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -56,7 +57,11 @@ app.controller('AppCtrl', [
     
     $scope.updateLoginStatus();
     $timeout(function() {
-      $scope.appReady = true;
+      var settings = appSettings.single.get({}, function() {
+        $scope.systemSettings = settings;
+        $scope.appReady = true;
+      });
+      
       if (!appAuth.isLoggedIn()) {
         $scope.barTitle = 'atWork';
         appLocation.url('/login');

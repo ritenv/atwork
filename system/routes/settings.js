@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
+var SystemSettings = mongoose.model('settings');
 
 /**
  * Init the controller
@@ -11,12 +11,11 @@ module.exports = function(System) {
   
   routes.push({
     method: 'get',
-    path: '/search/:keyword',
+    path: '/system-settings',
     authorized: true,
     handler: function(req, res) {
-      var keyword = req.param('keyword');
-      User
-      .find({name: new RegExp(keyword, 'ig')}, null, {sort: {name: 1}})
+      SystemSettings
+      .find({}, null, {sort: {name: 1}})
       .lean()
       .exec(function(err, items) {
         if (err) {
