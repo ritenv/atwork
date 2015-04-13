@@ -1,36 +1,32 @@
-<h2>atWork Setup</h2>
-    <p>Provide the details related to your workplace to customize your experience.</p>
-    <form name="settingsForm" ng-submit="saveSettings(settingsForm.$valid)" novalidate>
-      
-      <md-input-container>
-        <label>Workplace Name</label>
-        <input type="text" name="workplace" ng-model="workplace" required>
-        <div ng-messages="" class="tiny">
-          <div>The name of your company, team, office or branch (e.g. Back Seat Boys)</div>
-        </div>
-      </md-input-container>
-
-      <md-input-container>
-        <label>Tagline</label>
-        <input type="text" name="tagline" ng-model="tagline" required>
-        <div ng-messages="" class="tiny">
-          <div>Anything that inspires your team (e.g. Onward and upward!)</div>
-        </div>
-      </md-input-container>
-
-      <md-input-container>
-        <label>Allowed Email Domains</label>
-        <input type="text" name="domains" ng-model="domains" required>
-        <div ng-messages="" class="tiny">
-          <div>The email domains that you want to allow for registrations (e.g. @best-company.com)</div>
-        </div>
-      </md-input-container>
-
-      <md-button class="md-primary md-raised">
-        Save Settings
-      </md-button>
-    </form>
+<h2>AtWork Setup</h2>
+<p>Provide the details related to your workplace to customize your experience.</p>
+<form name="settingsForm" ng-submit="saveSettings(settingsForm.$valid)" novalidate>
   
-<div>
-  
-</div>
+  <md-input-container>
+    <label>Workplace Name</label>
+    <input type="text" name="workplace" ng-model="workplace" required>
+    <div ng-messages="" class="tiny">
+      <div>The name of your company, team, office or branch (e.g. Back Seat Boys)</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container>
+    <label>Tagline</label>
+    <input type="text" name="tagline" ng-model="tagline" required>
+    <div ng-messages="" class="tiny">
+      <div>Anything that inspires your team (e.g. Onward and upward!)</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container>
+    <label>Allowed Email Domains</label>
+    <input type="text" name="domains" ng-model="domains" required>
+    <div ng-messages="" class="tiny">
+      <div>The email domains that you want to allow for registrations (e.g. @best-company.com)</div>
+    </div>
+  </md-input-container>
+
+  <md-button class="md-primary md-raised">
+    Save Settings
+  </md-button>
+</form>

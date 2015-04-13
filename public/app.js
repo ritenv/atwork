@@ -45,7 +45,7 @@ app.controller('AppCtrl', [
 
     $scope.$on('loggedOut', function() {
       $scope.updateLoginStatus();
-      $scope.barTitle = 'atWork';
+      $scope.barTitle = 'AtWork';
     });
 
     appWebSocket.on('connect', function() {
@@ -63,7 +63,7 @@ app.controller('AppCtrl', [
       });
       
       if (!appAuth.isLoggedIn()) {
-        $scope.barTitle = 'atWork';
+        $scope.barTitle = 'AtWork';
         appLocation.url('/login');
       } else {
         $scope.barTitle = '';
