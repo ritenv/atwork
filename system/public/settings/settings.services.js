@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('atwork.settings')
-  .factory('appSettings', ['$resource',
-    function($resource) {
+  .factory('appSettings', [
+    '$resource',
+    '$rootScope',
+    function($resource, $rootScope) {
       return {
         cache: {},
         single: $resource('system-settings/'),
@@ -13,16 +15,27 @@ angular.module('atwork.settings')
               var setting = settings.res.items[i];
               $this.cache[setting.name] = setting.value;
             }
+            $rootScope.systemSettings = $this.cache;
             return cb ? cb($this.cache) : true;
           });
         }
       }
     }
   ])
-  .factory('appSettingsCache', [
+  .factory('appSettingsValid', [
     'appSettings',
-    function(appSettings) {
-      
+    'appLocation',
+    '$rootScope',
+    function(appSettings, appLocation, $rootScope) {
+      return function() {
+        if (appLocation.url() !== '/settings') {
+          if (!$rootScope.systemSettings.domains || !$rootScope.systemSettings.workplace) {
+            appLocation.url('/settings');
+            return false;
+          }
+        }
+        return true;
+      }
     }
   ])
   

@@ -2,6 +2,7 @@ var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.pos
 
 app.controller('AppCtrl', [
   '$scope', 
+  '$rootScope', 
   '$mdSidenav',
   '$mdBottomSheet',
   '$location',
@@ -10,7 +11,9 @@ app.controller('AppCtrl', [
   'appAuth',
   'appWebSocket',
   'appSettings',
-  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket, appSettings) {
+  'appSettingsValid',
+  'appToast',
+  function($scope, $rootScope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket, appSettings, appSettingsValid, appToast) {
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -58,8 +61,16 @@ app.controller('AppCtrl', [
     $scope.updateLoginStatus();
     $timeout(function() {
       appSettings.fetch(function(settings) {
-        $scope.systemSettings = settings;
+        $scope.$on('$routeChangeStart', function (event, toState) {
+          var valid = appSettingsValid();
+          if (!valid) {
+            appToast('Please complete the setup first.');
+          }
+        });
+        $rootScope.systemSettings = settings;
         $scope.appReady = true;
+        $timeout(appSettingsValid);
+        
       });
       
       if (!appAuth.isLoggedIn()) {
