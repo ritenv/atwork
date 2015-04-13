@@ -46,7 +46,7 @@ angular.module('atwork.users')
        * Cannot follow self
        * @type {Boolean}
        */
-      $scope.selfProfile = (userId === appAuth.getUser()._id);
+      $scope.selfProfile = (userId === appAuth.getUser()._id) || (userId === appAuth.getUser().username);
 
       if (!userId) {
         return $location.url('/');

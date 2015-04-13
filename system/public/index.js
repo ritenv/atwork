@@ -31,7 +31,7 @@ angular.module('atwork.system')
   function ($httpProvider, $mdThemingProvider) {
     $httpProvider.interceptors.push('tokenHttpInterceptor');
     $mdThemingProvider.theme('default')
-    .primaryPalette('teal')
+    .primaryPalette('brown')
     .accentPalette('blue-grey');
   }
 ]);
