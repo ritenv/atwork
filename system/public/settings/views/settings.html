@@ -1,10 +1,10 @@
 <h2>AtWork Setup</h2>
 <p>Provide the details related to your workplace to customize your experience.</p>
-<form name="settingsForm" ng-submit="saveSettings(settingsForm.$valid)" novalidate>
+<form name="settingsForm" ng-submit="save(settingsForm.$valid)" novalidate>
   
   <md-input-container>
     <label>Workplace Name</label>
-    <input type="text" name="workplace" ng-model="workplace" required>
+    <input type="text" name="workplace" ng-model="systemSettings.workplace" required>
     <div ng-messages="" class="tiny">
       <div>The name of your company, team, office or branch (e.g. Back Seat Boys)</div>
     </div>
@@ -12,7 +12,7 @@
 
   <md-input-container>
     <label>Tagline</label>
-    <input type="text" name="tagline" ng-model="tagline" required>
+    <input type="text" name="tagline" ng-model="systemSettings.tagline" required>
     <div ng-messages="" class="tiny">
       <div>Anything that inspires your team (e.g. Onward and upward!)</div>
     </div>
@@ -20,13 +20,29 @@
 
   <md-input-container>
     <label>Allowed Email Domains</label>
-    <input type="text" name="domains" ng-model="domains" required>
+    <input type="text" name="domains" ng-model="systemSettings.domains" required>
     <div ng-messages="" class="tiny">
       <div>The email domains that you want to allow for registrations (e.g. @best-company.com)</div>
     </div>
   </md-input-container>
 
-  <md-button class="md-primary md-raised">
+  <md-input-container>
+    <label>System Email Address</label>
+    <input type="text" name="email" ng-model="systemSettings.email" required>
+    <div ng-messages="" class="tiny">
+      <div>The email the system connects to, for sending notifications and stuff</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container>
+    <label>System Email Password</label>
+    <input type="password" name="emailPassword" ng-model="systemSettings.emailPassword" required>
+    <div ng-messages="" class="tiny">
+      <div>The email the system connects to, for sending notifications and stuff</div>
+    </div>
+  </md-input-container>
+
+  <md-button class="md-primary md-raised" ng-if="systemSettings.email && systemSettings.workplace && systemSettings.domains">
     Save Settings
   </md-button>
 </form>

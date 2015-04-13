@@ -57,7 +57,7 @@ app.controller('AppCtrl', [
     
     $scope.updateLoginStatus();
     $timeout(function() {
-      var settings = appSettings.single.get({}, function() {
+      appSettings.fetch(function(settings) {
         $scope.systemSettings = settings;
         $scope.appReady = true;
       });

@@ -51,8 +51,8 @@ module.exports = function(System) {
             item.value = setting.val;
           } else {
             item = new SystemSettings();
-            item.key = setting.key;
-            item.val = setting.val;
+            item.name = setting.key;
+            item.value = setting.val;
           }
           item.save(function(err) {
             cb(err);

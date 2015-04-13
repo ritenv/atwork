@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('atwork.settings')
-  .controller('Settings', [
+  .controller('SettingsCtrl', [
     '$scope',
     '$rootScope',
     '$routeParams',
@@ -15,9 +15,22 @@ angular.module('atwork.settings')
     'appUsersSearch',
     'appSettings',
     function($scope, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket, appUsersSearch, appSettings) {
-      var settings = appSettings.single.get({}, function() {
-        $rootScope.systemSettings = settings;
+      /**
+       * Refresh settings from API
+       */
+      appSettings.fetch(function(settings) {
+        $scope.systemSettings = settings;
       });
+
+      $scope.save = function(isValid) {
+        var req = new appSettings.single($scope.systemSettings);
+        req.$save(function(res) {
+          if (res.success) {
+            appToast('Your settings are saved.');
+            appLocation.url('/');
+          }
+        });
+      };
     }
   ])
   ;
