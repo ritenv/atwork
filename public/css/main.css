@@ -6,7 +6,7 @@ a {
   cursor: pointer; }
 
 .primaryColors a {
-  color: #009688; }
+  color: #795548; }
   .primaryColors a[ng-click] {
     cursor: pointer; }
   .primaryColors a:hover {
@@ -95,9 +95,6 @@ ul.unstyled {
 
 /** ====== General typo END ====== */
 /** ====== Users BEGIN ====== */
-.notification-count {
-  color: yellow; }
-
 .notifications {
   position: absolute;
   z-index: 2;
