@@ -62,17 +62,38 @@ module.exports = function(System) {
    * @return {Void}     
    */
   obj.create = function(req, res) {
+    /**
+     * The roles for the new user
+     * @type {Array}
+     */
+    var roles = ['authenticated'];
 
-    var user = new User(req.body);
-    user.provider = 'local';
-    user.roles = ['authenticated'];
-    user.token = jwt.sign(user, System.config.secret);
-
-    user.save(function(err) {
-      if (err) {
-        return json.unhappy(err, res);
+    /**
+     * Check if this is the first user
+     */
+    User.count({}, function(err, len) {
+      /**
+       * If so, should be admin
+       */
+      if (!len) {
+        roles.push('admin');
       }
-      return json.happy(user, res);
+
+      /**
+       * Add the user
+       */
+      var user = new User(req.body);
+      user.provider = 'local';
+      user.roles = roles;
+      user.token = jwt.sign(user, System.config.secret);
+
+      user.save(function(err) {
+        if (err) {
+          return json.unhappy(err, res);
+        }
+        return json.happy(user, res);
+      });
+
     });
   };
 

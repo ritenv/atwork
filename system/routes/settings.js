@@ -32,7 +32,22 @@ module.exports = function(System) {
     path: '/system-settings',
     authorized: true,
     handler: function(req, res) {
+      /**
+       * Received settings
+       * @type {Object}
+       */
       var settingItems = req.body;
+
+      /**
+       * Check if user is an admin
+       */
+      if (!req.user.isAdmin()) {
+        console.log('FORBIDDEN ADMIN');
+        /**
+         * Return as is
+         */
+        return json.happy({ items: settingItems }, res);
+      }
       
       /**
        * Function to save an individual setting

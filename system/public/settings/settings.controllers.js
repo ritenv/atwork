@@ -22,6 +22,11 @@ angular.module('atwork.settings')
         $scope.systemSettings = settings;
       });
 
+      if (appAuth.getUser().roles.indexOf('admin') === -1) {
+        appToast('Only an Administrator can change system\'s settings.');
+        appLocation.url('/');
+      }
+
       $scope.save = function(isValid) {
         var req = new appSettings.single($scope.systemSettings);
         req.$save(function(res) {

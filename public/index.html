@@ -66,8 +66,9 @@
                     <span>Home</span>
                 </md-button>
                 <span hide-sm flex>{{barTitle}}</span>
+
                 <div ng-controller="notificationsCtrl">
-                  <md-button ng-if="isLoggedIn" href="/settings">
+                  <md-button ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings">
                     <md-inline-list-icon class="fa fa-cog"></md-inline-list-icon>
                   </md-button>
                   

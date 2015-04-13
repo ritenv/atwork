@@ -60,25 +60,29 @@ app.controller('AppCtrl', [
     
     $scope.updateLoginStatus();
     $timeout(function() {
-      appSettings.fetch(function(settings) {
-        $scope.$on('$routeChangeStart', function (event, toState) {
-          var valid = appSettingsValid();
-          if (!valid) {
-            appToast('Please complete the setup first.');
-          }
-        });
-        $rootScope.systemSettings = settings;
-        $scope.appReady = true;
-        $timeout(appSettingsValid);
-        
-      });
-      
       if (!appAuth.isLoggedIn()) {
         $scope.barTitle = 'AtWork';
         appLocation.url('/login');
+        $scope.appReady = true;
       } else {
         $scope.barTitle = '';
         $scope.$broadcast('loggedIn');
+
+        /**
+         * Fetch settings and get the app ready
+         */
+        appSettings.fetch(function(settings) {
+          $scope.$on('$routeChangeStart', function (event, toState) {
+            var valid = appSettingsValid();
+            if (!valid) {
+              appToast('Please complete the setup first.');
+            }
+          });
+          $rootScope.systemSettings = settings;
+          $scope.appReady = true;
+          $timeout(appSettingsValid);
+          
+        });
       }
       
     });
