@@ -28,8 +28,8 @@ angular.module('atwork.settings')
     '$rootScope',
     function(appSettings, appLocation, $rootScope) {
       return function() {
-        if (appLocation.url() !== '/settings') {
-          if (!$rootScope.systemSettings.domains || !$rootScope.systemSettings.workplace) {
+        if (appLocation.url() !== '/settings' && appLocation.url() !== '/logout') {
+          if (!$rootScope.systemSettings || !$rootScope.systemSettings.domains || !$rootScope.systemSettings.workplace) {
             appLocation.url('/settings');
             return false;
           }

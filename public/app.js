@@ -44,6 +44,22 @@ app.controller('AppCtrl', [
       $scope.updateLoginStatus();
       $scope.barTitle = '';
       appWebSocket.emit('online', {token: appAuth.getToken()});
+
+      /**
+       * Fetch settings and get the app ready
+       */
+      appSettings.fetch(function(settings) {
+        $scope.$on('$routeChangeStart', function (event, toState) {
+          var valid = appSettingsValid();
+          if (!valid) {
+            appToast('Please complete the setup first.');
+          }
+        });
+        $rootScope.systemSettings = settings;
+        $scope.appReady = true;
+        $timeout(appSettingsValid);
+        
+      });
     });
 
     $scope.$on('loggedOut', function() {
@@ -67,22 +83,6 @@ app.controller('AppCtrl', [
       } else {
         $scope.barTitle = '';
         $scope.$broadcast('loggedIn');
-
-        /**
-         * Fetch settings and get the app ready
-         */
-        appSettings.fetch(function(settings) {
-          $scope.$on('$routeChangeStart', function (event, toState) {
-            var valid = appSettingsValid();
-            if (!valid) {
-              appToast('Please complete the setup first.');
-            }
-          });
-          $rootScope.systemSettings = settings;
-          $scope.appReady = true;
-          $timeout(appSettingsValid);
-          
-        });
       }
       
     });
