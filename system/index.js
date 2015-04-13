@@ -175,6 +175,7 @@ var loadDBModels = function(startingPath) {
  */
 var loadModules = function(System, callback) {
   var list = fs.readdirSync(modulePath);
+  var requires = [];
 
   list.forEach(function(folder) {
     var serverPath = modulePath + '/' + folder + '/server';
@@ -190,11 +191,22 @@ var loadModules = function(System, callback) {
      */
     loadDBModels(serverPath);
 
+    /**
+     * Require all main files of each module
+     */
     var moduleFile = serverPath + '/main.js';
     if (fs.existsSync(moduleFile)) {
-      require(moduleFile)(System);
+      requires.push(require(moduleFile));
     }
   });
+
+  /**
+   * Initiate each module by passing system to it
+   */
+  requires.map(function(module) {
+    module(System);
+  });
+  
   callback();
 };
 

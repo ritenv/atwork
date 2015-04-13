@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Activity = mongoose.model('Activity');
 
 module.exports = function(System) {
+  var User = mongoose.model('User');
   var obj = {};
   var json = System.plugins.JSON;
   var event = System.plugins.event;
@@ -45,17 +46,39 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.feed = function(req, res) {
-    //TODO: pagination
-    var userId = req.params.userId;
-    var criteria = { actor: userId };
-    Activity.find(criteria, null, {sort: {created: -1}}).populate('actor').populate('post').exec(function(err, posts) {
+
+    /**
+     * The search criteria
+     * @type {Object}
+     */
+    var criteria = {};
+
+    /**
+     * Can accept user's _id or username
+     */
+    if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
+      criteria._id = req.params.userId;
+    } else {
+      criteria.username = req.params.userId;
+    }
+
+    User
+    .findOne(criteria)
+    .lean()
+    .exec(function(err, user) {
       if (err) {
-        json.unhappy(err, res);
-      } else {
-        json.happy({
-          records: posts
-        }, res);
+        return json.unhappy(err, res);
       }
+      var activityCriteria = { actor: user._id };
+      Activity.find(activityCriteria, null, {sort: {created: -1}}).populate('actor').populate('post').exec(function(err, posts) {
+        if (err) {
+          return json.unhappy(err, res);
+        } else {
+          return json.happy({
+            records: posts
+          }, res);
+        }
+      });
     });
   };
 
