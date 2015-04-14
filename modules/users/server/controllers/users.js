@@ -80,6 +80,57 @@ module.exports = function(System) {
       }
 
       /**
+       * Check if user's email matches the global domain settings
+       * @type {Boolean}
+       */
+      var isValidEmail = false;
+
+      /**
+       * Get the users email
+       * @type {String}
+       */
+      var email = req.body.email;
+
+      /**
+       * Get comma separated domains from settings
+       * @type {String}
+       */
+      var domains = System.settings.domains;
+
+      if (domains) {
+        /**
+         * Convert to array
+         * @type {Array}
+         */
+        domains = domains.split(',');
+
+        /**
+         * Loop through all and check if it matches any one
+         */
+        domains.map(function(domain) {
+          domain = domain.trim();
+          var valid = new RegExp(domain + '$', 'i');
+          if (valid.test(email)) {
+            isValidEmail = true;
+          }
+        });
+      } else {
+        /**
+         * Probably the first user of the system, allow to register
+         * @type {Boolean}
+         */
+        isValidEmail = true;
+      }
+
+      /**
+       * So if invalid email, return a friendly message
+       */
+      if (!isValidEmail) {
+        return json.unhappy({message: 'Invalid email. Remember to use your team address.'}, res);
+      }
+      
+
+      /**
        * Add the user
        */
       var user = new User(req.body);
