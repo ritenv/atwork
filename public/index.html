@@ -12,16 +12,16 @@
       <div class="preloader" ng-if="!appReady">
         <div class="preloader-content">
           <img src="images/preloader.gif" width="300">
-          <h1>atWork</h1>
-          <p>An open-source social network for your workplace</p>
+          <h1>Loading</h1>
+          <p>Hold your horses...</p>
         </div>
       </div>
       <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')" ng-if="isLoggedIn">
-        <md-toolbar layout="column">
+        <md-toolbar layout="column" hide-sm>
           <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
             <span class="visuallyhidden">Menu</span>
           </button>
-          <h1 hide-sm>atWork</h1>
+          <h1 hide-sm>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h1>
         </md-toolbar>
         <md-content class="md-padding sidebar-list">
             <div ng-include="'/system/public/views/search.html'"></div>
@@ -49,8 +49,6 @@
                     </md-button>
                 </li>
             </ul>
-            
-            <!-- <p>Project atwork provides a simplistic, open-source social network with pluggable modules to customize the experience different workplaces desire. It can be easily hosted, customized and white-labeled.</p> -->
         </md-content>
 
       </md-sidenav>
@@ -61,13 +59,28 @@
                 <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
                   <span class="visuallyhidden">Menu</span>
                 </button>
-                <h1 hide-gt-sm flex>atWork</h1>
+                <h1 hide-gt-sm flex>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h1>
                 <md-button ng-if="isLoggedIn" ng-click="goHome($event)">
-                    <span>Home</span>
+                  <md-tooltip>
+                    Home
+                  </md-tooltip>
+                  <md-inline-list-icon class="fa fa-globe"></md-inline-list-icon>
                 </md-button>
-                <span hide-sm flex>{{barTitle}}</span>
+                <span hide-sm ng-if="!isLoggedIn">{{systemSettings ? systemSettings.workplace : 'AtWork'}}</span>
+                <span hide-sm class="tiny mute" flex>&nbsp; {{barTitle}}</span>
+
                 <div ng-controller="notificationsCtrl">
+                  <md-button ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings">
+                    <md-tooltip>
+                      Settings
+                    </md-tooltip>
+                    <md-inline-list-icon class="fa fa-cog"></md-inline-list-icon>
+                  </md-button>
+                  
                   <md-button ng-if="isLoggedIn" ng-click="showUserNotifications($event)">
+                    <md-tooltip>
+                      Alerts
+                    </md-tooltip>
                     <md-inline-list-icon class="fa fa-bell notification-count"> <span ng-if="notificationCount">{{notificationCount}} </span></md-inline-list-icon>
                   </md-button>
                   
@@ -107,7 +120,10 @@
                 </div>
 
                 <md-button ng-if="isLoggedIn" ng-click="showUserActions($event)">
-                  <span>{{user.name}}</span>
+                  <md-tooltip>
+                    Profile
+                  </md-tooltip>
+                  <md-inline-list-icon class="fa fa-user"></md-inline-list-icon>
                 </md-button>
             </div>
           </md-toolbar>
@@ -143,7 +159,11 @@
       <script type="text/javascript" src="/system/utils.js"></script>
       <script type="text/javascript" src="/system/index.js"></script>
       <script type="text/javascript" src="/bower_components/socket.io-client/socket.io.js"></script>
-
+      <script type="text/javascript" src="/system/settings/settings.js"></script>
+      <script type="text/javascript" src="/system/settings/settings.controllers.js"></script>
+      <script type="text/javascript" src="/system/settings/settings.routes.js"></script>
+      <script type="text/javascript" src="/system/settings/settings.services.js"></script>
+      
       <!-- Modules -->
       
       <!-- Users Module -->

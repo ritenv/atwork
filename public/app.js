@@ -1,7 +1,8 @@
-var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'atwork.activities', 'atwork.notifications', 'ngMaterial']);
+var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'atwork.activities', 'atwork.notifications', 'atwork.settings', 'ngMaterial']);
 
 app.controller('AppCtrl', [
   '$scope', 
+  '$rootScope', 
   '$mdSidenav',
   '$mdBottomSheet',
   '$location',
@@ -9,7 +10,10 @@ app.controller('AppCtrl', [
   'appLocation',
   'appAuth',
   'appWebSocket',
-  function($scope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket) {
+  'appSettings',
+  'appSettingsValid',
+  'appToast',
+  function($scope, $rootScope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket, appSettings, appSettingsValid, appToast) {
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -36,15 +40,40 @@ app.controller('AppCtrl', [
       });
     };
 
+    var initiateSettings = function(cb) {
+      appSettings.fetch(function(settings) {
+        $rootScope.systemSettings = settings;
+        if (cb) {
+          cb();
+        }
+      });
+    };
+
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();
       $scope.barTitle = '';
       appWebSocket.emit('online', {token: appAuth.getToken()});
+
+      /**
+       * Fetch settings and get the app ready
+       */
+      initiateSettings(function() {
+        $scope.$on('$routeChangeStart', function (event, toState) {
+          var valid = appSettingsValid();
+          if (!valid) {
+            appToast('Please complete the setup first.');
+          }
+        });
+        $scope.appReady = true;
+        $scope.barTitle = $rootScope.systemSettings.tagline;
+        $timeout(appSettingsValid);
+      });
+      
     });
 
     $scope.$on('loggedOut', function() {
       $scope.updateLoginStatus();
-      $scope.barTitle = 'atWork';
+      $scope.barTitle = 'AtWork';
     });
 
     appWebSocket.on('connect', function() {
@@ -56,10 +85,9 @@ app.controller('AppCtrl', [
     
     $scope.updateLoginStatus();
     $timeout(function() {
-      $scope.appReady = true;
       if (!appAuth.isLoggedIn()) {
-        $scope.barTitle = 'atWork';
         appLocation.url('/login');
+        initiateSettings();
       } else {
         $scope.barTitle = '';
         $scope.$broadcast('loggedIn');

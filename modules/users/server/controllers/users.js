@@ -62,17 +62,89 @@ module.exports = function(System) {
    * @return {Void}     
    */
   obj.create = function(req, res) {
+    /**
+     * The roles for the new user
+     * @type {Array}
+     */
+    var roles = ['authenticated'];
 
-    var user = new User(req.body);
-    user.provider = 'local';
-    user.roles = ['authenticated'];
-    user.token = jwt.sign(user, System.config.secret);
-
-    user.save(function(err) {
-      if (err) {
-        return json.unhappy(err, res);
+    /**
+     * Check if this is the first user
+     */
+    User.count({}, function(err, len) {
+      /**
+       * If so, should be admin
+       */
+      if (!len) {
+        roles.push('admin');
       }
-      return json.happy(user, res);
+
+      /**
+       * Check if user's email matches the global domain settings
+       * @type {Boolean}
+       */
+      var isValidEmail = false;
+
+      /**
+       * Get the users email
+       * @type {String}
+       */
+      var email = req.body.email;
+
+      /**
+       * Get comma separated domains from settings
+       * @type {String}
+       */
+      var domains = System.settings.domains;
+
+      if (domains) {
+        /**
+         * Convert to array
+         * @type {Array}
+         */
+        domains = domains.split(',');
+
+        /**
+         * Loop through all and check if it matches any one
+         */
+        domains.map(function(domain) {
+          domain = domain.trim();
+          var valid = new RegExp(domain + '$', 'i');
+          if (valid.test(email)) {
+            isValidEmail = true;
+          }
+        });
+      } else {
+        /**
+         * Probably the first user of the system, allow to register
+         * @type {Boolean}
+         */
+        isValidEmail = true;
+      }
+
+      /**
+       * So if invalid email, return a friendly message
+       */
+      if (!isValidEmail) {
+        return json.unhappy({message: 'Invalid email. Remember to use your team address.'}, res);
+      }
+      
+
+      /**
+       * Add the user
+       */
+      var user = new User(req.body);
+      user.provider = 'local';
+      user.roles = roles;
+      user.token = jwt.sign(user, System.config.secret);
+
+      user.save(function(err) {
+        if (err) {
+          return json.unhappy(err, res);
+        }
+        return json.happy(user, res);
+      });
+
     });
   };
 

@@ -1,5 +1,6 @@
-body {
-  font-size: 14px; }
+html, body {
+  font-size: 14px;
+  color: #444; }
 
 a {
   text-decoration: none;
@@ -29,7 +30,7 @@ a {
 .menuBtn {
   background-color: transparent;
   border: none;
-  height: 38px;
+  height: 32px;
   margin: 16px 0;
   width: 36px; }
 
@@ -89,6 +90,9 @@ ul.unstyled {
 
 .mute, .post-listing small {
   opacity: 0.4; }
+
+.tiny {
+  font-size: 80%; }
 
 .clickable {
   cursor: pointer; }
