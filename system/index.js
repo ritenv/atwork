@@ -86,7 +86,7 @@ function systemRoutes(System) {
   routes.forEach(function(route) {
     var moduleRouter = express.Router();
     if (!route.authorized) {
-      moduleRouter[route.method](route.path, route.handler);
+      moduleRouter[route.method](route.path, System.auth.justGetUser, route.handler);
     } else {
       moduleRouter[route.method](route.path, System.auth.ensureAuthorized, route.handler);
     }
@@ -308,7 +308,7 @@ module.exports = {
     routes.forEach(function(route) {
       var moduleRouter = express.Router();
       if (!route.authorized) {
-        moduleRouter[route.method](route.path, route.handler);
+        moduleRouter[route.method](route.path, $this.auth.justGetUser, route.handler);
       } else {
         moduleRouter[route.method](route.path, $this.auth.ensureAuthorized, route.handler);
       }

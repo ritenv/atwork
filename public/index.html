@@ -17,7 +17,7 @@
         </div>
       </div>
       <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')" ng-if="isLoggedIn">
-        <md-toolbar layout="column">
+        <md-toolbar layout="column" hide-sm>
           <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
             <span class="visuallyhidden">Menu</span>
           </button>
@@ -66,7 +66,8 @@
                   </md-tooltip>
                   <md-inline-list-icon class="fa fa-globe"></md-inline-list-icon>
                 </md-button>
-                <span hide-sm flex>{{barTitle}}</span>
+                <span hide-sm ng-if="!isLoggedIn">{{systemSettings ? systemSettings.workplace : 'AtWork'}}</span>
+                <span hide-sm class="tiny mute" flex>&nbsp; {{barTitle}}</span>
 
                 <div ng-controller="notificationsCtrl">
                   <md-button ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings">

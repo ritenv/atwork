@@ -13,10 +13,16 @@ module.exports = function(System) {
   routes.push({
     method: 'get',
     path: '/system-settings',
-    authorized: true,
+    authorized: false,
     handler: function(req, res) {
+      var criteria = {};
+      if (!req.user) {
+        criteria = {
+          name: { $in: ['workplace', 'tagline'] }
+        };
+      }
       SystemSettings
-      .find({}, null, {sort: {name: 1}})
+      .find(criteria, null, {sort: {name: 1}})
       .lean()
       .exec(function(err, items) {
         if (err) {

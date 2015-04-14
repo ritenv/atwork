@@ -9,6 +9,7 @@ var ensureAuthorized = function(req, res, next) {
     bearerToken = bearer[1];
     req.token = bearerToken;
     //populate({path: 'following', select: 'name email'}).
+    
     User.findOne({token: req.token}).exec(function(err, user) {
       if (err || !user) {
         return res.sendStatus(403);
@@ -21,6 +22,26 @@ var ensureAuthorized = function(req, res, next) {
   }
 };
 
+var justGetUser = function(req, res, next) {
+  var mongoose = require('mongoose');
+  var User = mongoose.model('User');
+  var bearerToken;
+  var bearerHeader = req.headers["authorization"];
+  if (typeof bearerHeader !== 'undefined') {
+    var bearer = bearerHeader.split(" ");
+    bearerToken = bearer[1];
+    req.token = bearerToken;
+    //populate({path: 'following', select: 'name email'}).
+    
+    User.findOne({token: req.token}).exec(function(err, user) {
+      if (user) {
+        req.user = user;
+      }
+      next();
+    });
+  }
+};
+
 module.exports = function(System) {
   var plugin = {
     /**
@@ -29,7 +50,8 @@ module.exports = function(System) {
      */
     register: function () {
       return {
-        ensureAuthorized: ensureAuthorized
+        ensureAuthorized: ensureAuthorized,
+        justGetUser: justGetUser,
       };
     }
   };
@@ -41,7 +63,7 @@ module.exports = function(System) {
   plugin.register.attributes = {
     name: 'Auth Helper',
     key: 'auth',
-    version: '1.0.0'
+    version: '1.1.0'
   };
   return plugin;
 };

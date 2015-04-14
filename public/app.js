@@ -40,6 +40,15 @@ app.controller('AppCtrl', [
       });
     };
 
+    var initiateSettings = function(cb) {
+      appSettings.fetch(function(settings) {
+        $rootScope.systemSettings = settings;
+        if (cb) {
+          cb();
+        }
+      });
+    };
+
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();
       $scope.barTitle = '';
@@ -48,18 +57,18 @@ app.controller('AppCtrl', [
       /**
        * Fetch settings and get the app ready
        */
-      appSettings.fetch(function(settings) {
+      initiateSettings(function() {
         $scope.$on('$routeChangeStart', function (event, toState) {
           var valid = appSettingsValid();
           if (!valid) {
             appToast('Please complete the setup first.');
           }
         });
-        $rootScope.systemSettings = settings;
         $scope.appReady = true;
+        $scope.barTitle = $rootScope.systemSettings.tagline;
         $timeout(appSettingsValid);
-        
       });
+      
     });
 
     $scope.$on('loggedOut', function() {
@@ -77,9 +86,8 @@ app.controller('AppCtrl', [
     $scope.updateLoginStatus();
     $timeout(function() {
       if (!appAuth.isLoggedIn()) {
-        $scope.barTitle = 'AtWork';
         appLocation.url('/login');
-        $scope.appReady = true;
+        initiateSettings();
       } else {
         $scope.barTitle = '';
         $scope.$broadcast('loggedIn');
