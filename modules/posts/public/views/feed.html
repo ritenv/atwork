@@ -87,11 +87,12 @@
             <span class="view primaryColors">
               <a href="/post/{{::item._id}}" class="view"><span>View</span></a>
             </span>
+            
             <small hide-sm hide-md>{{::item.created | date:'medium'}}</small>
 
           </div>
           <small hide-gt-md>{{::item.created | date:'medium'}}</small>
-          
+
           <!-- Comment -->
           <div layout="row" layout-wrap ng-if="item.commentEnabled">
             <form flex="50" flex-sm="100" flex-md="100" name="replyForm" ng-submit="comment(replyForm.$valid, item)" novalidate>

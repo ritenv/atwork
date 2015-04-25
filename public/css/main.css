@@ -79,6 +79,12 @@ ul.unstyled {
   margin-bottom: 0;
   padding-bottom: 0; }
 
+.no-margin-all {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  padding-top: 0; }
+
 .circular-image, .user-listing .face, .notifications .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .post-listing .face, .user-profile .user-profile-info .face {
   border-radius: 100px;
   width: 48px;

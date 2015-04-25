@@ -53,7 +53,7 @@ var PostSchema = new Schema({
   stream: {
     type: Schema.ObjectId,
     required: false,
-    ref: 'Streams'
+    ref: 'Stream'
   },
   subscribers: [{
     type: Schema.ObjectId,

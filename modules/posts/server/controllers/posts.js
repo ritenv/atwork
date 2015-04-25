@@ -151,6 +151,7 @@ module.exports = function(System) {
       Post.find(criteria, null, {sort: {created: -1}})
       .populate('creator')
       .populate('comments')
+      .populate('stream')
       .populate('comments.creator')
       .skip(parseInt(req.query.page) * System.config.settings.perPage)
       .limit(System.config.settings.perPage+1)
