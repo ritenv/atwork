@@ -26,7 +26,7 @@ angular.module('atwork.streams')
         var stream = appStreams.single.get({streamId: streamId}, function() {
           stream = angular.extend(stream, $scope.stream);
           stream.$save(function(response) {
-
+            appToast('Stream purpose updated.');
           });
         });
       };

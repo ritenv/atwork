@@ -3,11 +3,12 @@
     <md-inline-list-icon class="fa fa-chevron-left"></md-inline-list-icon> Back
   </md-button>
   <md-content ng-controller="StreamsPurposeCtrl" class="stream-purpose">
-    <md-input-container ng-if="stream">
-      <form name="streamPurposeForm" ng-submit="updateStreamPurpose(streamPurposeForm.$valid)">
+    <form name="streamPurposeForm" ng-submit="updateStreamPurpose(streamPurposeForm.$valid)">
+      <md-input-container ng-if="stream">
+        <label>Stream Purpose</label>
         <input type="text" ng-model="stream.purpose">
-      </form>
-    </md-input-container>
+      </md-input-container>
+    </form>
   </md-content>
   
   <br>
