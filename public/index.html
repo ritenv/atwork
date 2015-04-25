@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
         <link rel="stylesheet" href="/css/main.css">
         <base href="/"></base>
+        <title ng-bind="systemSettings ? systemSettings.workplace : 'AtWork'"></title>
     </head>
     <body layout="row" ng-controller="AppCtrl">
       <div class="preloader" ng-if="!appReady">
@@ -60,27 +61,18 @@
                   <span class="visuallyhidden">Menu</span>
                 </button>
                 <h1 hide-gt-sm flex>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h1>
-                <md-button ng-if="isLoggedIn" ng-click="goHome($event)">
-                  <md-tooltip>
-                    Home
-                  </md-tooltip>
+                <md-button ng-if="isLoggedIn" ng-click="goHome($event)" title="Home">
                   <md-inline-list-icon class="fa fa-globe"></md-inline-list-icon>
                 </md-button>
                 <span hide-sm ng-if="!isLoggedIn">{{systemSettings ? systemSettings.workplace : 'AtWork'}}</span>
                 <span hide-sm class="tiny mute" flex>&nbsp; {{barTitle}}</span>
 
                 <div ng-controller="notificationsCtrl">
-                  <md-button ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings">
-                    <md-tooltip>
-                      Settings
-                    </md-tooltip>
+                  <md-button ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings" title="Settings">
                     <md-inline-list-icon class="fa fa-cog"></md-inline-list-icon>
                   </md-button>
                   
-                  <md-button ng-if="isLoggedIn" ng-click="showUserNotifications($event)">
-                    <md-tooltip>
-                      Alerts
-                    </md-tooltip>
+                  <md-button ng-if="isLoggedIn" ng-click="showUserNotifications($event)" title="Alerts">
                     <md-inline-list-icon class="fa fa-bell notification-count"> <span ng-if="notificationCount">{{notificationCount}} </span></md-inline-list-icon>
                   </md-button>
                   
@@ -119,10 +111,7 @@
                   </div>
                 </div>
 
-                <md-button ng-if="isLoggedIn" ng-click="showUserActions($event)">
-                  <md-tooltip>
-                    Profile
-                  </md-tooltip>
+                <md-button ng-if="isLoggedIn" ng-click="showUserActions($event)" title="Profile">
                   <md-inline-list-icon class="fa fa-user"></md-inline-list-icon>
                 </md-button>
             </div>

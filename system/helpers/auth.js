@@ -51,7 +51,7 @@ module.exports = function(System) {
     register: function () {
       return {
         ensureAuthorized: ensureAuthorized,
-        justGetUser: justGetUser,
+        justGetUser: justGetUser
       };
     }
   };

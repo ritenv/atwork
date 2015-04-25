@@ -88,6 +88,7 @@ app.controller('AppCtrl', [
       if (!appAuth.isLoggedIn()) {
         appLocation.url('/login');
         initiateSettings();
+        $scope.appReady = true;
       } else {
         $scope.barTitle = '';
         $scope.$broadcast('loggedIn');
