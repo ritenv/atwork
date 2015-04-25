@@ -21,6 +21,7 @@ angular.module('atwork.posts')
             }
           }),
         feed: $resource('posts/'),
+        stream: $resource('posts/stream/:streamId'),
         timeline: $resource('posts/timeline/:userId')
       }
     }

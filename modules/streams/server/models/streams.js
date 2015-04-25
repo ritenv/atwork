@@ -32,11 +32,11 @@ var StreamsSchema = new Schema({
   title: {
     type: String,
     required: true,
-    get: escapeProperty
+    get: escapeProperty,
+    match: [/^[a-zA-Z0-9_]*$/, 'Oh no! Only numbers and letters for stream names.']
   },
   purpose: {
     type: String,
-    required: true,
     get: escapeProperty
   },
   subscribers: [{

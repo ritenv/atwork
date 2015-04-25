@@ -8,6 +8,9 @@ html, body {
 a {
   text-decoration: none;
   cursor: pointer;
+  &.md-button {
+    display: inline-block;
+  }
 }
 .primaryColors {
   a {

@@ -28,6 +28,7 @@ angular.module('atwork.posts')
       var hashtag = $routeParams.hashtag;
       var userId = $routeParams.userId;
       var postId = $routeParams.postId;
+      var streamId = $routeParams.streamId;
 
       if (hashtag) {
         $scope.feedsFilter = '#' + hashtag;
@@ -99,6 +100,52 @@ angular.module('atwork.posts')
              * @type {Boolean}
              */
             $scope.noMorePosts = !timelineData.res.morePages;
+            /**
+             * Set the updated timestamp
+             */
+            $scope.lastUpdated = Date.now();
+            $scope.showBack = false;
+          });
+        } else if (streamId) {
+          /**
+           * STREAM: If there is a streamId, let's load feeds of the specific stream
+           */
+          
+          /**
+           * Show limited comments
+           * @type {Boolean}
+           */
+          $scope.limitComments = true;
+
+          /**
+           * Prepare the request
+           */
+          var streamsData = appPosts.stream.get({
+            streamId: streamId,
+            timestamp: $scope.lastUpdated,
+            filter: $scope.feedsFilter,
+            limitComments: $scope.limitComments,
+            page: $scope.feedPage
+          }, function() {
+            /**
+             * If it's a filter request, empty the feeds
+             */
+            if ($scope.feedsFilter) {
+              $scope.feed = [];
+            }
+            /**
+             * Check whether to append to feed (at bottom) or insert (at top)
+             */
+            if (!options.append) {
+              $scope.feed = streamsData.res.records.concat($scope.feed);
+            } else {
+              $scope.feed = $scope.feed.concat(streamsData.res.records);
+            }
+            /**
+             * Check if there are more pages
+             * @type {Boolean}
+             */
+            $scope.noMorePosts = !streamsData.res.morePages;
             /**
              * Set the updated timestamp
              */

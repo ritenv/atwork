@@ -5,6 +5,8 @@ html, body {
 a {
   text-decoration: none;
   cursor: pointer; }
+  a.md-button {
+    display: inline-block; }
 
 .primaryColors a {
   color: #795548; }
