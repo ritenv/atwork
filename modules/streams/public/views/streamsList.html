@@ -1,0 +1,18 @@
+<div ng-controller="StreamsCtrl">
+    <md-button class="md-accent">
+        Groups
+    </md-button>
+    <md-divider></md-divider>
+    <ul class="unstyled">
+        <li ng-repeat="stream in streams">
+            <md-button class="no-case no-bold">
+                {{ stream.title }}
+            </md-button>
+        </li>
+        <li>
+            <md-button class="no-case no-bold md-primary">
+                + Create New
+            </md-button>
+        </li>
+    </ul>
+</div>

@@ -1,4 +1,4 @@
-var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'atwork.activities', 'atwork.notifications', 'atwork.settings', 'ngMaterial']);
+var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.posts', 'atwork.streams', 'atwork.activities', 'atwork.notifications', 'atwork.settings', 'ngMaterial']);
 
 app.controller('AppCtrl', [
   '$scope', 

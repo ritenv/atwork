@@ -1,4 +1,4 @@
-var routes = require('./routes/posts');
+var routes = require('./routes/streams');
 
 module.exports = function(System) {
   /**

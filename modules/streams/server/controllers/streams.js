@@ -37,7 +37,7 @@ module.exports = function(System) {
 
     var criteria = {};
 
-    Post.find(criteria, null, {sort: {title: 1}})
+    Stream.find(criteria, null, {sort: {title: 1}})
     .populate('creator')
     .skip(parseInt(req.query.page) * System.config.settings.perPage)
     .limit(System.config.settings.perPage+1)

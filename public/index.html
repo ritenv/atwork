@@ -27,17 +27,8 @@
         <md-content class="md-padding sidebar-list">
             <div ng-include="'/system/public/views/search.html'"></div>
             
-            <md-button class="md-accent">
-                Groups
-            </md-button>
-            <md-divider></md-divider>
-            <ul class="unstyled">
-                <li>
-                    <md-button class="no-case no-bold">
-                        Coming soon
-                    </md-button>
-                </li>
-            </ul>
+            <!-- Load user streams -->
+            <div ng-include="'/modules/streams/views/streamsList.html'"></div>
 
             <md-button class="md-accent">
                 Messages
@@ -166,6 +157,12 @@
       <script type="text/javascript" src="/modules/posts/posts.controllers.js"></script>
       <script type="text/javascript" src="/modules/posts/posts.routes.js"></script>
       <script type="text/javascript" src="/modules/posts/posts.services.js"></script>
+
+      <!-- Streams Module -->
+      <script type="text/javascript" src="/modules/streams/streams.js"></script>
+      <script type="text/javascript" src="/modules/streams/streams.controllers.js"></script>
+      <script type="text/javascript" src="/modules/streams/streams.routes.js"></script>
+      <script type="text/javascript" src="/modules/streams/streams.services.js"></script>
 
       <!-- Activities Module -->
       <script type="text/javascript" src="/modules/activities/activities.js"></script>

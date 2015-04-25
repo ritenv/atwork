@@ -1,4 +1,4 @@
-var myController = require('../controllers/posts');
+var myController = require('../controllers/streams');
 /**
  * Init the controller
  */
@@ -31,7 +31,7 @@ module.exports = function(System) {
   routes.push({
     method: 'post',
     path: '/:streamId/ubsubscribe',
-    handler: streams.ubsubscribe,
+    handler: streams.unsubscribe,
     authorized: true
   });
 
