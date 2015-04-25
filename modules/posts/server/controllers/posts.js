@@ -195,6 +195,57 @@ module.exports = function(System) {
   };
 
   /**
+   * Get posts of a particular stream
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
+  obj.streamPosts = function(req, res) {
+
+    var streamId = req.params.streamId;
+    
+    /**
+     * This function is called after resolving username to user's _id
+     * @return {Void}
+     */
+    var getPosts = function() {
+      var criteria = { stream: streamId };
+      if (req.query && req.query.timestamp) {
+        criteria.created = { $gte: req.query.timestamp };
+      }
+      if (req.query && req.query.filter) {
+        delete criteria.created;
+        criteria.content = new RegExp(req.query.filter, 'i');
+      }
+      Post.find(criteria, null, {sort: {created: -1}})
+      .populate('creator')
+      .populate('comments')
+      .populate('comments.creator')
+      .skip(parseInt(req.query.page) * System.config.settings.perPage)
+      .limit(System.config.settings.perPage+1)
+      .exec(function(err, posts) {
+        if (err) {
+          json.unhappy(err, res);
+        } else {
+          var morePages = System.config.settings.perPage < posts.length;
+          if (morePages) {
+            posts.pop();
+          }
+          posts.map(function(e) {
+            e = e.afterSave(req.user, req.query.limitComments);
+          });
+          json.happy({
+            records: posts,
+            morePages: morePages
+          }, res);
+        }
+      });
+    };
+
+    return getPosts();
+  };
+
+  /**
    * Get posts from users being followed
    * @param  {Object} req The request object
    * @param  {Object} res The response object
@@ -203,7 +254,10 @@ module.exports = function(System) {
   obj.feed = function(req, res) {
     //TODO: pagination
     var user = req.user;
-    var criteria = { creator: { $in: user.following.concat(user._id) } };
+    var criteria = { 
+      creator: { $in: user.following.concat(user._id) },
+      stream: undefined
+    };
     if (req.query && req.query.timestamp) {
       criteria.created = { $gte: req.query.timestamp };
     }

@@ -418,7 +418,8 @@ angular.module('atwork.posts')
       $scope.create = function(isValid, item) {
         if (isValid) {
           var post = new appPosts.single({
-            content: this.content
+            content: this.content,
+            stream: streamId
           });
           post.$save(function(response) {
             if (response.success) {
