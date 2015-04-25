@@ -26,9 +26,9 @@ angular.module('atwork.posts')
       $scope.mentionsResults = [];
 
       var hashtag = $routeParams.hashtag;
-      var userId = $routeParams.userId;
-      var postId = $routeParams.postId;
-      var streamId = $routeParams.streamId;
+      var userId = $scope.timelinePage = $routeParams.userId;
+      var postId = $scope.detailPage = $routeParams.postId;
+      var streamId = $scope.streamPage = $routeParams.streamId;
 
       if (hashtag) {
         $scope.feedsFilter = '#' + hashtag;

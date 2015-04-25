@@ -2,7 +2,7 @@
   <md-button class="md-primary md-raised" ng-click="back()" ng-if="showBack">
     <md-inline-list-icon class="fa fa-chevron-left"></md-inline-list-icon> Back
   </md-button>
-  <md-content ng-controller="StreamsPurposeCtrl" class="stream-purpose">
+  <md-content ng-controller="StreamsPurposeCtrl" class="stream-purpose" ng-if="streamPage">
     <form name="streamPurposeForm" ng-submit="updateStreamPurpose(streamPurposeForm.$valid)">
       <md-input-container ng-if="stream">
         <label>Stream Purpose</label>
