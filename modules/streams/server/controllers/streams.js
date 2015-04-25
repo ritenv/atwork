@@ -8,6 +8,15 @@ module.exports = function(System) {
   var sck = System.webSocket;
 
   /**
+   * Stream related sockets
+   */
+  sck.on('connection', function(socket){
+    socket.on('stream', function(streamId) {
+      socket.broadcast.emit('stream', streamId);
+    });
+  });
+
+  /**
    * Create a stream
    * @param  {Object} req The request object
    * @param  {Object} res The response object
@@ -23,6 +32,32 @@ module.exports = function(System) {
         return json.unhappy(err, res);
       }
       return json.happy(stream, res);
+    });
+  };
+
+  /**
+   * Modify a stream
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
+  obj.modify = function (req, res) {
+    Stream.findOne({
+      _id: req.params.streamId
+    })
+    .populate('creator')
+    .exec(function(err, stream) {
+      if (err) {
+        return json.unhappy(err, res);
+      }
+      stream.purpose = req.body.purpose;
+      stream.title = req.body.title || stream.title;
+      stream.save(function(err) {
+        if (err) {
+          return json.unhappy(err, res);
+        }
+        return json.happy(stream, res);
+      });
     });
   };
 
@@ -53,6 +88,31 @@ module.exports = function(System) {
           records: streams,
           morePages: morePages
         }, res);
+      }
+    });
+  };
+
+  /**
+   * Return info about single stream
+   * @param  {Object} req The req object
+   * @param  {Object} res The res object
+   * @return {Void}
+   */
+  obj.single = function(req, res) {
+    Stream.findOne({
+      _id: req.params.streamId
+    })
+    .populate('creator')
+    .exec(function(err, stream) {
+      if (err) {
+        return json.unhappy(err, res);
+      } else if (stream) {
+
+        return json.happy({
+          record: stream
+        }, res);
+      } else {
+        return json.unhappy({message: 'Stream not found'}, res);
       }
     });
   };

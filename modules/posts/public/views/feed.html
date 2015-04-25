@@ -2,6 +2,14 @@
   <md-button class="md-primary md-raised" ng-click="back()" ng-if="showBack">
     <md-inline-list-icon class="fa fa-chevron-left"></md-inline-list-icon> Back
   </md-button>
+  <md-content ng-controller="StreamsPurposeCtrl" class="stream-purpose">
+    <md-input-container ng-if="stream">
+      <form name="streamPurposeForm" ng-submit="updateStreamPurpose(streamPurposeForm.$valid)">
+        <input type="text" ng-model="stream.purpose">
+      </form>
+    </md-input-container>
+  </md-content>
+  
   <br>
   <br>
   <md-content class="post-writer" ng-show="!noPosting">

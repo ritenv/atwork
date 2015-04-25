@@ -22,6 +22,20 @@ module.exports = function(System) {
   });
 
   routes.push({
+    method: 'get',
+    path: '/:streamId',
+    handler: streams.single,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'post',
+    path: '/:streamId',
+    handler: streams.modify,
+    authorized: true
+  });
+
+  routes.push({
     method: 'post',
     path: '/:streamId/subscribe',
     handler: streams.subscribe,

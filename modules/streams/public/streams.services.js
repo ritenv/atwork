@@ -5,7 +5,7 @@ angular.module('atwork.streams')
     function($resource) {
       return {
         single: $resource('streams/:streamId/:action', {
-            postId: '@_id'
+            streamId: '@_id'
           }, {
             subscribe: {
               method: 'POST',

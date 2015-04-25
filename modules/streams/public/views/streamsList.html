@@ -5,8 +5,8 @@
     <md-divider></md-divider>
     <ul class="unstyled">
         <li ng-repeat="stream in streams">
-            <md-button class="no-case no-bold md-primary" href="/stream/{{stream._id}}">
-                $ {{ stream.title }}
+            <md-button class="btn no-case no-bold md-primary" href="/stream/{{stream._id}}">
+                $ {{ stream.title }} <span class="badge" ng-if="stream.unread">{{ stream.unread }}</span>
             </md-button>
         </li>
         <li>

@@ -102,9 +102,10 @@
                   </div>
                 </div>
 
-                <md-button ng-if="isLoggedIn" ng-click="showUserActions($event)" title="Profile">
-                  <md-inline-list-icon class="fa fa-user"></md-inline-list-icon>
+                <md-button class="user-profile-btn" ng-if="isLoggedIn" ng-click="showUserActions($event)" title="Profile">
+                  <img src="/images/spacer.gif" style="background-image: url('{{user.face || '/images/user.jpg'}}');" class="face" alt="{{user.name}}" title="{{user.name}}">
                 </md-button>
+
             </div>
           </md-toolbar>
 

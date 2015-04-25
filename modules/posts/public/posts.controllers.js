@@ -141,6 +141,7 @@ angular.module('atwork.posts')
             } else {
               $scope.feed = $scope.feed.concat(streamsData.res.records);
             }
+
             /**
              * Check if there are more pages
              * @type {Boolean}

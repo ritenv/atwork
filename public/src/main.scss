@@ -8,7 +8,7 @@ html, body {
 a {
   text-decoration: none;
   cursor: pointer;
-  &.md-button {
+  &.btn.md-button {
     display: inline-block;
   }
 }
@@ -34,7 +34,7 @@ a {
 /** ====== Sidenav Related BEGIN ====== */
 .site-sidenav {
   md-toolbar h1 {
-    font-size: 1.250em;
+    font-size: 100%;
     font-weight: 400;
     margin: auto;
     text-align: center;
@@ -74,6 +74,12 @@ a {
 /** ====== General typo BEGIN ====== */
 .breathing-space {
   margin: 20px 0;
+}
+.badge {
+  background: #cc5555;
+  padding: 1px 5px;
+  color: #fff;
+  border-radius: 20px;
 }
 md-list .md-button {
   color: inherit;
@@ -165,6 +171,20 @@ ul.unstyled {
     @extend .circular-image;
   }
 }
+md-content.stream-purpose {
+  background: #eeeeee;
+  padding: 5px;
+  md-input-container {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    input {
+      width: 100%;
+      border: none;
+      @extend .mute;
+      font-style: italic;
+    }
+  }
+}
 .search-results {
   position: absolute;
   z-index: 1;
@@ -231,6 +251,15 @@ ul.unstyled {
     .user-profile-following {
       @extend .user-listing;
     }
+  }
+}
+.user-profile-btn {
+  img {
+    background-position: middle center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 24px;
+    height: 24px;
   }
 }
 /** ====== Users END ====== */

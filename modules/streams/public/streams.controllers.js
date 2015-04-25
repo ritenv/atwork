@@ -1,6 +1,41 @@
 'use strict';
 
 angular.module('atwork.streams')
+  .controller('StreamsPurposeCtrl', [
+    '$scope',
+    '$rootScope',
+    '$routeParams',
+    '$timeout',
+    'appAuth',
+    'appToast',
+    'appStorage',
+    'appLocation',
+    'appWebSocket',
+    'appStreams',
+    function($scope, $rootScope, $routeParams, $timeout, appAuth, appToast, appStorage, appLocation, appWebSocket, appStreams) {
+      var streamId = $routeParams.streamId;
+
+      $scope.getStream = function (streamId) {
+        var stream = appStreams.single.get({streamId: streamId}, function() {
+          $scope.stream = stream.res.record;
+          $scope.stream.purpose = $scope.stream.purpose || 'Set the stream\'s purpose here...'
+        });
+      };
+
+      $scope.updateStreamPurpose = function (isValid) {
+        var stream = appStreams.single.get({streamId: streamId}, function() {
+          stream = angular.extend(stream, $scope.stream);
+          stream.$save(function(response) {
+
+          });
+        });
+      };
+
+      if (streamId) {
+        $scope.getStream(streamId);
+      }
+    }
+  ])
   .controller('StreamsCtrl', [
     '$scope',
     '$rootScope',
@@ -76,6 +111,14 @@ angular.module('atwork.streams')
           appToast('Bummer! Is the stream name good?');
         }
       };
+
+      /**
+       * Listen to socket
+       */
+      appWebSocket.on('stream', function() {
+        appToast('Woot! There is a new stream available!');
+        $scope.updateStreams({reload: true});
+      });
 
       /**
        * Get the initial list
