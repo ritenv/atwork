@@ -1,0 +1,28 @@
+<div ng-controller="StreamsCtrl">
+    <md-button class="md-accent">
+        Streams
+    </md-button>
+    <md-divider></md-divider>
+    <ul class="unstyled">
+        <li ng-repeat="stream in streams">
+            <md-button class="btn no-case no-bold md-primary" href="/stream/{{stream._id}}">
+                $ {{ stream.title }} <span class="badge" ng-if="stream.unread">{{ stream.unread }}</span>
+            </md-button>
+        </li>
+        <li>
+            <form name="newStreamForm" ng-submit="create(newStreamForm.$valid)" novalidate>
+                <md-input-container ng-show="actions.createNew">
+                    <label>+ New Stream</label>
+                    <input type="text" name="newStreamName" ng-model="newStreamName" required set-focus="actions.createNew">
+                    <div ng-messages="newStreamForm.newStreamName.$error" ng-show="newStreamForm.newStreamName.$dirty">
+                      <div ng-message="md-maxlength">That's too long!</div>
+                      <div ng-message="minlength">That's too short!</div>
+                    </div>
+                </md-input-container>
+            </form>
+            <md-button class="no-case no-bold md-primary" ng-hide="actions.createNew" ng-click="createNew()">
+                + Create New
+            </md-button>
+        </li>
+    </ul>
+</div>

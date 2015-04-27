@@ -8,6 +8,9 @@ html, body {
 a {
   text-decoration: none;
   cursor: pointer;
+  &.btn.md-button {
+    display: inline-block;
+  }
 }
 .primaryColors {
   a {
@@ -31,7 +34,7 @@ a {
 /** ====== Sidenav Related BEGIN ====== */
 .site-sidenav {
   md-toolbar h1 {
-    font-size: 1.250em;
+    font-size: 100%;
     font-weight: 400;
     margin: auto;
     text-align: center;
@@ -72,6 +75,12 @@ a {
 .breathing-space {
   margin: 20px 0;
 }
+.badge {
+  background: #cc5555;
+  padding: 1px 5px;
+  color: #fff;
+  border-radius: 20px;
+}
 md-list .md-button {
   color: inherit;
   font-weight: 500;
@@ -93,6 +102,12 @@ ul.unstyled {
 .no-margin {
   margin-bottom: 0;
   padding-bottom: 0;
+}
+.no-margin-all {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 .circular-image {
   border-radius: 100px;
@@ -154,6 +169,20 @@ ul.unstyled {
   }
   .face {
     @extend .circular-image;
+  }
+}
+md-content.stream-purpose {
+  background: #eeeeee;
+  padding: 5px;
+  md-input-container {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    input {
+      width: 100%;
+      border: none;
+      @extend .mute;
+      font-style: italic;
+    }
   }
 }
 .search-results {
@@ -222,6 +251,15 @@ ul.unstyled {
     .user-profile-following {
       @extend .user-listing;
     }
+  }
+}
+.user-profile-btn {
+  img {
+    background-position: middle center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 24px;
+    height: 24px;
   }
 }
 /** ====== Users END ====== */

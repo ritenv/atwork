@@ -30,6 +30,13 @@ module.exports = function(System) {
 
   routes.push({
     method: 'get',
+    path: '/stream/:streamId',
+    handler: posts.streamPosts,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'get',
     path: '/:postId',
     handler: posts.single,
     authorized: true
