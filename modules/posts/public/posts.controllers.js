@@ -47,7 +47,7 @@ angular.module('atwork.posts')
       $scope.loadMore = function() {
         $scope.feedPage++;
         $scope.lastUpdated = 0;
-        $scope.feed.push({}); //spacer in the UI
+        $scope.feed.push({spacer: true}); //spacer in the UI
         $scope.updateFeed({append: true});
       };
 
@@ -88,11 +88,7 @@ angular.module('atwork.posts')
 
       $scope.updateFeed = function(options, passedData) {
         var options = options || {};
-        appPostsFeed.getFeeds(angular.extend(options, {
-          userId: userId,
-          hashtag: hashtag,
-          postId: postId,
-          streamId: streamId,
+        appPostsFeed.getFeeds(angular.extend(options, $routeParams, {
           passedData: passedData,
           feedsFilter: $scope.feedsFilter,
           limitComments: $scope.limitComments,

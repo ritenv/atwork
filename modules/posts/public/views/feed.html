@@ -72,7 +72,7 @@
     
     <p ng-if="!lastUpdated">Loading...</p>
     <md-item ng-repeat="item in feed">
-      <div ng-if="!item._id" class="feed-spacer">
+      <div ng-if="item.spacer" class="feed-spacer">
         Loaded more below
       </div>
       <md-item-content class="single-post" ng-if="item._id">
