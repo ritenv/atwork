@@ -1,4 +1,4 @@
-<div ng-controller="PostsCtrl">
+<div>
   <md-button class="md-primary md-raised" ng-click="back()" ng-if="showBack">
     <md-inline-list-icon class="fa fa-chevron-left"></md-inline-list-icon> Back
   </md-button>
@@ -107,7 +107,7 @@
             <form flex="50" flex-sm="100" flex-md="100" name="replyForm" ng-submit="comment(replyForm.$valid, item)" novalidate>
               <md-input-container>
                 <label>Write your reply...</label>
-                <textarea name="content" ng-model="content" id="status-{{item._id}}" cols="30" rows="2" required md-maxlength="500" minlength="3"></textarea>
+                <textarea set-focus="item.commentEnabled" name="content" ng-model="content" id="status-{{item._id}}" cols="30" rows="2" required md-maxlength="500" minlength="3"></textarea>
                 <!-- ng-change="checkMentions(content, '#status-' + item._id)" -->
                 <div ng-messages="replyForm.content.$error" ng-show="replyForm.$submitted">
                   <div ng-message="required">Write your post first.</div>

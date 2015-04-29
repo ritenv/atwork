@@ -15,10 +15,16 @@ angular.module('atwork.users')
         templateUrl: '/modules/users/views/profile.html?v',
         controller: 'ProfileCtrl',
         resolve: {
-          profileData: function($routeParams, appAuth, appUsers) {
-            var userId = $routeParams.userId || appAuth.getUser()._id;
-            return appUsers.single.get({userId: userId}).$promise;
-          }
+          profileData: [
+            '$route',
+            'appAuth', 
+            'appUsers',
+            function($route, appAuth, appUsers) {
+              var routeParams = $route.current.params;
+              var userId = routeParams.userId || appAuth.getUser()._id;
+              return appUsers.single.get({userId: userId}).$promise;
+            }
+          ]
         }
       })
       .when('/me', {

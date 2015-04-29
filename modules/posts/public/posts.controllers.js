@@ -13,7 +13,9 @@ angular.module('atwork.posts')
     'appLocation',
     'appWebSocket',
     'appUsersSearch',
-    function($scope, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket, appUsersSearch) {
+    'appPostsFeed',
+    'resolvedFeeds',
+    function($scope, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket, appUsersSearch, appPostsFeed, resolvedFeeds) {
       $scope.content = '';
       $scope.lastUpdated = 0;
       $scope.postForm = '';
@@ -50,195 +52,88 @@ angular.module('atwork.posts')
       };
 
       /**
-       * Update feed items
+       * Function to update the feed on the client side
+       * @param  {Object} data The data received from endpoint
        * @return {Void}
        */
-      $scope.updateFeed = function(options, passedData) {
-        options = options || {};
+      function doUpdate(data) {
+        var options = data.config || {};
 
-        if (userId) {
-          /**
-           * TIMELINE: If there is a userId, let's load feeds of the specific user
-           */
-          /**
-           * Disable posting
-           * @type {Boolean}
-           */
-          $scope.noPosting = true;
-          /**
-           * Show limited comments
-           * @type {Boolean}
-           */
-          $scope.limitComments = true;
-
-          /**
-           * Prepare the request
-           */
-          var timelineData = appPosts.timeline.get({
-            userId: userId,
-            timestamp: $scope.lastUpdated,
-            filter: $scope.feedsFilter,
-            limitComments: $scope.limitComments,
-            page: $scope.feedPage
-          }, function() {
-            doUpdate(timelineData);
-          });
-
-        } else if (streamId) {
-          /**
-           * STREAM: If there is a streamId, let's load feeds of the specific stream
-           */
-          
-          /**
-           * Show limited comments
-           * @type {Boolean}
-           */
-          $scope.limitComments = true;
-
-          /**
-           * Prepare the request
-           */
-          var streamsData = appPosts.stream.get({
-            streamId: streamId,
-            timestamp: $scope.lastUpdated,
-            filter: $scope.feedsFilter,
-            limitComments: $scope.limitComments,
-            page: $scope.feedPage
-          }, function() {
-            doUpdate(streamsData);
-          });
-        } else if (postId) {
-          /**
-           * SINGLE: If there is a postId, let's load a single feed
-           */
-          /**
-           * Disable filtering if its a single feed
-           * @type {Boolean}
-           */
-          $scope.noFiltering = true;
-          /**
-           * Disable posting
-           * @type {Boolean}
-           */
-          $scope.noPosting = true;
-          /**
-           * No load-more button
-           * @type {Boolean}
-           */
-          $scope.noMorePosts = true;
-          /**
-           * Get ready to show all comments
-           */
-          delete $scope.limitComments;
-
-          /**
-           * Prepare the request
-           */
-          var timelineData = appPosts.single.get({
-            postId: postId, 
-            limitComments: $scope.limitComments,
-            allowMarking: true
-          }, function() {
-            /**
-             * The retrieved record is the only one to show
-             * @type {Array}
-             */
-            $scope.feed = [timelineData.res.record];
-            /**
-             * Set the last updated timestamp
-             */
-            $scope.lastUpdated = Date.now();
-            $scope.showBack = true;
-          });
+        /**
+         * If it's a filter request, emoty the feeds
+         */
+        if ($scope.feedsFilter && !options.append) {
+          $scope.feed = [];
+        }
+        /**
+         * Check whether to append to feed (at bottom) or insert (at top)
+         */
+        if (!options.append) {
+          $scope.feed = data.res.records.concat($scope.feed);
         } else {
-          /**
-           * FEED: If there is no postId and no userId, let's load the user's latest feed
-           */
-          /**
-           * Limit comments
-           * @type {Boolean}
-           */
-          $scope.limitComments = true;
-
-          /**
-           * Prepare the request
-           */
-          var feedData = appPosts.feed.get({
-            timestamp: $scope.lastUpdated, 
-            filter: $scope.feedsFilter, 
-            limitComments: $scope.limitComments,
-            page: $scope.feedPage
-          }, function() {
-            doUpdate(feedData);
-          });
+          $scope.feed = $scope.feed.concat(data.res.records);
         }
 
         /**
-         * If data was sent to the function directly
-         * update it for faster client side updates
+         * Check if there are more pages
+         * @type {Boolean}
          */
-        if (passedData) {
-          doUpdate(passedData);
-        }
-
+        $scope.noMorePosts = !data.res.morePages;
         /**
-         * Default feedcount to 0
-         * @type {Number}
+         * Set the updated timestamp
          */
-        $scope.newFeedCount = 0;
+        $scope.lastUpdated = Date.now();
+        $scope.showBack = false;
+      }
 
-        /**
-         * Function to update the feed on the client side
-         * @param  {Object} data The data received from endpoint
-         * @return {Void}
-         */
-        function doUpdate(data) {
-          /**
-           * If it's a filter request, emoty the feeds
-           */
-          if ($scope.feedsFilter && !options.append) {
-            $scope.feed = [];
-          }
-          /**
-           * Check whether to append to feed (at bottom) or insert (at top)
-           */
-          if (!options.append) {
-            $scope.feed = data.res.records.concat($scope.feed);
-          } else {
-            $scope.feed = $scope.feed.concat(data.res.records);
-          }
-
-          /**
-           * Check if there are more pages
-           * @type {Boolean}
-           */
-          $scope.noMorePosts = !data.res.morePages;
-          /**
-           * Set the updated timestamp
-           */
-          $scope.lastUpdated = Date.now();
-          $scope.showBack = false;
-        }
-
+      $scope.updateFeed = function(options, passedData) {
+        var options = options || {};
+        appPostsFeed.getFeeds(angular.extend(options, {
+          userId: userId,
+          hashtag: hashtag,
+          postId: postId,
+          streamId: streamId,
+          passedData: passedData,
+          feedsFilter: $scope.feedsFilter,
+          limitComments: $scope.limitComments,
+          feedPage: $scope.feedPage
+        }), function(response) {
+          angular.extend($scope, response.config);
+          doUpdate(response);
+        });
       };
+
+      /**
+       * Initial feeds
+       */
+      angular.extend($scope, resolvedFeeds.config);
+      doUpdate(resolvedFeeds);
+      
 
       /**
        * Check if feed needs to be filtered
        * If not, call $scope.updateFeed() anyway as first run
        */
+      var feedsFilterTimeout;
       $scope.$watch('feedsFilter', function(newValue, oldValue) {
         if (newValue !== oldValue) {
           $scope.feed = [];
         }
-        if (!newValue) {
-          $scope.lastUpdated = 0;
-          $scope.noPosting = false;
-          $scope.updateFeed();
-        } else {
-          $scope.noPosting = true;
-          $scope.updateFeed();
-        }
-        $scope.feedsFilterEnabled = $scope.feedsFilter !== '';
+
+        $timeout.cancel(feedsFilterTimeout);
+        feedsFilterTimeout = $timeout(function() {
+          if (!newValue) {
+            if ($scope.feedsFilterEnabled) {
+              $scope.lastUpdated = 0;
+              $scope.noPosting = false;
+              $scope.updateFeed();
+            }
+          } else {
+            $scope.noPosting = true;
+            $scope.updateFeed();
+          }
+          $scope.feedsFilterEnabled = $scope.feedsFilter !== '';
+        }, 500);
       });
 
       var updateNewCount = function(data) {

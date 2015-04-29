@@ -82,5 +82,172 @@ angular.module('atwork.posts')
       };
     }
   ])
+  .factory('appPostsFeed', [
+    'appPosts',
+    function(appPosts) {
+      return {
+        getFeeds: function(options, cb) {
+          options = options || {};
+          var userId = options.userId;
+          var hashtag = options.hashtag;
+          var postId = options.postId;
+          var streamId = options.streamId;
+          var passedData = options.passedData;
+
+          /**
+           * Configuration for the service
+           * that will also be returned
+           * @type {Object}
+           */
+          var config = options;
+
+          if (userId) {
+            /**
+             * TIMELINE: If there is a userId, let's load feeds of the specific user
+             */
+            /**
+             * Disable posting
+             * @type {Boolean}
+             */
+            config.noPosting = true;
+            /**
+             * Show limited comments
+             * @type {Boolean}
+             */
+            config.limitComments = true;
+
+            /**
+             * Prepare the request
+             */
+            var timelineData = appPosts.timeline.get({
+              userId: userId,
+              timestamp: config.lastUpdated,
+              filter: config.feedsFilter,
+              limitComments: config.limitComments,
+              page: config.feedPage
+            }, function() {
+              doUpdate(timelineData);
+            });
+
+          } else if (streamId) {
+            /**
+             * STREAM: If there is a streamId, let's load feeds of the specific stream
+             */
+            
+            /**
+             * Show limited comments
+             * @type {Boolean}
+             */
+            config.limitComments = true;
+
+            /**
+             * Prepare the request
+             */
+            var streamsData = appPosts.stream.get({
+              streamId: streamId,
+              timestamp: config.lastUpdated,
+              filter: config.feedsFilter,
+              limitComments: config.limitComments,
+              page: config.feedPage
+            }, function() {
+              doUpdate(streamsData);
+            });
+          } else if (postId) {
+            /**
+             * SINGLE: If there is a postId, let's load a single feed
+             */
+            /**
+             * Disable filtering if its a single feed
+             * @type {Boolean}
+             */
+            config.noFiltering = true;
+            /**
+             * Disable posting
+             * @type {Boolean}
+             */
+            config.noPosting = true;
+            /**
+             * No load-more button
+             * @type {Boolean}
+             */
+            config.noMorePosts = true;
+            /**
+             * Get ready to show all comments
+             */
+            delete config.limitComments;
+
+            /**
+             * Prepare the request
+             */
+            var timelineData = appPosts.single.get({
+              postId: postId, 
+              limitComments: config.limitComments,
+              allowMarking: true
+            }, function() {
+              /**
+               * The retrieved record is the only one to show
+               * @type {Array}
+               */
+              timelineData.res.records = [timelineData.res.record];
+              doUpdate(timelineData);
+
+              /**
+               * Set the last updated timestamp
+               */
+              config.lastUpdated = Date.now();
+              config.showBack = true;
+            });
+          } else {
+            /**
+             * FEED: If there is no postId and no userId, let's load the user's latest feed
+             */
+            /**
+             * Limit comments
+             * @type {Boolean}
+             */
+            config.limitComments = true;
+
+            /**
+             * Prepare the request
+             */
+            var feedData = appPosts.feed.get({
+              timestamp: config.lastUpdated, 
+              filter: config.feedsFilter, 
+              limitComments: config.limitComments,
+              page: config.feedPage
+            }, function() {
+              doUpdate(feedData);
+            });
+          }
+
+          /**
+           * If data was sent to the function directly
+           * update it for faster client side updates
+           */
+          if (passedData) {
+            doUpdate(passedData);
+          }
+
+          /**
+           * Default feedcount to 0
+           * @type {Number}
+           */
+          config.newFeedCount = 0;
+
+          /**
+           * Function to update the feed on the client side
+           * @param  {Object} data The data received from endpoint
+           * @return {Void}
+           */
+          function doUpdate(data) {
+            config.lastUpdated = Date.now();
+            data.config = config;
+            cb(data);
+          }
+
+        }
+      }
+    }
+  ]);
   ;
   
