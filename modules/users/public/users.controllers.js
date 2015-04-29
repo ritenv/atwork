@@ -39,7 +39,8 @@ angular.module('atwork.users')
     'appAuth',
     'appToast',
     'appPosts',
-    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appPosts) {
+    'profileData',
+    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appPosts, profileData) {
       var userId = $routeParams.userId || appAuth.getUser()._id;
 
       /**
@@ -86,21 +87,24 @@ angular.module('atwork.users')
         }
       };
 
+      var assignProfile = function assignedProfile(passedData) {
+        /**
+         * Its possible that we were provided with a username instead of userID
+         * Let's switch to using userId
+         */
+        userId = passedData.res.record._id;
+
+        passedData.res.profile = passedData.res.record;
+        angular.extend($scope, passedData.res);
+      };
+
       /**
        * Get the user's profile
        * @return {Void}
        */
       $scope.getProfile = function() {
         appUsers.single.get({userId: userId}).$promise.then(function(response) {
-          /**
-           * Its possible that we were provided with a username instead of userID
-           * Let's switch to using userId
-           */
-          if (userId) {
-            userId = response.res.record._id;
-          }
-          response.res.profile = response.res.record;
-          angular.extend($scope, response.res);
+          assignProfile(response);
         });
       };
 
@@ -111,9 +115,9 @@ angular.module('atwork.users')
       $scope.noPosting = true;
 
       /**
-       * Call it once by default
+       * Resolved profile data, assign to $scope
        */
-      $scope.getProfile();
+      assignProfile(profileData);
 
       /**
        * Follow the active user

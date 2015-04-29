@@ -86,9 +86,17 @@ function systemRoutes(System) {
   routes.forEach(function(route) {
     var moduleRouter = express.Router();
     if (!route.authorized) {
-      moduleRouter[route.method](route.path, System.auth.justGetUser, route.handler);
+      moduleRouter[route.method](route.path, System.auth.justGetUser, function(req, res) {
+          setTimeout(function() {
+            route.handler(req, res);
+          }, System.config.REQUESTS_DELAY_SYSTEM);
+        });
     } else {
-      moduleRouter[route.method](route.path, System.auth.ensureAuthorized, route.handler);
+      moduleRouter[route.method](route.path, System.auth.ensureAuthorized, function(req, res) {
+        setTimeout(function() {
+          route.handler(req, res);
+        }, System.config.REQUESTS_DELAY_SYSTEM);
+      });
     }
     app.use('/', moduleRouter);
   });

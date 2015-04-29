@@ -13,7 +13,13 @@ angular.module('atwork.users')
       })
       .when('/profile/:userId', {
         templateUrl: '/modules/users/views/profile.html?v',
-        controller: 'ProfileCtrl'
+        controller: 'ProfileCtrl',
+        resolve: {
+          profileData: function($routeParams, appAuth, appUsers) {
+            var userId = $routeParams.userId || appAuth.getUser()._id;
+            return appUsers.single.get({userId: userId}).$promise;
+          }
+        }
       })
       .when('/me', {
         templateUrl: '/modules/users/views/profile.html?v',

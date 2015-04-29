@@ -56,7 +56,7 @@
     </md-content>
   </div>
 
-  <md-content class="primaryColors feedsFilter" ng-show="!noFiltering">
+  <md-content class="primaryColors feedsFilter" ng-show="!noFiltering && lastUpdated">
     <div layout="column">
       <a class="filter" ng-click="feedsFilterEnabled = !feedsFilterEnabled" ><span class="fa fa-search"></span> Filter</a>
       <md-input-container ng-show="feedsFilterEnabled" class="no-margin">
