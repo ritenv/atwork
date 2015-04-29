@@ -1,6 +1,7 @@
 'use strict';
 console.log('Config in development');
 module.exports = {
+  REQUESTS_DELAY: 2000,
   baseURL: 'http://localhost:8111',
   db: process.env.MONGOHQ_URL || 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/atwork-dev',
   server: {

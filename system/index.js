@@ -308,9 +308,17 @@ module.exports = {
     routes.forEach(function(route) {
       var moduleRouter = express.Router();
       if (!route.authorized) {
-        moduleRouter[route.method](route.path, $this.auth.justGetUser, route.handler);
+        moduleRouter[route.method](route.path, $this.auth.justGetUser, function(req, res) {
+          setTimeout(function() {
+            route.handler(req, res);
+          }, $this.config.REQUESTS_DELAY);
+        });
       } else {
-        moduleRouter[route.method](route.path, $this.auth.ensureAuthorized, route.handler);
+        moduleRouter[route.method](route.path, $this.auth.ensureAuthorized, function(req, res) {
+          setTimeout(function() {
+            route.handler(req, res);
+          }, $this.config.REQUESTS_DELAY);
+        });
       }
       app.use('/' + moduleName, moduleRouter);
     });

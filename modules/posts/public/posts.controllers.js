@@ -53,7 +53,7 @@ angular.module('atwork.posts')
        * Update feed items
        * @return {Void}
        */
-      $scope.updateFeed = function(options) {
+      $scope.updateFeed = function(options, passedData) {
         options = options || {};
 
         if (userId) {
@@ -81,31 +81,9 @@ angular.module('atwork.posts')
             limitComments: $scope.limitComments,
             page: $scope.feedPage
           }, function() {
-            /**
-             * If it's a filter request, emoty the feeds
-             */
-            if ($scope.feedsFilter) {
-              $scope.feed = [];
-            }
-            /**
-             * Check whether to append to feed (at bottom) or insert (at top)
-             */
-            if (!options.append) {
-              $scope.feed = timelineData.res.records.concat($scope.feed);
-            } else {
-              $scope.feed = $scope.feed.concat(timelineData.res.records);
-            }
-            /**
-             * Check if there are more pages
-             * @type {Boolean}
-             */
-            $scope.noMorePosts = !timelineData.res.morePages;
-            /**
-             * Set the updated timestamp
-             */
-            $scope.lastUpdated = Date.now();
-            $scope.showBack = false;
+            doUpdate(timelineData);
           });
+
         } else if (streamId) {
           /**
            * STREAM: If there is a streamId, let's load feeds of the specific stream
@@ -127,31 +105,7 @@ angular.module('atwork.posts')
             limitComments: $scope.limitComments,
             page: $scope.feedPage
           }, function() {
-            /**
-             * If it's a filter request, empty the feeds
-             */
-            if ($scope.feedsFilter) {
-              $scope.feed = [];
-            }
-            /**
-             * Check whether to append to feed (at bottom) or insert (at top)
-             */
-            if (!options.append) {
-              $scope.feed = streamsData.res.records.concat($scope.feed);
-            } else {
-              $scope.feed = $scope.feed.concat(streamsData.res.records);
-            }
-
-            /**
-             * Check if there are more pages
-             * @type {Boolean}
-             */
-            $scope.noMorePosts = !streamsData.res.morePages;
-            /**
-             * Set the updated timestamp
-             */
-            $scope.lastUpdated = Date.now();
-            $scope.showBack = false;
+            doUpdate(streamsData);
           });
         } else if (postId) {
           /**
@@ -215,39 +169,57 @@ angular.module('atwork.posts')
             limitComments: $scope.limitComments,
             page: $scope.feedPage
           }, function() {
-            /**
-             * If it's a filter request, emoty the feeds
-             */
-            if ($scope.feedsFilter && !options.append) {
-              $scope.feed = [];
-            }
-            /**
-             * Check whether to append to feed (at bottom) or insert (at top)
-             */
-            if (!options.append) {
-              $scope.feed = feedData.res.records.concat($scope.feed);
-            } else {
-              $scope.feed = $scope.feed.concat(feedData.res.records);
-            }
-            /**
-             * If no posts found, hide the loadmore button
-             */
-            if (!feedData.res.records.length) {
-              $scope.noMorePosts = true;
-            }
-            /**
-             * Check if there are more pages
-             * @type {Boolean}
-             */
-            $scope.noMorePosts = !feedData.res.morePages;
-            /**
-             * Set the updated timestamp
-             */
-            $scope.lastUpdated = Date.now();
-            $scope.showBack = false;
+            doUpdate(feedData);
           });
         }
+
+        /**
+         * If data was sent to the function directly
+         * update it for faster client side updates
+         */
+        if (passedData) {
+          doUpdate(passedData);
+        }
+
+        /**
+         * Default feedcount to 0
+         * @type {Number}
+         */
         $scope.newFeedCount = 0;
+
+        /**
+         * Function to update the feed on the client side
+         * @param  {Object} data The data received from endpoint
+         * @return {Void}
+         */
+        function doUpdate(data) {
+          /**
+           * If it's a filter request, emoty the feeds
+           */
+          if ($scope.feedsFilter && !options.append) {
+            $scope.feed = [];
+          }
+          /**
+           * Check whether to append to feed (at bottom) or insert (at top)
+           */
+          if (!options.append) {
+            $scope.feed = data.res.records.concat($scope.feed);
+          } else {
+            $scope.feed = $scope.feed.concat(data.res.records);
+          }
+
+          /**
+           * Check if there are more pages
+           * @type {Boolean}
+           */
+          $scope.noMorePosts = !data.res.morePages;
+          /**
+           * Set the updated timestamp
+           */
+          $scope.lastUpdated = Date.now();
+          $scope.showBack = false;
+        }
+
       };
 
       /**
@@ -422,11 +394,30 @@ angular.module('atwork.posts')
             content: this.content,
             stream: streamId
           });
+          
           post.$save(function(response) {
             if (response.success) {
               appWebSocket.emit('feed', response.res._id);
               appToast('You have posted successfully.');
-              $scope.updateFeed();
+              
+              /**
+               * We are the creator ourselves, we know that
+               * @type {Object}
+               */
+              response.res = angular.extend(response.res, {
+                creator: appAuth.getUser()
+              });
+              
+              /**
+               * Lets not update feed again from server, we have the data on the client
+               * @type {Object}
+               */
+              $scope.updateFeed({}, {
+                res: {
+                  records: [response.res]
+                }
+              });
+
               $scope.reset();
             } else {
               $scope.failure = true;

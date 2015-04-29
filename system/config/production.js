@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  REQUESTS_DELAY: 0,
   baseURL: 'http://localhost:8111',
   db: 'mongodb://ritenv:123.com@ds055680.mongolab.com:55680/atwork-dev',
   server: {
