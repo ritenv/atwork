@@ -31,15 +31,18 @@ angular.module('atwork.posts')
     $locationProvider.html5Mode(true);
   }]);
 
+/**
+ * Get configuration for resolved feeds to reuse in routes
+ * @param  {Object} params Contains parameters for the options
+ * @return {Array}
+ */
 function resolvedFeeds(params) {
   return [
     '$route',
     'appPostsFeed',
     function($route, appPostsFeed) {
       var deferred = Q.defer();
-      var options = angular.extend({
-        limitComments: params.limitComments || false
-      }, $route.current.params);
+      var options = angular.extend(params, $route.current.params);
 
       appPostsFeed.getFeeds(options, function(response) {
         deferred.resolve(response);
