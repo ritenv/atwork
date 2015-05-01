@@ -14,6 +14,7 @@
         "public/bower_components/angular-resource/angular-resource.js",
         "public/bower_components/q/q.js",
         "public/bower_components/ng-file-upload/angular-file-upload.js",
+        "public/bower_components/angular-loading-bar/build/loading-bar.min.js",
         "public/bower_components/angular-mocks/angular-mocks.js"
       ]
     }
