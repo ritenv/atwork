@@ -307,7 +307,11 @@ module.exports = function(System) {
     Post.findOne({
       _id: req.params.postId
     })
-    .populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
+    .populate('creator')
+    .populate('comments')
+    .populate('comments.creator')
+    .populate('stream')
+    .exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {

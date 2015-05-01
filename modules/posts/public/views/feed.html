@@ -61,7 +61,7 @@
       <a class="filter" ng-click="feedsFilterEnabled = !feedsFilterEnabled" ><span class="fa fa-search"></span> Filter</a>
       <md-input-container ng-show="feedsFilterEnabled" class="no-margin">
         <label>Type keywords to filter...</label>
-        <input type="search" ng-model="feedsFilter" minlength="2">
+        <input type="search" ng-model="feedsFilter" minlength="2" set-focus="feedsFilterEnabled">
       </md-input-container>
     </div>
   </md-content>
