@@ -177,36 +177,6 @@ angular.module('atwork.posts')
       appWebSocket.on('feed', updateNewCount);
 
       /**
-       * Like the post
-       * @param  {Object} item The item object
-       * @return {Void}      
-       */
-      $scope.doLike = function(item) {
-        item.liked = true;
-        var post = appPosts.single.get({postId: item._id}, function() {
-          post.$like({postId: item._id}, function() {
-            angular.extend(item, post.res.record);
-            appWebSocket.emit('like', item._id);
-          });
-        });
-      };
-
-      /**
-       * Unlike the post
-       * @param  {Object} item The item object
-       * @return {Void}      
-       */
-      $scope.undoLike = function(item) {
-        item.liked = false;
-        var post = appPosts.single.get({postId: item._id}, function() {
-          post.$unlike({postId: item._id}, function() {
-            angular.extend(item, post.res.record);
-            appWebSocket.emit('unlike', item._id);
-          });
-        });
-      };
-
-      /**
        * Reset the form
        * @return {Void}
        */
@@ -314,40 +284,6 @@ angular.module('atwork.posts')
               $scope.failure = true;
               appToast(response.res.message);
             }
-          });
-        } else {
-          
-        }
-      };
-
-      /**
-       * Comment on a post
-       * @param  {Boolean} isValid Will be true if form validation passes
-       * @return {Void}
-       */
-      $scope.comment = function(isValid, item) {
-        if (isValid) {
-          var commentContent = this.content;
-          
-          /**
-           * Enable client side comments update for faster response time
-           */
-          item.commentEnabled = false;
-          item.comments.unshift({
-            creator: appAuth.getUser(),
-            content: commentContent
-          });
-
-          var $this = this;
-          var post = appPosts.single.get({postId: item._id}, function() {
-            post.comment = commentContent;
-            delete post.res;
-            delete post.success;
-            post.$comment({postId: item._id}, function() {
-              angular.extend(item, post.res.record);
-              appWebSocket.emit('comment', item._id);
-              item.commentEnabled = false;
-            });
           });
         } else {
           
