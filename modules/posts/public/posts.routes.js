@@ -17,14 +17,14 @@ angular.module('atwork.posts')
         templateUrl: '/modules/posts/views/feed.html',
         controller: 'PostsCtrl',
         resolve: {
-          resolvedFeeds: resolvedFeeds({limitComments: true})
+          resolvedFeeds: resolvedFeeds({limitComments: false})
         }
       })
       .when('/post/:postId', {
         templateUrl: '/modules/posts/views/feed.html',
         controller: 'PostsCtrl',
         resolve: {
-          resolvedFeeds:  resolvedFeeds({limitComments: false})
+          resolvedFeeds: resolvedFeeds({limitComments: false})
         }
       })
       ;
@@ -42,7 +42,9 @@ function resolvedFeeds(params) {
     'appPostsFeed',
     function($route, appPostsFeed) {
       var deferred = Q.defer();
-      var options = angular.extend(params, $route.current.params);
+      var options = angular.extend({
+        limitComments: params.limitComments
+      }, $route.current.params);
 
       appPostsFeed.getFeeds(options, function(response) {
         deferred.resolve(response);

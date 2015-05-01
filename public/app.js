@@ -27,7 +27,7 @@ app.controller('AppCtrl', [
     };
 
     $scope.goHome = function() {
-      appLocation.url('/feed');
+      appLocation.url('/');
     };
 
     $scope.showUserActions = function($event) {
