@@ -27,6 +27,7 @@ angular.module('atwork.users')
           $scope.search = '';
         }, 500);
       };
+
     }
   ])
   .controller('ProfileCtrl', [
@@ -39,7 +40,10 @@ angular.module('atwork.users')
     'appAuth',
     'appToast',
     'appPosts',
-    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appPosts) {
+    'profileData',
+    'resolvedFeeds',
+    'appPostsFeed',
+    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appPosts, profileData, resolvedFeeds, appPostsFeed) {
       var userId = $routeParams.userId || appAuth.getUser()._id;
 
       /**
@@ -86,21 +90,24 @@ angular.module('atwork.users')
         }
       };
 
+      var assignProfile = function assignedProfile(passedData) {
+        /**
+         * Its possible that we were provided with a username instead of userID
+         * Let's switch to using userId
+         */
+        userId = passedData.res.record._id;
+
+        passedData.res.profile = passedData.res.record;
+        angular.extend($scope, passedData.res);
+      };
+
       /**
        * Get the user's profile
        * @return {Void}
        */
       $scope.getProfile = function() {
         appUsers.single.get({userId: userId}).$promise.then(function(response) {
-          /**
-           * Its possible that we were provided with a username instead of userID
-           * Let's switch to using userId
-           */
-          if (userId) {
-            userId = response.res.record._id;
-          }
-          response.res.profile = response.res.record;
-          angular.extend($scope, response.res);
+          assignProfile(response);
         });
       };
 
@@ -111,9 +118,69 @@ angular.module('atwork.users')
       $scope.noPosting = true;
 
       /**
-       * Call it once by default
+       * Resolved profile data, assign to $scope
        */
-      $scope.getProfile();
+      assignProfile(profileData);
+
+      /**
+       * Initial feeds
+       */
+      angular.extend($scope, resolvedFeeds.config);
+      doUpdate(resolvedFeeds);
+
+      /**
+       * Function to update the feed on the client side
+       * @param  {Object} data The data received from endpoint
+       * @return {Void}
+       */
+      function doUpdate(data) {
+        var options = data.config || {};
+
+        /**
+         * If it's a filter request, emoty the feeds
+         */
+        if ($scope.feedsFilter && !options.append) {
+          $scope.feed = [];
+        }
+        /**
+         * Check whether to append to feed (at bottom) or insert (at top)
+         */
+        if (!options.append) {
+          $scope.feed = data.res.records.concat($scope.feed);
+        } else {
+          $scope.feed = $scope.feed.concat(data.res.records);
+        }
+
+        /**
+         * Check if there are more pages
+         * @type {Boolean}
+         */
+        $scope.noMorePosts = !data.res.morePages;
+        /**
+         * Set the updated timestamp
+         */
+        $scope.lastUpdated = Date.now();
+        $scope.showBack = false;
+      }
+
+      $scope.loadMore = function() {
+        $scope.feedPage = $scope.feedPage || 0;
+        $scope.feedPage++;
+        $scope.lastUpdated = 0;
+        $scope.feed.push({spacer: true}); //spacer in the UI
+        $scope.updateFeed({append: true});
+      };
+
+      $scope.updateFeed = function(options) {
+        var options = options || {};
+        appPostsFeed.getFeeds(angular.extend(options, $routeParams, {
+          limitComments: true,
+          feedPage: $scope.feedPage
+        }), function(response) {
+          angular.extend($scope, response.config);
+          doUpdate(response);
+        });
+      };
 
       /**
        * Follow the active user

@@ -113,7 +113,7 @@
           <div layout="column" flex id="content">
             
             <md-content layout="column" flex class="md-padding">
-              <div ng-view></div>
+              <div class="main-view" ng-view></div>
             </md-content>
           </div>
           
@@ -130,6 +130,7 @@
       <script src="/bower_components/angular-route/angular-route.js"></script>
       <script src="/bower_components/angular-messages/angular-messages.js"></script>
       <script src="/bower_components/angular-resource/angular-resource.js"></script>
+      <script src="/bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
       
       <!-- Other modules -->
       <script src="/bower_components/q/q.js"></script>
@@ -181,6 +182,7 @@
 
       <!-- Non-critical CSS -->
       <link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
+      <link rel="stylesheet" href="/bower_components/angular-loading-bar/build/loading-bar.min.css">
     </body>
 </html>
 

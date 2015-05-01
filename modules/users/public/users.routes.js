@@ -13,7 +13,35 @@ angular.module('atwork.users')
       })
       .when('/profile/:userId', {
         templateUrl: '/modules/users/views/profile.html?v',
-        controller: 'ProfileCtrl'
+        controller: 'ProfileCtrl',
+        resolve: {
+          profileData: [
+            '$route',
+            'appAuth', 
+            'appUsers',
+            function($route, appAuth, appUsers) {
+              var routeParams = $route.current.params;
+              var userId = routeParams.userId || appAuth.getUser()._id;
+              return appUsers.single.get({userId: userId}).$promise;
+            }
+          ],
+          resolvedFeeds: [
+            '$route',
+            'appPostsFeed',
+            function($route, appPostsFeed) {
+              var deferred = Q.defer();
+              var options = angular.extend({
+                feedPage: 0
+              }, $route.current.params);
+
+              appPostsFeed.getFeeds(options, function(response) {
+                deferred.resolve(response);
+              });
+
+              return deferred.promise;
+            }
+          ]
+        }
       })
       .when('/me', {
         templateUrl: '/modules/users/views/profile.html?v',

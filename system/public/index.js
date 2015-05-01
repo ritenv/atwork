@@ -1,6 +1,14 @@
 'use strict';
 
-angular.module('atwork.system', ['ngRoute', 'ngMessages', 'ngResource', 'angularFileUpload', 'atwork.utils']);
+angular.module('atwork.system', [
+  'ngRoute', 
+  'ngMessages', 
+  'ngResource', 
+  'angularFileUpload', 
+  'atwork.utils',
+  'angular-loading-bar', 
+  'ngAnimate'
+]);
 
 angular.module('atwork.system')
 .factory('tokenHttpInterceptor', [
@@ -28,10 +36,14 @@ angular.module('atwork.system')
 .config([
   '$httpProvider',
   '$mdThemingProvider',
-  function ($httpProvider, $mdThemingProvider) {
+  'cfpLoadingBarProvider',
+  function ($httpProvider, $mdThemingProvider, cfpLoadingBarProvider) {
     $httpProvider.interceptors.push('tokenHttpInterceptor');
     $mdThemingProvider.theme('default')
     .primaryPalette('brown')
     .accentPalette('blue-grey');
+
+    cfpLoadingBarProvider.includeSpinner = true;
+    cfpLoadingBarProvider.includeBar = false;
   }
 ]);

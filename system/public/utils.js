@@ -68,9 +68,9 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
       });
       // set attribute value to 'false'
       // on blur event:
-      element.bind('blur', function() {
-         scope.$apply(model.assign(scope, false));
-      });
+      // element.bind('blur', function() {
+      //    scope.$apply(model.assign(scope, false));
+      // });
     }
   };
 })
