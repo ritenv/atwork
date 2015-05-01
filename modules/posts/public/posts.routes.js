@@ -10,14 +10,11 @@ angular.module('atwork.posts')
          resolvedFeeds: resolvedFeeds({limitComments: true})
         }
       })
-      .when('/feed/:hashtag', {
-        templateUrl: '/modules/posts/views/feed.html'
-      })
       .when('/', {
         templateUrl: '/modules/posts/views/feed.html',
         controller: 'PostsCtrl',
         resolve: {
-          resolvedFeeds: resolvedFeeds({limitComments: false})
+          resolvedFeeds: resolvedFeeds({limitComments: true})
         }
       })
       .when('/post/:postId', {
@@ -26,6 +23,9 @@ angular.module('atwork.posts')
         resolve: {
           resolvedFeeds: resolvedFeeds({limitComments: false})
         }
+      })
+      .when('/feed/:hashtag', {
+        templateUrl: '/modules/posts/views/feed.html'
       })
       ;
     $locationProvider.html5Mode(true);
