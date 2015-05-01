@@ -270,7 +270,7 @@ angular.module('atwork.posts')
               var post = appPosts.single.get({postId: item._id}, function() {
                 post.$like({postId: item._id}, function() {
                   angular.extend(item, post.res.record);
-                  appWebSocket.emit('like', item._id);
+                  // appWebSocket.emit('like', item._id);
                 });
               });
             };

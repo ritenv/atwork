@@ -3,6 +3,7 @@
 angular.module('atwork.posts')
   .controller('PostsCtrl', [
     '$scope',
+    '$route',
     '$rootScope',
     '$routeParams',
     '$timeout',
@@ -15,7 +16,7 @@ angular.module('atwork.posts')
     'appUsersSearch',
     'appPostsFeed',
     'resolvedFeeds',
-    function($scope, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket, appUsersSearch, appPostsFeed, resolvedFeeds) {
+    function($scope, $route, $rootScope, $routeParams, $timeout, appPosts, appAuth, appToast, appStorage, appLocation, appWebSocket, appUsersSearch, appPostsFeed, resolvedFeeds) {
       $scope.content = '';
       $scope.lastUpdated = 0;
       $scope.postForm = '';
@@ -132,20 +133,21 @@ angular.module('atwork.posts')
         }, 500);
       });
 
-      var updateNewCount = function(data) {
-        var followers = data.followers;
-        var creator = data.creator;
-        if (creator === userId) {
+      var updateNewCount = function(event, data) {
+        /**
+         * Main stream notification
+         */
+        if (!data.streamId) {
           $scope.newFeedCount++;
           $scope.$digest();
-        } else if (!userId && !postId) {
-          var thisUser = angular.fromJson(appStorage.get('user'))._id;
-          followers.map(function(user) {
-            if (user._id === thisUser) {
-              $scope.newFeedCount++;
-              $scope.$digest();
-            }
-          });
+        } else {
+          var currentStream = $route.current.params.streamId;
+          if (currentStream && currentStream === data.streamId) {
+            $scope.newFeedCount++;
+            $scope.$digest();
+          } else {
+            $rootScope.$broadcast('stream-message', data);
+          }
         }
       };
 
@@ -174,7 +176,7 @@ angular.module('atwork.posts')
       appWebSocket.on('like', updateItem);
       appWebSocket.on('unlike', updateItem);
       appWebSocket.on('comment', updateItem);
-      appWebSocket.on('feed', updateNewCount);
+      $rootScope.$on('feed', updateNewCount);
 
       /**
        * Reset the form
@@ -258,7 +260,7 @@ angular.module('atwork.posts')
           
           post.$save(function(response) {
             if (response.success) {
-              appWebSocket.emit('feed', response.res._id);
+              // appWebSocket.emit('feed', response.res._id);
               appToast('You have posted successfully.');
               
               /**

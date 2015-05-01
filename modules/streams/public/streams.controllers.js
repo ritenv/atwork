@@ -113,6 +113,27 @@ angular.module('atwork.streams')
       };
 
       /**
+       * If a stream has a new msg, show a badge
+       */
+      $rootScope.$on('stream-message', function(e, data) {
+        angular.forEach($scope.streams, function(stream) {
+          if (data.streamId === stream._id) {
+            stream.unread = stream.unread ? stream.unread++ : 1;
+          }
+        });
+        $scope.$digest();
+      });
+
+      /**
+       * Clear the stream's badge
+       * @param  {Object} stream The stream object
+       * @return {Void}
+       */
+      $scope.clearBadge = function(stream) {
+        stream.unread = 0;
+      };
+
+      /**
        * Listen to socket
        */
       appWebSocket.on('stream', function() {
