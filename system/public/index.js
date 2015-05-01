@@ -43,6 +43,7 @@ angular.module('atwork.system')
     .primaryPalette('brown')
     .accentPalette('blue-grey');
 
-    cfpLoadingBarProvider.includeSpinner = false;
+    cfpLoadingBarProvider.includeSpinner = true;
+    cfpLoadingBarProvider.includeBar = false;
   }
 ]);
