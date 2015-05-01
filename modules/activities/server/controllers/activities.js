@@ -70,12 +70,23 @@ module.exports = function(System) {
         return json.unhappy(err, res);
       }
       var activityCriteria = { actor: user._id };
-      Activity.find(activityCriteria, null, {sort: {created: -1}}).populate('actor').populate('post').exec(function(err, posts) {
+      Activity.find(activityCriteria, null, {sort: {created: -1}})
+      .populate('actor')
+      .populate('post')
+      .lean()
+      .exec(function(err, activities) {
+        /**
+         * Filter activities to exclude the ones
+         * whose posts are non existent
+         */
+        activities = activities.filter(function(activity) {
+          return activity.post;
+        });
         if (err) {
           return json.unhappy(err, res);
         } else {
           return json.happy({
-            records: posts
+            records: activities
           }, res);
         }
       });
