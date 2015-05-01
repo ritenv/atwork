@@ -8,21 +8,6 @@ module.exports = function(System) {
   var sck = System.webSocket;
 
   /**
-   * Post related socket emmissions
-   */
-  sck.on('connection', function(socket){
-    socket.on('feed', function(postId) {
-      //get all followers of the creator
-      // var User = mongoose.model('User');
-      // Post.findOne({ _id: postId }).exec(function(err, post) {
-      //   User.find({following: post.creator}, '_id', function(err, followers) {
-      //     socket.broadcast.emit('feed', {followers: followers, creator: post.creator});
-      //   });
-      // });
-    });
-  });
-
-  /**
    * Event based notifications
    */
   ['like', 'comment'].map(function(action) {
