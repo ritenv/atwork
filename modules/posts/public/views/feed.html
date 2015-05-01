@@ -5,7 +5,7 @@
   <md-content ng-controller="StreamsPurposeCtrl" class="stream-purpose" ng-if="streamPage">
     <form name="streamPurposeForm" ng-submit="updateStreamPurpose(streamPurposeForm.$valid)">
       <md-input-container ng-if="stream">
-        <label>Stream Purpose</label>
+        <label>{{::stream.title}}</label>
         <input type="text" ng-model="stream.purpose">
       </md-input-container>
     </form>
@@ -61,7 +61,7 @@
       <a class="filter" ng-click="feedsFilterEnabled = !feedsFilterEnabled" ><span class="fa fa-search"></span> Filter</a>
       <md-input-container ng-show="feedsFilterEnabled" class="no-margin">
         <label>Type keywords to filter...</label>
-        <input type="search" ng-model="feedsFilter" minlength="2">
+        <input type="search" ng-model="feedsFilter" minlength="2" set-focus="feedsFilterEnabled">
       </md-input-container>
     </div>
   </md-content>

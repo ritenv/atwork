@@ -19,6 +19,10 @@
             <span class="view primaryColors">
               <a href="/post/{{::item._id}}" class="view"><span>View</span></a>
             </span>
+            <span ng-if="item.stream" >-</span>
+            <span ng-if="item.stream" class="primaryColors">
+              <a href="/stream/{{::item.stream._id}}" class="stream"><span>$ {{item.stream.title}}</span></a>
+            </span>
             
             <small hide-sm hide-md>{{::item.created | date:'medium'}}</small>
 

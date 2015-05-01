@@ -199,8 +199,16 @@ UserSchema.methods = {
     return this.hashPassword(plainText) === this.hashed_password;
   },
   
-
+  /**
+   * Send notification to this user
+   * @param  {Object} data   The data containing notification infp
+   * @param  {Object} System The core system object
+   * @return {Void}
+   */
   notify: function(data, System) {
+    data = data || {};
+    data.config = data.config || {};
+
     /**
      * Save a ref to self
      * @type {Object}
@@ -237,7 +245,6 @@ UserSchema.methods = {
        * If socketId is enabled, send a push
        */
       if (thisUser.socketId) {
-        
         //get total unread count
         var unread = thisUser.notifications.filter(function(item) {
           return item.unread;
@@ -252,7 +259,7 @@ UserSchema.methods = {
       /**
        * If socketId is not enabled, send an email
        */
-      if (!thisUser.socketId) {
+      if (!thisUser.socketId && !fullData.config.avoidEmail) {
         console.log(thisUser.name, 'is notified via email.');
         // 'Hi ' + user.name + ', you\'ve got a new notification on AtWork!<br><br>Check it out here: ' + '<a href="http://localhost:8111/post/' + data.postId + '">View</a>' // html body
         var emailTemplate = fs.readFile(__dirname + '/../templates/notification.html', function(err, fileContent) {
@@ -284,12 +291,14 @@ UserSchema.methods = {
     /**
      * Add the notification data to the user
      */
-    thisUser.notifications.push({
-      post: data.postId,
-      user: data.userId,
-      actor: data.actorId,
-      notificationType: data.notificationType
-    });
+    if (!data.config.systemLevel) {
+      thisUser.notifications.push({
+        post: data.postId,
+        user: data.userId,
+        actor: data.actorId,
+        notificationType: data.notificationType
+      });
+    }
 
     /**
      * Sort all notifications in order
@@ -309,6 +318,21 @@ UserSchema.methods = {
      */
     return thisUser.save(function(err, user) {
       return user;
+    });
+  },
+
+  /**
+   * Send a notification to all followers
+   * @param  {Object} data   The notification data
+   * @param  {Object} System The core system object
+   * @return {Void}
+   */
+  notifyFollowers: function(data, System) {
+    var User = mongoose.model('User');
+    User.find({following: this._id}, function(err, followers) {
+      followers.map(function(follower) {
+        follower.notify(data, System);
+      });
     });
   },
 

@@ -9,7 +9,8 @@ module.exports = function(System) {
       return {
         send: function(socketId, data) {
           console.log('NOTIFICATION FOR:', socketId);
-          sck.to(socketId).emit('notification', data);
+          var type = data.config.systemLevel ? 'system' : 'notification';
+          sck.to(socketId).emit(type, data);
         },
         sendByEmail: function(user, data) {
           var mailOptions = {

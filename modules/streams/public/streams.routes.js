@@ -13,7 +13,7 @@ angular.module('atwork.streams')
             function($route, appPostsFeed) {
               var deferred = Q.defer();
               var options = angular.extend({
-                feedPage: 0
+                limitComments: true
               }, $route.current.params);
 
               appPostsFeed.getFeeds(options, function(response) {

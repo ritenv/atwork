@@ -25,7 +25,11 @@ angular.module('atwork.posts')
         }
       })
       .when('/feed/:hashtag', {
-        templateUrl: '/modules/posts/views/feed.html'
+        templateUrl: '/modules/posts/views/feed.html',
+        controller: 'PostsCtrl',
+        resolve: {
+          resolvedFeeds: resolvedFeeds({limitComments: true})
+        }
       })
       ;
     $locationProvider.html5Mode(true);

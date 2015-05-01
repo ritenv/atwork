@@ -8,30 +8,6 @@ module.exports = function(System) {
   var sck = System.webSocket;
 
   /**
-   * Post related socket emmissions
-   */
-  sck.on('connection', function(socket){
-    socket.on('like', function(postId) {
-      socket.broadcast.emit('like', postId);
-    });
-    socket.on('unlike', function(postId) {
-      socket.broadcast.emit('unlike', postId);
-    });
-    socket.on('comment', function(postId) {
-      socket.broadcast.emit('comment', postId);
-    });
-    socket.on('feed', function(postId) {
-      //get all followers of the creator
-      var User = mongoose.model('User');
-      Post.findOne({ _id: postId }).exec(function(err, post) {
-        User.find({following: post.creator}, '_id', function(err, followers) {
-          socket.broadcast.emit('feed', {followers: followers, creator: post.creator});
-        });
-      });
-    });
-  });
-
-  /**
    * Event based notifications
    */
   ['like', 'comment'].map(function(action) {
@@ -80,8 +56,22 @@ module.exports = function(System) {
 
         });
       });
-
       event.trigger('newpost', {post: post, actor: req.user});
+
+      /**
+       * Notify all followers about this new post
+       * @type {Void}
+       */
+      req.user.notifyFollowers({
+        postId: post._id,
+        streamId: post.stream ? post.stream : false,
+        notificationType: 'feed',
+        config: {
+          avoidEmail: true,
+          systemLevel: true
+        }
+      }, System);
+
       if (err) {
         return json.unhappy(err, res);
       }
@@ -302,7 +292,11 @@ module.exports = function(System) {
     Post.findOne({
       _id: req.params.postId
     })
-    .populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
+    .populate('creator')
+    .populate('comments')
+    .populate('comments.creator')
+    .populate('stream')
+    .exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
