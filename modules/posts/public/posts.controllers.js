@@ -93,7 +93,8 @@ angular.module('atwork.posts')
           passedData: passedData,
           feedsFilter: $scope.feedsFilter,
           limitComments: $scope.limitComments,
-          feedPage: $scope.feedPage
+          feedPage: $scope.feedPage,
+          lastUpdated: $scope.lastUpdated
         }), function(response) {
           angular.extend($scope, response.config);
           doUpdate(response);
@@ -275,11 +276,7 @@ angular.module('atwork.posts')
                * Lets not update feed again from server, we have the data on the client
                * @type {Object}
                */
-              $scope.updateFeed({}, {
-                res: {
-                  records: [response.res]
-                }
-              });
+              $scope.updateFeed();
 
               $scope.reset();
             } else {
