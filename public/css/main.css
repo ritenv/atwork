@@ -113,6 +113,10 @@ ul.unstyled {
 .clickable {
   cursor: pointer; }
 
+.slight-padding {
+  padding: 0 8px;
+  margin: 0; }
+
 /** ====== General typo END ====== */
 /** ====== Users BEGIN ====== */
 .notifications {

@@ -51,6 +51,21 @@ angular.module('atwork.streams')
       $scope.streams = [];
       $scope.actions = {};
 
+      $scope.processMoreStreams = function(selected) {
+        $timeout(function() {
+          if (selected === '1') {
+            $scope.createNew();
+          } else {
+            var selectedStreamData = appStreams.single.get({streamId: selected}, function() {
+              selectedStreamData.$subscribe({streamId: selected}, function() {
+                $scope.updateStreams({reload: true});
+                appLocation.url('/stream/' + selected);
+              });
+            });
+          }
+        }, 500);
+      };
+
       $scope.updateStreams = function (options) {
         options = options || {};
 
@@ -79,6 +94,10 @@ angular.module('atwork.streams')
            * Set the updated timestamp
            */
           $scope.lastUpdated = Date.now();
+        });
+
+        var moreStreamsData = appStreams.single.get({unsubscribed: true}, function() {
+          $scope.moreStreams = moreStreamsData.res.records;
         });
       };
 

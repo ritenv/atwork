@@ -20,9 +20,16 @@
                     </div>
                 </md-input-container>
             </form>
-            <md-button class="no-case no-bold md-primary" ng-hide="actions.createNew" ng-click="createNew()">
+            <!-- <md-button class="no-case no-bold md-primary" ng-hide="actions.createNew" ng-click="createNew()">
                 + Create New
             </md-button>
+            <br> -->
+            <div>
+              <md-select placeholder="More Streams" ng-model="toSubscribe" class="slight-padding" ng-change="processMoreStreams(toSubscribe)">
+                <md-option value="{{::stream._id}}" ng-repeat="stream in moreStreams">{{::stream.title}}</md-option>
+                <md-option value="1">+ Create New</md-option>
+              </md-select>
+            </div>
         </li>
     </ul>
     <div ng-if="!lastUpdated"><p>Loading...</p></div>
