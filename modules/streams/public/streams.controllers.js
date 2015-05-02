@@ -52,6 +52,7 @@ angular.module('atwork.streams')
       $scope.actions = {};
 
       $scope.processMoreStreams = function(selected) {
+        $scope.toSubscribe = '';
         $timeout(function() {
           if (selected === '1') {
             $scope.createNew();
@@ -59,11 +60,26 @@ angular.module('atwork.streams')
             var selectedStreamData = appStreams.single.get({streamId: selected}, function() {
               selectedStreamData.$subscribe({streamId: selected}, function() {
                 $scope.updateStreams({reload: true});
+                appToast('You have subscribed to the new stream.');
                 appLocation.url('/stream/' + selected);
               });
             });
           }
         }, 500);
+      };
+
+      /**
+       * Unsubscribe from a specific stream
+       * @return {Void}
+       */
+      $scope.unsubscribe = function(stream) {
+        var streamId = stream._id;
+        var selectedStreamData = appStreams.single.get({streamId: streamId}, function() {
+          selectedStreamData.$unsubscribe({streamId: streamId}, function() {
+            $scope.updateStreams({reload: true});
+            appToast('You have unsubscribed from that stream.');
+          });
+        });
       };
 
       $scope.updateStreams = function (options) {

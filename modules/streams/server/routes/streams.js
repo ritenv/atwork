@@ -44,7 +44,7 @@ module.exports = function(System) {
 
   routes.push({
     method: 'post',
-    path: '/:streamId/ubsubscribe',
+    path: '/:streamId/unsubscribe',
     handler: streams.unsubscribe,
     authorized: true
   });
