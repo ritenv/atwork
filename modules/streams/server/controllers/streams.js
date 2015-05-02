@@ -72,6 +72,13 @@ module.exports = function(System) {
 
     var criteria = {};
 
+    /**
+     * Do we want only subscribed streams?
+     */
+    if (req.query.subscribed) {
+      criteria.subscribers = req.user._id;
+    }
+
     Stream.find(criteria, null, {sort: {title: 1}})
     .populate('creator')
     .skip(parseInt(req.query.page) * System.config.settings.perPage)

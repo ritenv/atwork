@@ -54,7 +54,7 @@ angular.module('atwork.streams')
       $scope.updateStreams = function (options) {
         options = options || {};
 
-        var streamsData = appStreams.single.get({}, function() {
+        var streamsData = appStreams.single.get({subscribed: true}, function() {
           /**
            * Check if the feed needs to reload
            */
