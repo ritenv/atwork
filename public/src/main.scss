@@ -178,8 +178,12 @@ ul.unstyled {
   }
 }
 md-content.stream-purpose {
-  background: #eeeeee;
-  padding: 5px;
+  background: #f7f7f7;
+  padding: 8px;
+  margin-top: -16px;
+  margin-left: -16px;
+  margin-right: -16px;
+  border-bottom: 1px solid #ddd;
   md-input-container {
     margin-bottom: 0;
     padding-bottom: 0;
