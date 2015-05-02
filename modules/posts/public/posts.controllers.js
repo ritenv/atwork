@@ -138,7 +138,7 @@ angular.module('atwork.posts')
         /**
          * Main stream notification
          */
-        if (!data.streamId) {
+        if (!data.streamId && !$route.current.params.streamId) {
           $scope.newFeedCount++;
           $scope.$digest();
         } else {
