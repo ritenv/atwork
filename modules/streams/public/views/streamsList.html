@@ -8,6 +8,13 @@
             <md-button class="btn no-case no-bold md-primary" href="/stream/{{stream._id}}" ng-click="clearBadge(stream)">
                 $ {{ stream.title }} <span class="badge" ng-if="stream.unread">{{ stream.unread }}</span>
             </md-button>
+            <div class="pull-right">
+                <md-button class="btn no-case no-bold md-primary" ng-click="unsubscribe(stream)" title="Unsubscribe">
+                    <md-inline-list-icon class="fa fa-close"></md-inline-list-icon>
+                </md-button>
+            </div>
+            
+
         </li>
         <li>
             <form name="newStreamForm" ng-submit="create(newStreamForm.$valid)" novalidate>
@@ -20,9 +27,16 @@
                     </div>
                 </md-input-container>
             </form>
-            <md-button class="no-case no-bold md-primary" ng-hide="actions.createNew" ng-click="createNew()">
+            <!-- <md-button class="no-case no-bold md-primary" ng-hide="actions.createNew" ng-click="createNew()">
                 + Create New
             </md-button>
+            <br> -->
+            <div>
+              <md-select placeholder="More Streams" ng-model="toSubscribe" class="slight-padding" ng-change="processMoreStreams(toSubscribe)" layout="column">
+                <md-option value="{{::stream._id}}" ng-repeat="stream in moreStreams">{{::stream.title}}</md-option>
+                <md-option value="1">+ Create New</md-option>
+              </md-select>
+            </div>
         </li>
     </ul>
     <div ng-if="!lastUpdated"><p>Loading...</p></div>

@@ -51,10 +51,41 @@ angular.module('atwork.streams')
       $scope.streams = [];
       $scope.actions = {};
 
+      $scope.processMoreStreams = function(selected) {
+        $scope.toSubscribe = '';
+        $timeout(function() {
+          if (selected === '1') {
+            $scope.createNew();
+          } else {
+            var selectedStreamData = appStreams.single.get({streamId: selected}, function() {
+              selectedStreamData.$subscribe({streamId: selected}, function() {
+                $scope.updateStreams({reload: true});
+                appToast('You have subscribed to the new stream.');
+                appLocation.url('/stream/' + selected);
+              });
+            });
+          }
+        }, 500);
+      };
+
+      /**
+       * Unsubscribe from a specific stream
+       * @return {Void}
+       */
+      $scope.unsubscribe = function(stream) {
+        var streamId = stream._id;
+        var selectedStreamData = appStreams.single.get({streamId: streamId}, function() {
+          selectedStreamData.$unsubscribe({streamId: streamId}, function() {
+            $scope.updateStreams({reload: true});
+            appToast('You have unsubscribed from that stream.');
+          });
+        });
+      };
+
       $scope.updateStreams = function (options) {
         options = options || {};
 
-        var streamsData = appStreams.single.get({}, function() {
+        var streamsData = appStreams.single.get({subscribed: true}, function() {
           /**
            * Check if the feed needs to reload
            */
@@ -79,6 +110,10 @@ angular.module('atwork.streams')
            * Set the updated timestamp
            */
           $scope.lastUpdated = Date.now();
+        });
+
+        var moreStreamsData = appStreams.single.get({unsubscribed: true}, function() {
+          $scope.moreStreams = moreStreamsData.res.records;
         });
       };
 
