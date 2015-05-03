@@ -45,12 +45,12 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
   '$mdToast',
   function($mdToast) {
     return function(message) {
-      var toast = $mdToast.simple()
-        .content(message)
-        .action('OK')
-        .highlightAction(false)
-        .position('top right');
-      $mdToast.show(toast);
+      // var toast = $mdToast.simple()
+      //   .content(message)
+      //   .action('OK')
+      //   .highlightAction(false)
+      //   .position('top right');
+      // $mdToast.show(toast);
     }
   }
 ])

@@ -1,4 +1,4 @@
-<div class="user-profile" flex aw-full-area>
+<div class="user-profile aw-full-area" flex>
   <div ng-show="profile">
     <md-content class="user-profile-info">
       <!-- <md-card-content> -->
@@ -69,10 +69,12 @@
     <md-content class="user-profile-details">
       <md-tabs class="md-accent">
         <md-tab label="Timeline">
-          <div ng-include="'/modules/posts/views/feed.html'"></div>
+          <md-content class="md-padding">
+            <div ng-include="'/modules/posts/views/feed.html'"></div>
+          </md-content>
         </md-tab>
         <md-tab label="Activity">
-          <md-content>
+          <md-content class="md-padding">
             <md-card>
               <md-card-content>
                 <div ng-include="'/modules/activities/views/activities.html'"></div>
@@ -81,48 +83,48 @@
           </md-card-content>
         </md-tab>
         <md-tab label="Followers">
-          <md-card>
-            
-            <md-list>
-              <md-item ng-repeat="item in followers" class="user-profile-following">
-                <md-button href="/profile/{{item._id}}">
-                  <md-item-content>
-                      <div class="md-tile-left">
-                        <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
-                      </div>
-                      <div class="md-tile-content">
-                        <h3>{{::item.name}}</h3>
-                        <h4>{{::item.designation}}</h4>
-                      </div>
-                  </md-item-content>
-                </md-button>
-              </md-item>
-            </md-list>
-            <p ng-if="!followers.length">No followers yet.</p>
-
-          </md-card>
+          <md-content class="md-padding">
+            <md-card>
+              <md-list>
+                <md-item ng-repeat="item in followers" class="user-profile-following">
+                  <md-button href="/profile/{{item._id}}">
+                    <md-item-content>
+                        <div class="md-tile-left">
+                          <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                        </div>
+                        <div class="md-tile-content">
+                          <h3>{{::item.name}}</h3>
+                          <h4>{{::item.designation}}</h4>
+                        </div>
+                    </md-item-content>
+                  </md-button>
+                </md-item>
+              </md-list>
+              <p ng-if="!followers.length">No followers yet.</p>
+            </md-card>
+          </md-content>
         </md-tab>
         <md-tab label="Following">
-          <md-card>
-            
-            <md-list>
-              <md-item ng-repeat="item in following" class="user-profile-following">
-                <md-button href="/profile/{{item._id}}">
-                  <md-item-content>
-                      <div class="md-tile-left">
-                        <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
-                      </div>
-                      <div class="md-tile-content">
-                        <h3>{{::item.name}}</h3>
-                        <h4>{{::item.designation}}</h4>
-                      </div>
-                  </md-item-content>
-                </md-button>
-              </md-item>
-            </md-list>
-            <p ng-if="!following.length">Not following anyone yet.</p>
-
-          </md-card>
+          <md-content class="md-padding">
+            <md-card>
+              <md-list>
+                <md-item ng-repeat="item in following" class="user-profile-following">
+                  <md-button href="/profile/{{item._id}}">
+                    <md-item-content>
+                        <div class="md-tile-left">
+                          <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                        </div>
+                        <div class="md-tile-content">
+                          <h3>{{::item.name}}</h3>
+                          <h4>{{::item.designation}}</h4>
+                        </div>
+                    </md-item-content>
+                  </md-button>
+                </md-item>
+              </md-list>
+              <p ng-if="!following.length">Not following anyone yet.</p>
+            </md-card>
+          </md-content>
         </md-tab>
       </md-tabs
     </md-content>
