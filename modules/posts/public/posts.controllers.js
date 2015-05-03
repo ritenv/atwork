@@ -94,9 +94,9 @@ angular.module('atwork.posts')
         } else if ($scope.streamPage) {
           $scope.feedTitle = '';
         } else if ($scope.detailPage) {
-          $scope.feedTitle = 'Post by ' + $scope.feed[0].creator.name;
+          $scope.feedTitle = 'Written by ' + $scope.feed[0].creator.name;
         } else {
-          $scope.feedTitle = 'Feed';
+          $scope.feedTitle = 'Lobby';
         }
       }
 
