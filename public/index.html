@@ -44,7 +44,7 @@
                   <md-inline-list-icon class="fa fa-globe"></md-inline-list-icon>
                 </md-button>
                 <span hide-sm ng-if="!isLoggedIn">{{systemSettings ? systemSettings.workplace : 'AtWork'}}</span>
-                <span hide-sm class="tiny mute" flex>&nbsp; {{barTitle}}</span>
+                <span hide-sm class="tiny" flex>&nbsp; {{barTitle}}</span>
 
                 <div ng-controller="notificationsCtrl">
                   <md-button ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings" title="Settings">

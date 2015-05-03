@@ -188,10 +188,9 @@ angular.module('atwork.users')
        */
       $scope.follow = function() {
         $scope.alreadyFollowing = '';
-        var user = appUsers.single.get({userId: userId}, function() {
-          user.$follow({userId: userId}, function() {
-            $timeout(function() {$scope.getProfile();}, 800);
-          });
+        var user = new appUsers.single({userId: userId});
+        user.$follow({userId: userId}, function() {
+          $timeout(function() {$scope.getProfile();}, 800);
         });
       };
 
@@ -201,10 +200,9 @@ angular.module('atwork.users')
        */
       $scope.unfollow = function() {
         $scope.alreadyFollowing = '';
-        var user = appUsers.single.get({userId: userId}, function() {
-          user.$unfollow({userId: userId}, function(response) {
-            $timeout(function() {$scope.getProfile();}, 800);
-          });
+        var user = new appUsers.single({userId: userId});
+        user.$unfollow({userId: userId}, function(response) {
+          $timeout(function() {$scope.getProfile();}, 800);
         });
       };
 
