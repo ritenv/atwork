@@ -70,9 +70,6 @@ md-card {
   md-card h2:first-of-type {
     margin-top: 0; }
 
-md-toolbar .md-button.md-default-theme {
-  border-radius: 99%; }
-
 h2 {
   font-weight: 400; }
 
