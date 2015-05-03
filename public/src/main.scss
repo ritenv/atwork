@@ -1,9 +1,15 @@
 $primaryColor: #795548;
 $linkHoverColor: #333;
 $secondaryColor: #B0BEC5;
+$gray: #eee;
 html, body {
   font-size: 14px;
   color: #444;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 a {
   text-decoration: none;
@@ -72,6 +78,23 @@ a {
 /** ====== Sidenav Related END ====== */
 
 /** ====== General typo BEGIN ====== */
+md-content.md-default-theme {
+  background-color: $gray;
+}
+md-card {
+  background-color: #fff;
+  h2:first-of-type {
+    margin-top: 0;
+  }
+}
+md-toolbar {
+  .md-button.md-default-theme {
+    border-radius: 99%; // round toolbar buttons
+  }
+}
+h2 {
+  font-weight: 400;
+}
 .breathing-space {
   margin: 20px 0;
 }
@@ -177,17 +200,15 @@ ul.unstyled {
     @extend .circular-image;
   }
 }
-md-content.stream-purpose {
-  background: #f7f7f7;
+.stream-purpose {
+  /*background: #f7f7f7;*/
   padding: 8px;
-  margin-top: -16px;
-  margin-left: -16px;
-  margin-right: -16px;
-  border-bottom: 1px solid #ddd;
+  margin-top: 0;
   md-input-container {
     margin-bottom: 0;
     padding-bottom: 0;
     input {
+      text-align: right;
       width: 100%;
       border: none;
       @extend .mute;
@@ -222,6 +243,9 @@ md-content.stream-purpose {
   .single-post {
     align-items: initial;
     -webkit-align-items: initial;
+    &.root-post {
+      margin-bottom: 10px;
+    }
   }
   p {
     padding: 6px;

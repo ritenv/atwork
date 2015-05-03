@@ -85,6 +85,19 @@ angular.module('atwork.posts')
          */
         $scope.lastUpdated = Date.now();
         $scope.showBack = false;
+
+        /**
+         * Set page title
+         */
+        if ($scope.timelinePage) {
+          $scope.feedTitle = 'Timeline';
+        } else if ($scope.streamPage) {
+          $scope.feedTitle = '';
+        } else if ($scope.detailPage) {
+          $scope.feedTitle = 'Post by ' + $scope.feed[0].creator.name;
+        } else {
+          $scope.feedTitle = 'Feed';
+        }
       }
 
       $scope.updateFeed = function(options, passedData) {

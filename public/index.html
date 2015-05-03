@@ -4,7 +4,7 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+        <link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css">
         <link rel="stylesheet" href="/css/main.css">
         <base href="/"></base>
         <title ng-bind="systemSettings ? systemSettings.workplace : 'AtWork'"></title>
@@ -24,12 +24,12 @@
           </button>
           <h1 hide-sm>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h1>
         </md-toolbar>
-        <md-content class="md-padding sidebar-list">
+        <div class="md-padding sidebar-list" layout-padding>
             <div ng-include="'/system/public/views/search.html'"></div>
             
             <!-- Load user streams -->
             <div ng-include="'/modules/streams/views/streamsList.html'"></div>
-        </md-content>
+        </div>
 
       </md-sidenav>
       <div layout="column" flex>
@@ -100,8 +100,8 @@
 
           <div layout="column" flex id="content">
             
-            <md-content layout="column" flex class="md-padding">
-              <div class="main-view" ng-view></div>
+            <md-content flex class="md-padding greyed" md-scroll-y>
+              <div class="main-view" ng-view layout="row" layout-align="center" layout-fill layout-padding></div>
             </md-content>
           </div>
           
