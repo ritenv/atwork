@@ -4,7 +4,7 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+        <link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css">
         <link rel="stylesheet" href="/css/main.css">
         <base href="/"></base>
         <title ng-bind="systemSettings ? systemSettings.workplace : 'AtWork'"></title>
@@ -24,12 +24,12 @@
           </button>
           <h1 hide-sm>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h1>
         </md-toolbar>
-        <md-content class="md-padding sidebar-list">
+        <div class="md-padding sidebar-list" layout-padding>
             <div ng-include="'/system/public/views/search.html'"></div>
             
             <!-- Load user streams -->
             <div ng-include="'/modules/streams/views/streamsList.html'"></div>
-        </md-content>
+        </div>
 
       </md-sidenav>
       <div layout="column" flex>
@@ -56,37 +56,35 @@
                   </md-button>
                   
                   <div class="notifications md-whiteframe-z1" ng-if="isLoggedIn && notificationShown">
-                    <md-content>
-                      <md-list>
-                        <!-- notif loop start -->
-                        <md-item class="item" ng-repeat="item in items">
-                          <md-button href="{{item.href}}" ng-click="markRead(item)">
-                            <md-item-content>
-                                <div class="md-tile-left">
-                                  <img ng-src="{{item.actor.face || '/images/user.jpg'}}" class="face" alt="{{item.actor.name}}">
-                                </div>
-                                <div class="md-tile-content">
-                                  <p>{{::item.display.text}}</p>
-                                  <span class="mute">{{::item.created | date:'medium'}}</span>
-                                </div>
-                            </md-item-content>
-                          </md-button>
-                        </md-item>
-                        <!-- notif loop -->
+                    <md-list>
+                      <!-- notif loop start -->
+                      <md-item class="item" ng-repeat="item in items">
+                        <md-button href="{{item.href}}" ng-click="markRead(item)">
+                          <md-item-content>
+                              <div class="md-tile-left">
+                                <img ng-src="{{item.actor.face || '/images/user.jpg'}}" class="face" alt="{{item.actor.name}}">
+                              </div>
+                              <div class="md-tile-content">
+                                <p>{{::item.display.text}}</p>
+                                <span class="mute">{{::item.created | date:'medium'}}</span>
+                              </div>
+                          </md-item-content>
+                        </md-button>
+                      </md-item>
+                      <!-- notif loop -->
 
-                        <!-- no notif start -->
-                        <md-item class="item" ng-if="!items.length">
-                          <md-button ng-click="showUserNotifications()">
-                            <md-item-content>
-                                <div class="md-tile-content">
-                                  <p>No unread notifications.</p>
-                                </div>
-                            </md-item-content>
-                          </md-button>
-                        </md-item>
-                        <!-- no notif -->
-                      </md-list>
-                    </md-content>
+                      <!-- no notif start -->
+                      <md-item class="item" ng-if="!items.length">
+                        <md-button ng-click="showUserNotifications()">
+                          <md-item-content>
+                              <div class="md-tile-content">
+                                <p>No unread notifications.</p>
+                              </div>
+                          </md-item-content>
+                        </md-button>
+                      </md-item>
+                      <!-- no notif -->
+                    </md-list>
                   </div>
                 </div>
 
@@ -100,8 +98,8 @@
 
           <div layout="column" flex id="content">
             
-            <md-content layout="column" flex class="md-padding">
-              <div class="main-view" ng-view></div>
+            <md-content flex class="md-padding greyed" md-scroll-y>
+              <div class="main-view" ng-view layout="row" layout-align="center" layout-fill></div>
             </md-content>
           </div>
           

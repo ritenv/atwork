@@ -2,6 +2,7 @@ var app = angular.module('AtWork', ['atwork.system', 'atwork.users', 'atwork.pos
 
 app.controller('AppCtrl', [
   '$scope', 
+  '$route',
   '$rootScope', 
   '$mdSidenav',
   '$mdBottomSheet',
@@ -13,7 +14,7 @@ app.controller('AppCtrl', [
   'appSettings',
   'appSettingsValid',
   'appToast',
-  function($scope, $rootScope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket, appSettings, appSettingsValid, appToast) {
+  function($scope, $route, $rootScope, $mdSidenav, $mdBottomSheet, $location, $timeout, appLocation, appAuth, appWebSocket, appSettings, appSettingsValid, appToast) {
     $scope.barTitle = '';
     $scope.search = '';
 
@@ -48,6 +49,13 @@ app.controller('AppCtrl', [
         }
       });
     };
+
+    /**
+     * Scroll the view to top on route change
+     */
+    $scope.$on('$routeChangeSuccess', function() {
+      angular.element('*[md-scroll-y]').animate({scrollTop: 0}, 300);
+    });
 
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();

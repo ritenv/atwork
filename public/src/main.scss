@@ -1,9 +1,17 @@
 $primaryColor: #795548;
 $linkHoverColor: #333;
 $secondaryColor: #B0BEC5;
+$gray: #eee;
+$white: #fff;
+
 html, body {
   font-size: 14px;
   color: #444;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 a {
   text-decoration: none;
@@ -72,13 +80,32 @@ a {
 /** ====== Sidenav Related END ====== */
 
 /** ====== General typo BEGIN ====== */
+.aw-full-area {
+  margin: -16px;
+}
+md-content.md-default-theme {
+  background-color: $gray;
+}
+md-card {
+  background-color: $white;
+  h2:first-of-type {
+    margin-top: 0;
+  }
+}
+md-toolbar {
+  .md-button.md-default-theme {
+  }
+}
+h2 {
+  font-weight: 400;
+}
 .breathing-space {
   margin: 20px 0;
 }
 .badge {
   background: #cc5555;
   padding: 2px 6px;
-  color: #fff;
+  color: $white;
   border-radius: 20px;
   font-size: 12px;
   margin: 0 2px;
@@ -141,6 +168,7 @@ ul.unstyled {
 .notification-count {
 }
 .notifications {
+  background-color: $white;
   position: absolute;
   z-index: 2;
   margin-top: 0;
@@ -177,17 +205,15 @@ ul.unstyled {
     @extend .circular-image;
   }
 }
-md-content.stream-purpose {
-  background: #f7f7f7;
+.stream-purpose {
+  /*background: #f7f7f7;*/
   padding: 8px;
-  margin-top: -16px;
-  margin-left: -16px;
-  margin-right: -16px;
-  border-bottom: 1px solid #ddd;
+  margin-top: 0;
   md-input-container {
     margin-bottom: 0;
     padding-bottom: 0;
     input {
+      text-align: right;
       width: 100%;
       border: none;
       @extend .mute;
@@ -222,6 +248,9 @@ md-content.stream-purpose {
   .single-post {
     align-items: initial;
     -webkit-align-items: initial;
+    &.root-post {
+      margin-bottom: 10px;
+    }
   }
   p {
     padding: 6px;
@@ -297,7 +326,7 @@ md-content.stream-purpose {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #fff;
+  background: $white;
   z-index: 1000;
   .preloader-content {
     margin-top: 200px;
@@ -315,7 +344,7 @@ md-content.stream-purpose {
 
 
 /** All view animations */
-/*.main-view {
+.main-view {
   transition: all linear 0.2s;
   -webkit-transition: all linear 0.2s;
   -moz-transition: all linear 0.2s;
@@ -330,4 +359,3 @@ md-content.stream-purpose {
 }
 .main-view.ng-leave {
 }
-*/

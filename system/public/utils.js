@@ -45,12 +45,12 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
   '$mdToast',
   function($mdToast) {
     return function(message) {
-      var toast = $mdToast.simple()
-        .content(message)
-        .action('OK')
-        .highlightAction(false)
-        .position('top right');
-      $mdToast.show(toast);
+      // var toast = $mdToast.simple()
+      //   .content(message)
+      //   .action('OK')
+      //   .highlightAction(false)
+      //   .position('top right');
+      // $mdToast.show(toast);
     }
   }
 ])
@@ -66,11 +66,6 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
           });
         }
       });
-      // set attribute value to 'false'
-      // on blur event:
-      // element.bind('blur', function() {
-      //    scope.$apply(model.assign(scope, false));
-      // });
     }
   };
 })

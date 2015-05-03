@@ -1,6 +1,11 @@
 html, body {
   font-size: 14px;
-  color: #444; }
+  color: #444;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility; }
 
 a {
   text-decoration: none;
@@ -57,6 +62,20 @@ a {
 
 /** ====== Sidenav Related END ====== */
 /** ====== General typo BEGIN ====== */
+.aw-full-area {
+  margin: -16px; }
+
+md-content.md-default-theme {
+  background-color: #eee; }
+
+md-card {
+  background-color: #fff; }
+  md-card h2:first-of-type {
+    margin-top: 0; }
+
+h2 {
+  font-weight: 400; }
+
 .breathing-space {
   margin: 20px 0; }
 
@@ -104,7 +123,7 @@ ul.unstyled {
   width: 24px;
   height: 24px; }
 
-.mute, md-content.stream-purpose md-input-container input, .post-listing small {
+.mute, .stream-purpose md-input-container input, .post-listing small {
   opacity: 0.4; }
 
 .tiny {
@@ -120,6 +139,7 @@ ul.unstyled {
 /** ====== General typo END ====== */
 /** ====== Users BEGIN ====== */
 .notifications {
+  background-color: #fff;
   position: absolute;
   z-index: 2;
   margin-top: 0;
@@ -141,17 +161,15 @@ ul.unstyled {
   display: block;
   text-transform: none; }
 
-md-content.stream-purpose {
-  background: #f7f7f7;
+.stream-purpose {
+  /*background: #f7f7f7;*/
   padding: 8px;
-  margin-top: -16px;
-  margin-left: -16px;
-  margin-right: -16px;
-  border-bottom: 1px solid #ddd; }
-  md-content.stream-purpose md-input-container {
+  margin-top: 0; }
+  .stream-purpose md-input-container {
     margin-bottom: 0;
     padding-bottom: 0; }
-    md-content.stream-purpose md-input-container input {
+    .stream-purpose md-input-container input {
+      text-align: right;
       width: 100%;
       border: none;
       font-style: italic; }
@@ -179,6 +197,8 @@ md-content.stream-purpose {
   .post-listing .single-post {
     align-items: initial;
     -webkit-align-items: initial; }
+    .post-listing .single-post.root-post {
+      margin-bottom: 10px; }
   .post-listing p {
     padding: 6px;
     font-size: 100%; }
@@ -245,19 +265,16 @@ md-content.stream-purpose {
 
 /** ====== Misc END ====== */
 /** All view animations */
-/*.main-view {
+.main-view {
   transition: all linear 0.2s;
   -webkit-transition: all linear 0.2s;
   -moz-transition: all linear 0.2s;
-  -ms-transition: all linear 0.2s;
-}
+  -ms-transition: all linear 0.2s; }
+
 .main-view.ng-enter {
-  -webkit-transform:translate3d(0, 1%, 0);
-  -moz-transform:translate3d(0, 1%, 0);
-  -ms-transform:translate3d(0, 1%, 0);
-  transform:translate3d(0, 1%, 0);
-  opacity: 0;
-}
-.main-view.ng-leave {
-}
-*/
+  -webkit-transform: translate3d(0, 1%, 0);
+  -moz-transform: translate3d(0, 1%, 0);
+  -ms-transform: translate3d(0, 1%, 0);
+  transform: translate3d(0, 1%, 0);
+  opacity: 0; }
+
