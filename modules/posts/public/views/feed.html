@@ -18,7 +18,7 @@
         <form name="postForm" ng-submit="create(postForm.$valid)" novalidate>
           <md-input-container>
             <label>What do you want to share?</label>
-            <textarea ng-change="checkMentions(content, '#status')" name="content" ng-model="content" id="status" cols="30" rows="2" required md-maxlength="500" minlength="3"></textarea>
+            <textarea ng-change="checkMentions(content, '#status')" name="content" ng-model="content" id="status" cols="30" rows="2" required md-maxlength="255" minlength="3"></textarea>
             <div ng-messages="postForm.content.$error" ng-show="postForm.$submitted">
               <div ng-message="required">Write your post first.</div>
               <div ng-message="md-maxlength">That's too long!</div>
@@ -57,7 +57,7 @@
         </md-content>
       </div>
 
-      <div class="primaryColors feedsFilter" ng-show="!noFiltering && lastUpdated">
+      <div class="primaryColors feedsFilter" ng-show="!noFiltering && lastUpdated && feed.length">
         <div layout="column">
           <a class="filter" ng-click="feedsFilterEnabled = !feedsFilterEnabled" ><span class="fa fa-search"></span> Filter</a>
           <md-input-container ng-show="feedsFilterEnabled" class="no-margin">
@@ -83,7 +83,7 @@
       <md-card ng-hide="noMorePosts || !lastUpdated">
         <md-button class="md-raised md-primary" ng-click="loadMore()"><span>Load More</span></md-button>
       </md-card>
-      <p ng-show="noMorePosts" class="breathing-space secondaryColors">-- end --</p>
+      <p ng-show="noMorePosts && feed.length" class="breathing-space secondaryColors">-- end --</p>
 
     </div>
   </md-card-content>

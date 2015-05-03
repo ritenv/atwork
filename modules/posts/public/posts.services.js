@@ -267,11 +267,8 @@ angular.module('atwork.posts')
              */
             $scope.doLike = function(item) {
               item.liked = true;
-              var post = appPosts.single.get({postId: item._id}, function() {
-                post.$like({postId: item._id}, function() {
-                  angular.extend(item, post.res.record);
-                  // appWebSocket.emit('like', item._id);
-                });
+              appPosts.single.like(item, function(response) {
+                angular.extend(item, response.res.record);
               });
             };
 
@@ -282,11 +279,8 @@ angular.module('atwork.posts')
              */
             $scope.undoLike = function(item) {
               item.liked = false;
-              var post = appPosts.single.get({postId: item._id}, function() {
-                post.$unlike({postId: item._id}, function() {
-                  angular.extend(item, post.res.record);
-                  appWebSocket.emit('unlike', item._id);
-                });
+              appPosts.single.unlike(item, function(response) {
+                angular.extend(item, response.res.record);
               });
             };
 
@@ -308,18 +302,11 @@ angular.module('atwork.posts')
                   content: commentContent
                 });
 
-                var $this = this;
-                var post = appPosts.single.get({postId: item._id}, function() {
-                  post.comment = commentContent;
-                  delete post.res;
-                  delete post.success;
-                  post.$comment({postId: item._id}, function() {
-                    angular.extend(item, post.res.record);
-                    appWebSocket.emit('comment', item._id);
-                    item.commentEnabled = false;
-                  });
+                appPosts.single.comment(item, function(response) {
+                  angular.extend(item, post.res.record);
+                  appWebSocket.emit('comment', item._id);
+                  item.commentEnabled = false;
                 });
-              } else {
                 
               }
             };
