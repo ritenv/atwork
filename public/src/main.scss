@@ -2,6 +2,8 @@ $primaryColor: #795548;
 $linkHoverColor: #333;
 $secondaryColor: #B0BEC5;
 $gray: #eee;
+$white: #fff
+
 html, body {
   font-size: 14px;
   color: #444;
@@ -82,7 +84,7 @@ md-content.md-default-theme {
   background-color: $gray;
 }
 md-card {
-  background-color: #fff;
+  background-color: $white;
   h2:first-of-type {
     margin-top: 0;
   }
@@ -100,7 +102,7 @@ h2 {
 .badge {
   background: #cc5555;
   padding: 2px 6px;
-  color: #fff;
+  color: $white;
   border-radius: 20px;
   font-size: 12px;
   margin: 0 2px;
@@ -163,7 +165,7 @@ ul.unstyled {
 .notification-count {
 }
 .notifications {
-  background-color: #fff;
+  background-color: $white;
   position: absolute;
   z-index: 2;
   margin-top: 0;
@@ -321,7 +323,7 @@ ul.unstyled {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #fff;
+  background: $white;
   z-index: 1000;
   .preloader-content {
     margin-top: 200px;
