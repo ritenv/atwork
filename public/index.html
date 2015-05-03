@@ -56,37 +56,35 @@
                   </md-button>
                   
                   <div class="notifications md-whiteframe-z1" ng-if="isLoggedIn && notificationShown">
-                    <md-content>
-                      <md-list>
-                        <!-- notif loop start -->
-                        <md-item class="item" ng-repeat="item in items">
-                          <md-button href="{{item.href}}" ng-click="markRead(item)">
-                            <md-item-content>
-                                <div class="md-tile-left">
-                                  <img ng-src="{{item.actor.face || '/images/user.jpg'}}" class="face" alt="{{item.actor.name}}">
-                                </div>
-                                <div class="md-tile-content">
-                                  <p>{{::item.display.text}}</p>
-                                  <span class="mute">{{::item.created | date:'medium'}}</span>
-                                </div>
-                            </md-item-content>
-                          </md-button>
-                        </md-item>
-                        <!-- notif loop -->
+                    <md-list>
+                      <!-- notif loop start -->
+                      <md-item class="item" ng-repeat="item in items">
+                        <md-button href="{{item.href}}" ng-click="markRead(item)">
+                          <md-item-content>
+                              <div class="md-tile-left">
+                                <img ng-src="{{item.actor.face || '/images/user.jpg'}}" class="face" alt="{{item.actor.name}}">
+                              </div>
+                              <div class="md-tile-content">
+                                <p>{{::item.display.text}}</p>
+                                <span class="mute">{{::item.created | date:'medium'}}</span>
+                              </div>
+                          </md-item-content>
+                        </md-button>
+                      </md-item>
+                      <!-- notif loop -->
 
-                        <!-- no notif start -->
-                        <md-item class="item" ng-if="!items.length">
-                          <md-button ng-click="showUserNotifications()">
-                            <md-item-content>
-                                <div class="md-tile-content">
-                                  <p>No unread notifications.</p>
-                                </div>
-                            </md-item-content>
-                          </md-button>
-                        </md-item>
-                        <!-- no notif -->
-                      </md-list>
-                    </md-content>
+                      <!-- no notif start -->
+                      <md-item class="item" ng-if="!items.length">
+                        <md-button ng-click="showUserNotifications()">
+                          <md-item-content>
+                              <div class="md-tile-content">
+                                <p>No unread notifications.</p>
+                              </div>
+                          </md-item-content>
+                        </md-button>
+                      </md-item>
+                      <!-- no notif -->
+                    </md-list>
                   </div>
                 </div>
 

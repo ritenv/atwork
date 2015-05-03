@@ -136,6 +136,7 @@ ul.unstyled {
 /** ====== General typo END ====== */
 /** ====== Users BEGIN ====== */
 .notifications {
+  background-color: #fff;
   position: absolute;
   z-index: 2;
   margin-top: 0;
