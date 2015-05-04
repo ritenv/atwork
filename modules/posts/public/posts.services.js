@@ -305,7 +305,7 @@ angular.module('atwork.posts')
                 item.comment = commentContent;
 
                 appPosts.single.comment(item, function(response) {
-                  angular.extend(item, post.res.record);
+                  angular.extend(item, response.res.record);
                   item.commentEnabled = false;
                 });
                 
