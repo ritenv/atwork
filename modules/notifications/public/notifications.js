@@ -8,11 +8,11 @@ angular.module('atwork.notifications', ['atwork.system'])
   'appNotificationText',
 	function($rootScope, appLocation, appNotification, appWebSocket, appNotificationText) {
 		appWebSocket.conn.on('notification', function (data) {
-
       /**
        * Broadcast the notification to the application
        */
       $rootScope.$broadcast('notification', data);
+      $rootScope.$broadcast(data.notificationType, data);
 
       /**
        * No data will be received if it is just a notification update signal
