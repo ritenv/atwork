@@ -2,7 +2,9 @@ $primaryColor: #795548;
 $linkHoverColor: #333;
 $secondaryColor: #B0BEC5;
 $gray: #eee;
+$darkgray: #bbb;
 $white: #fff;
+$green: #95D055;
 
 html, body {
   font-size: 14px;
@@ -154,6 +156,9 @@ ul.unstyled {
 }
 .tiny {
   font-size: 80%;
+  &.fa {
+    font-size: 70%;
+  }
 }
 .clickable {
   cursor: pointer;
@@ -284,6 +289,12 @@ ul.unstyled {
       @extend .circular-image;
       width: 128px;
       height: 128px;
+    }
+    .status {
+      color: $darkgray;
+      &.online {
+        color: $green;
+      }
     }
   }
   .user-profile-details {

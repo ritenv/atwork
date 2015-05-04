@@ -128,6 +128,8 @@ ul.unstyled {
 
 .tiny {
   font-size: 80%; }
+  .tiny.fa {
+    font-size: 70%; }
 
 .clickable {
   cursor: pointer; }
@@ -221,6 +223,10 @@ ul.unstyled {
 .user-profile .user-profile-info .face {
   width: 128px;
   height: 128px; }
+.user-profile .user-profile-info .status {
+  color: #bbb; }
+  .user-profile .user-profile-info .status.online {
+    color: #95D055; }
 
 .user-profile-btn img {
   background-position: middle center;

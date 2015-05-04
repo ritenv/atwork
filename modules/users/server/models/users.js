@@ -103,6 +103,10 @@ var UserSchema = new Schema({
     type: String,
     default: ''
   },
+  onlineStatus: {
+    type: Boolean,
+    default: false
+  },
   loggedIn: {
     type: Boolean,
     default: false
@@ -366,6 +370,8 @@ UserSchema.methods = {
    */
   toJSON: function() {
     var obj = this.toObject();
+    obj.onlineStatus = obj.socketId ? true : false;
+    delete obj.socketId;
     delete obj.hashed_password;
     delete obj.notifications;
     delete obj.salt;

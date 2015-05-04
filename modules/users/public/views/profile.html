@@ -14,7 +14,7 @@
             </div>
             <div class="md-tile-content">
               <div ng-if="!editMode">
-                <h2>{{::profile.name}}</h2>
+                <h2>{{::profile.name}} <md-inline-list-icon class="fa fa-circle tiny status" ng-class="{online: profile.onlineStatus}"></md-inline-list-icon></h2>
                 <h3>@{{::profile.username}}</h3>
                 <h3>{{::profile.designation}}</h3>
               </div>
