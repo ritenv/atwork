@@ -45,7 +45,7 @@ angular.module('atwork.system')
 
     $mdThemingProvider.definePalette('primaryPalette', {
       '50': 'E4EFF7',
-      '100': 'AFD1E8',
+      '100': 'D6E0E7',
       '200': '77C0F4',
       '300': '63B4ED',
       '400': '40A8F2',
