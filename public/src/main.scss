@@ -5,6 +5,7 @@ $gray: #eee;
 $darkgray: #bbb;
 $white: #fff;
 $green: #95D055;
+$weirdRandomColor: #77AAB3;
 
 html, body {
   font-size: 14px;
@@ -94,6 +95,9 @@ md-card {
     margin-top: 0;
   }
 }
+md-content.white {
+  background-color: $white;
+}
 md-toolbar {
   .md-button.md-default-theme {
   }
@@ -112,8 +116,15 @@ h2 {
   font-size: 12px;
   margin: 0 2px;
 }
-.white-bg {
-  background-color: $white;
+.color-bg {
+  background-color: $weirdRandomColor;
+  color: $white;
+  input {
+    color: $white !important;
+  }
+  label {
+    color: $white !important;
+  }
 }
 md-list .md-button {
   color: inherit;

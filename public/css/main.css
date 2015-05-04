@@ -73,6 +73,9 @@ md-card {
   md-card h2:first-of-type {
     margin-top: 0; }
 
+md-content.white {
+  background-color: #fff; }
+
 h2 {
   font-weight: 400; }
 
@@ -87,8 +90,13 @@ h2 {
   font-size: 12px;
   margin: 0 2px; }
 
-.white-bg {
-  background-color: #fff; }
+.color-bg {
+  background-color: #77AAB3;
+  color: #fff; }
+  .color-bg input {
+    color: #fff !important; }
+  .color-bg label {
+    color: #fff !important; }
 
 md-list .md-button {
   color: inherit;

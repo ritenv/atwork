@@ -54,10 +54,10 @@ angular.module('atwork.system')
       '700': '1196F4',
       '800': '0691F4',
       '900': '0A98FD',
-      'A100': 'A6AE73',
-      'A200': 'ABB661',
-      'A400': 'B3C254',
-      'A700': 'BCCF46',
+      'A100': '89BEC8',
+      'A200': '89BEC8',
+      'A400': '89BEC8',
+      'A700': '89BEC8',
       'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
                                           // on this palette should be dark or light
       'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default

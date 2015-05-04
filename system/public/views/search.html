@@ -4,8 +4,7 @@
     <input type="search" ng-model="search" minlength="2">
   </md-input-container>
   <div class="search-results md-whiteframe-z1" ng-if="searchResults.length">
-    <md-card>
-    </md-card-content>
+    <md-content class="white">
       <md-list>
         <md-item ng-repeat="item in searchResults">
           <md-button href="/profile/{{item._id}}" ng-click="clearSearch()">
@@ -22,7 +21,6 @@
           </md-button>
         </md-item>
       </md-list>
-    </md-card-content>
-    </md-card>
+    </md-content>
   </div>
 </div>
