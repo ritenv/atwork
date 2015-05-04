@@ -238,8 +238,9 @@ angular.module('atwork.users')
     'appLocation',
     function($rootScope, appStorage, appLocation) {
       appStorage.remove('userToken');
+      appStorage.remove('user');
       $rootScope.$broadcast('loggedOut');
-      appLocation.url('/login');
+      appLocation.url('/');
     }
   ])
   .controller('LoginCtrl', [

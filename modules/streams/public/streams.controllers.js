@@ -133,7 +133,7 @@ angular.module('atwork.streams')
           });
           stream.$save(function(response) {
             if (response.success) {
-              appWebSocket.emit('stream', response.res._id);
+              appWebSocket.conn.emit('stream', response.res._id);
               $scope.actions.createNew = false;
               appToast('New stream created successfully.');
               $scope.updateStreams({reload: true});
@@ -171,7 +171,7 @@ angular.module('atwork.streams')
       /**
        * Listen to socket
        */
-      appWebSocket.on('stream', function() {
+      appWebSocket.conn.on('stream', function() {
         appToast('Woot! There is a new stream available!');
         $scope.updateStreams({reload: true});
       });

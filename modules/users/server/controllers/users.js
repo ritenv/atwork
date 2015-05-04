@@ -9,10 +9,23 @@ module.exports = function(System) {
 
   var sck = System.webSocket;
 
-  /**
-   * User related socket emmissions
-   */
   sck.on('connection', function(socket){
+    /**
+     * Clear the users socket id
+     */
+    var clearSocket = function(data) {
+      User.findOne({_id: socket.userId}, function(err, user) {
+        if (user) {
+          delete socket.userId;
+          user.socketId = '';
+          user.loggedIn = false;
+          user.save(function(err) {
+            console.log(user.name, 'disconnected.');
+          });
+        }
+      });
+    };
+    
     socket.on('online', function(data) {
       User.findOne({token: data.token}, function(err, user) {
         if (user) {
@@ -25,18 +38,9 @@ module.exports = function(System) {
         }
       });
     });
-    socket.on('disconnect', function(data) {
-      User.findOne({_id: socket.userId}, function(err, user) {
-        if (user) {
-          delete socket.userId;
-          user.socketId = '';
-          user.loggedIn = false;
-          user.save(function(err) {
-            console.log(user.name, 'disconnected.');
-          });
-        }
-      });
-    });
+    
+    socket.on('disconnect', clearSocket);
+    socket.on('logout', clearSocket);
 
   });
 

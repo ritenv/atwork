@@ -304,7 +304,6 @@ angular.module('atwork.posts')
 
                 appPosts.single.comment(item, function(response) {
                   angular.extend(item, post.res.record);
-                  appWebSocket.emit('comment', item._id);
                   item.commentEnabled = false;
                 });
                 
