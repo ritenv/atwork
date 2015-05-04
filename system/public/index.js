@@ -43,29 +43,30 @@ angular.module('atwork.system')
     // .primaryPalette('blue')
     // .accentPalette('blue-grey');
 
-    $mdThemingProvider.definePalette('amazingPaletteName', {
-        '50': 'ffebee',
-        '100': 'ffcdd2',
-        '200': 'ef9a9a',
-        '300': 'e57373',
-        '400': 'ef5350',
-        '500': 'f44336',
-        '600': 'e53935',
-        '700': 'd32f2f',
-        '800': 'c62828',
-        '900': 'b71c1c',
-        'A100': 'ff8a80',
-        'A200': 'ff5252',
-        'A400': 'ff1744',
-        'A700': 'd50000',
-        'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
-                                            // on this palette should be dark or light
-        'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
-         '200', '300', '400', 'A100'],
-        'contrastLightColors': undefined    // could also specify this if default was 'dark'
-      });
-      $mdThemingProvider.theme('default')
-        .primaryPalette('amazingPaletteName')
+    $mdThemingProvider.definePalette('primaryPalette', {
+      '50': 'E4EFF7',
+      '100': 'AFD1E8',
+      '200': '77C0F4',
+      '300': '63B4ED',
+      '400': '40A8F2',
+      '500': '36A5F4',
+      '600': '249DF4',
+      '700': '1196F4',
+      '800': '0691F4',
+      '900': '0A98FD',
+      'A100': 'A6AE73',
+      'A200': 'ABB661',
+      'A400': 'B3C254',
+      'A700': 'BCCF46',
+      'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
+                                          // on this palette should be dark or light
+      'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
+       '200', '300', '400', 'A100'],
+      'contrastLightColors': undefined    // could also specify this if default was 'dark'
+    });
+    $mdThemingProvider.theme('default')
+      .primaryPalette('primaryPalette')
+      .accentPalette('primaryPalette')
 
     cfpLoadingBarProvider.includeSpinner = true;
     cfpLoadingBarProvider.includeBar = false;
