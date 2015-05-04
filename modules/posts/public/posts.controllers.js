@@ -170,12 +170,12 @@ angular.module('atwork.posts')
        * @param  {[type]} postId [description]
        * @return {[type]}        [description]
        */
-      var updateItem = function(postId) {
-        var filteredItems = $scope.feed.map(function(candidate, i) {
-          if (candidate._id == postId) {
+      var updateItem = function(e, data) {
+        _.each($scope.feed, function(candidate, i) {
+          if (candidate._id == data.postId) {
             (function(item) {
-              if (item._id == postId) {
-                var post = appPosts.single.get({postId: postId}, function() {
+              if (item._id == data.postId) {
+                var post = appPosts.single.get({postId: data.postId}, function() {
                   angular.extend(item, post.res.record);
                 });
               }
@@ -187,9 +187,9 @@ angular.module('atwork.posts')
       /**
        * Enable socket listeners
        */
-      appWebSocket.conn.on('like', updateItem);
-      appWebSocket.conn.on('unlike', updateItem);
-      appWebSocket.conn.on('comment', updateItem);
+      $rootScope.$on('like', updateItem);
+      $rootScope.$on('unlike', updateItem);
+      $rootScope.$on('comment', updateItem);
       $rootScope.$on('feed', updateNewCount);
 
       /**
