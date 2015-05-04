@@ -60,8 +60,11 @@ app.controller('AppCtrl', [
     $scope.$on('loggedIn', function() {
       $scope.updateLoginStatus();
       $scope.barTitle = '';
-      appWebSocket.emit('online', {token: appAuth.getToken()});
-
+      $scope.$broadcast('updateNotifications');
+      appWebSocket.conn.emit('online', {token: appAuth.getToken()});
+      appAuth.refreshUser(function(user) {
+        $scope.user = user;
+      });
       /**
        * Fetch settings and get the app ready
        */
@@ -81,16 +84,15 @@ app.controller('AppCtrl', [
 
     $scope.$on('loggedOut', function() {
       $scope.updateLoginStatus();
-      $scope.barTitle = 'AtWork';
+      appWebSocket.conn.emit('logout', {token: appAuth.getToken()});
     });
 
-    appWebSocket.on('connect', function() {
+    appWebSocket.conn.on('connect', function() {
       if (appAuth.isLoggedIn()) {
-        appWebSocket.emit('online', {token: appAuth.getToken()});
+        appWebSocket.conn.emit('online', {token: appAuth.getToken()});
       }
     });
 
-    
     $scope.updateLoginStatus();
     $timeout(function() {
       if (!appAuth.isLoggedIn()) {

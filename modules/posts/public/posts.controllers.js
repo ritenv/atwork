@@ -187,9 +187,9 @@ angular.module('atwork.posts')
       /**
        * Enable socket listeners
        */
-      appWebSocket.on('like', updateItem);
-      appWebSocket.on('unlike', updateItem);
-      appWebSocket.on('comment', updateItem);
+      appWebSocket.conn.on('like', updateItem);
+      appWebSocket.conn.on('unlike', updateItem);
+      appWebSocket.conn.on('comment', updateItem);
       $rootScope.$on('feed', updateNewCount);
 
       /**
@@ -274,7 +274,6 @@ angular.module('atwork.posts')
           
           post.$save(function(response) {
             if (response.success) {
-              // appWebSocket.emit('feed', response.res._id);
               appToast('You have posted successfully.');
               
               /**

@@ -31,14 +31,29 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
 ])
 .factory('appWebSocket', [
   function($location) {
-    var socket = window.io();
-    socket.on('connect', function() {
-      console.log('Connected');
-    });
-    socket.on('disconnect', function() {
-      console.log('Disonnected');
-    });
-    return socket;
+    var obj = {
+      conn: {},
+      connect: function() {
+        var $this = this;
+        var socket = window.io();
+        socket.on('connect', function() {
+          console.log('Connected');
+        });
+        socket.on('disconnect', function() {
+          $this.connect();
+        });
+        this.conn = socket;
+      },
+      reconnect: function() {
+        this.conn.close();
+        this.connect();
+      },
+      close: function() {
+        this.conn.close();
+      }
+    };
+    obj.connect();
+    return obj;
   }
 ])
 .factory('appToast', [

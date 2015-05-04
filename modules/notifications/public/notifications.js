@@ -7,7 +7,7 @@ angular.module('atwork.notifications', ['atwork.system'])
 	'appWebSocket',
   'appNotificationText',
 	function($rootScope, appLocation, appNotification, appWebSocket, appNotificationText) {
-		appWebSocket.on('notification', function (data) {
+		appWebSocket.conn.on('notification', function (data) {
 
       /**
        * Broadcast the notification to the application
@@ -39,7 +39,7 @@ angular.module('atwork.notifications', ['atwork.system'])
      * A system level notification is only
      * for broadcasting to the application
      */
-    appWebSocket.on('system', function (data) {
+    appWebSocket.conn.on('system', function (data) {
       /**
        * Broadcast the notification to the application
        */
