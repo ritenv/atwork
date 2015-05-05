@@ -283,10 +283,10 @@ ul.unstyled {
 /** ====== Misc END ====== */
 /** All view animations */
 .main-view {
-  transition: all linear 0.2s;
-  -webkit-transition: all linear 0.2s;
-  -moz-transition: all linear 0.2s;
-  -ms-transition: all linear 0.2s; }
+  transition: all linear 0.1s;
+  -webkit-transition: all linear 0.1s;
+  -moz-transition: all linear 0.1s;
+  -ms-transition: all linear 0.1s; }
 
 .main-view.ng-enter {
   -webkit-transform: translate3d(0, 1%, 0);
