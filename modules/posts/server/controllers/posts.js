@@ -10,7 +10,7 @@ module.exports = function(System) {
   /**
    * Event based notifications
    */
-  ['like', 'comment'].map(function(action) {
+  ['like', 'comment', 'unlike'].map(function(action) {
     event.on(action, function(data) {
       var post = data.post;
       var actor = data.actor;
@@ -87,7 +87,12 @@ module.exports = function(System) {
    */
   obj.comment = function(req, res) {
     var postId = req.params.postId;
-    Post.findOne({ _id: postId }).populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
+    Post.findOne({ _id: postId })
+    .populate('creator')
+    .populate('comments')
+    .populate('stream')
+    .populate('comments.creator')
+    .exec(function(err, post) {
       post.comments.push({
         creator: req.user,
         content: req.body.comment
@@ -260,6 +265,7 @@ module.exports = function(System) {
     Post.find(criteria, null, {sort: {created: -1}})
     .populate('creator')
     .populate('comments')
+    .populate('stream')
     .populate('comments.creator')
     .skip(parseInt(req.query.page) * System.config.settings.perPage)
     .limit(System.config.settings.perPage+1)
@@ -345,7 +351,12 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.like = function(req, res) {
-    Post.findOne({_id: req.params.postId}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
+    Post.findOne({_id: req.params.postId})
+    .populate('creator')
+    .populate('comments')
+    .populate('stream')
+    .populate('comments.creator')
+    .exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {
@@ -378,7 +389,12 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.unlike = function(req, res) {
-    Post.findOne({_id: req.params.postId}).populate('creator').populate('comments').populate('comments.creator').exec(function(err, post) {
+    Post.findOne({_id: req.params.postId})
+    .populate('creator')
+    .populate('comments')
+    .populate('stream')
+    .populate('comments.creator')
+    .exec(function(err, post) {
       if (err) {
         return json.unhappy(err, res);
       } else if (post) {

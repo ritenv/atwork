@@ -39,9 +39,11 @@ angular.module('atwork.notifications')
      */
     $scope.markRead = function (item) {
       var record = appUsers.notifications.get({notificationId: item._id}, function () {
-        record.res.notifications.map(function (item) {
-          item.display = appNotificationText(item);
-        });
+        if (record.res.notifications) {
+          record.res.notifications.map(function (item) {
+            item.display = appNotificationText(item);
+          });
+        }
         $scope.items = record.res.notifications;
         $scope.notificationCount = record.res.notifications.length;
       });

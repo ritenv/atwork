@@ -7,7 +7,9 @@ angular.module('atwork.notifications')
     function($resource, $mdToast) {
       return {
         show: function(data) {
-
+          if (!data.message) {
+            return;
+          }
           var toast = $mdToast.simple()
             .content(data.message)
             .action('VIEW')
