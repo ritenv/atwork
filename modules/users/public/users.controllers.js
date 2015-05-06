@@ -63,6 +63,14 @@ angular.module('atwork.users')
       $scope.editProfile = function() {
         $scope.editMode = true;
       };
+      
+      /**
+       * Cancel profile editing
+       * @return {Void}
+       */
+      $scope.cancelEditProfile = function() {
+        $scope.editMode = false;
+      };
 
       /**
        * Save profile data
