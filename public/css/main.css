@@ -14,7 +14,7 @@ a {
     display: inline-block; }
 
 .primaryColors a {
-  color: #795548; }
+  color: #367890; }
   .primaryColors a[ng-click] {
     cursor: pointer; }
   .primaryColors a:hover {
@@ -62,6 +62,10 @@ a {
 
 /** ====== Sidenav Related END ====== */
 /** ====== General typo BEGIN ====== */
+.unspaced-headings h1, .unspaced-headings h2, .unspaced-headings h3, .unspaced-headings p {
+  margin-bottom: 0;
+  margin-top: 0; }
+
 .aw-full-area {
   margin: -16px; }
 
@@ -76,14 +80,30 @@ md-card {
 md-content.white {
   background-color: #fff; }
 
+.left-text {
+  text-align: left; }
+
+.md-old-style.md-button {
+  font-size: inherit;
+  height: 30px;
+  min-height: 30px;
+  min-width: 0px;
+  line-height: 30px;
+  width: auto;
+  white-space: normal; }
+
 h2 {
   font-weight: 400; }
+
+p {
+  line-height: 1.846;
+  margin: 0 0 3px; }
 
 .breathing-space {
   margin: 20px 0; }
 
 .badge {
-  background: #cc5555;
+  background: #CB5757;
   padding: 2px 6px;
   color: #fff;
   border-radius: 20px;
@@ -104,6 +124,9 @@ md-list .md-button {
   text-align: left;
   width: 100%; }
 
+md-list-item, md-list-item.md-no-proxy {
+  padding: 0; }
+
 ul.unstyled {
   padding: 0;
   list-style: none; }
@@ -117,6 +140,9 @@ ul.unstyled {
   margin-bottom: 0;
   padding-bottom: 0; }
 
+.no-true-margin {
+  margin: 0; }
+
 .no-margin-all {
   margin-bottom: 0;
   margin-top: 0;
@@ -124,7 +150,7 @@ ul.unstyled {
   padding-top: 0; }
 
 .circular-image, .user-listing .face, .notifications .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .post-listing .face, .user-profile .user-profile-info .face {
-  border-radius: 100px;
+  border-radius: 99%;
   width: 48px;
   height: 48px;
   margin: 16px;
@@ -151,6 +177,13 @@ ul.unstyled {
 
 /** ====== General typo END ====== */
 /** ====== Users BEGIN ====== */
+.notification-count span {
+  font-size: 12px;
+  background: #CB5757;
+  padding: 3px 5px;
+  margin-left: -13px;
+  border-radius: 99%; }
+
 .notifications {
   background-color: #fff;
   position: absolute;
@@ -158,11 +191,16 @@ ul.unstyled {
   margin-top: 0;
   top: 64px;
   right: 0; }
+  .notifications .face {
+    margin: 4px 10px; }
   .notifications .item button, .notifications .item a {
-    border-bottom: 1px solid #B0BEC5 !important; }
+    padding: 16px 8px;
+    margin: 0; }
     .notifications .item button p, .notifications .item a p {
-      max-width: 240px !important; }
+      max-width: 240px !important;
+      font-size: 14px !important; }
     .notifications .item button p, .notifications .item button span, .notifications .item a p, .notifications .item a span {
+      display: block;
       color: #444;
       white-space: normal;
       font-size: 100% !important;
@@ -212,6 +250,16 @@ ul.unstyled {
     -webkit-align-items: initial; }
     .post-listing .single-post.root-post {
       margin-bottom: 10px; }
+    .post-listing .single-post .aw-person-name {
+      margin: 0; }
+    .post-listing .single-post .aw-post-content {
+      padding-top: 0; }
+    .post-listing .single-post .aw-item-content {
+      margin: 9px 0; }
+    .post-listing .single-post p {
+      margin: 0 0 3px; }
+    .post-listing .single-post .aw-comments {
+      margin-top: 10px; }
   .post-listing p {
     padding: 6px;
     font-size: 100%; }
@@ -231,13 +279,29 @@ ul.unstyled {
 .activities-listing strong {
   text-transform: uppercase; }
 
-.user-profile .user-profile-info .face {
-  width: 128px;
-  height: 128px; }
-.user-profile .user-profile-info .status {
-  color: #bbb; }
-  .user-profile .user-profile-info .status.online {
-    color: #95D055; }
+.user-profile .user-profile-info {
+  padding: 30px; }
+  .user-profile .user-profile-info .face {
+    width: 128px;
+    height: 128px; }
+  .user-profile .user-profile-info .user-details {
+    margin-top: 35px; }
+  .user-profile .user-profile-info .status {
+    color: #bbb; }
+    .user-profile .user-profile-info .status.online {
+      color: #95D055; }
+.user-profile .user-profile-details {
+  margin-top: -9px; }
+  .user-profile .user-profile-details md-tabs-wrapper {
+    margin-left: 8px;
+    margin-right: 8px; }
+  .user-profile .user-profile-details .no-margin-top {
+    margin-top: 0; }
+  .user-profile .user-profile-details .customized-tab {
+    padding: 8px;
+    margin-top: -8px; }
+    .user-profile .user-profile-details .customized-tab md-card {
+      margin: 0; }
 
 .user-profile-btn img {
   background-position: middle center;
@@ -251,6 +315,9 @@ ul.unstyled {
 #loading-bar-spinner {
   top: 24px !important;
   left: 24px !important; }
+  @media (max-width: 768px) {
+    #loading-bar-spinner {
+      left: 128px !important; } }
 
 #loading-bar-spinner .spinner-icon {
   border-top-color: #fff !important;
@@ -295,3 +362,6 @@ ul.unstyled {
   transform: translate3d(0, 1%, 0);
   opacity: 0; }
 
+/** ================== THEMING ===================== */
+md-toolbar.md-default-theme {
+  background-color: #494749; }

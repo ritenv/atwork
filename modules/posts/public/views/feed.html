@@ -80,9 +80,9 @@
         </md-item>
         
       </div>
-      <md-card ng-hide="noMorePosts || !lastUpdated">
-        <md-button class="md-raised md-primary" ng-click="loadMore()"><span>Load More</span></md-button>
-      </md-card>
+      <div ng-hide="noMorePosts || !lastUpdated" layout="row">
+        <md-button flex class="md-raised" ng-click="loadMore()"><span>Load More</span></md-button>
+      </div>
       <p ng-show="noMorePosts && feed.length" class="breathing-space secondaryColors">-- end --</p>
 
     </div>

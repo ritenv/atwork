@@ -274,7 +274,6 @@ angular.module('atwork.posts')
           
           post.$save(function(response) {
             if (response.success) {
-              appToast('You have posted successfully.');
               
               /**
                * We are the creator ourselves, we know that
@@ -285,7 +284,7 @@ angular.module('atwork.posts')
               });
               
               /**
-               * Lets not update feed again from server, we have the data on the client
+               * Update feed
                * @type {Object}
                */
               $scope.updateFeed();

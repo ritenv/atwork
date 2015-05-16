@@ -39,32 +39,28 @@
                 <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
                   <span class="visuallyhidden">Menu</span>
                 </button>
-                <h1 hide-gt-sm flex>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h1>
-                <md-button ng-if="isLoggedIn" ng-click="goHome($event)" title="Home">
+                <h2 hide-gt-sm flex>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h2>
+                <md-button class="md-old-style" ng-if="isLoggedIn" ng-click="goHome($event)" title="Home">
                   <md-inline-list-icon class="fa fa-globe"></md-inline-list-icon>
                 </md-button>
                 <span hide-sm ng-if="!isLoggedIn">{{systemSettings ? systemSettings.workplace : 'AtWork'}}</span>
                 <span hide-sm class="tiny" flex>&nbsp; {{barTitle}}</span>
-
+                <md-button class="md-old-style" ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings" title="Settings">
+                  <md-inline-list-icon class="fa fa-cog"></md-inline-list-icon>
+                </md-button>
                 <div ng-controller="notificationsCtrl">
-                  <md-button ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings" title="Settings">
-                    <md-inline-list-icon class="fa fa-cog"></md-inline-list-icon>
-                  </md-button>
-                  
-                  <md-button ng-if="isLoggedIn" ng-click="showUserNotifications($event)" title="Alerts">
+                  <md-button class="md-old-style" ng-if="isLoggedIn" ng-click="showUserNotifications($event)" title="Alerts">
                     <md-inline-list-icon class="fa fa-bell notification-count"> <span ng-if="notificationCount">{{notificationCount}} </span></md-inline-list-icon>
                   </md-button>
                   
                   <div class="notifications md-whiteframe-z1" ng-if="isLoggedIn && notificationShown">
                     <md-list>
                       <!-- notif loop start -->
-                      <md-item class="item" ng-repeat="item in items">
-                        <md-button href="{{item.href}}" ng-click="markRead(item)">
-                          <md-item-content>
-                              <div class="md-tile-left">
-                                <img ng-src="{{item.actor.face || '/images/user.jpg'}}" class="face" alt="{{item.actor.name}}">
-                              </div>
-                              <div class="md-tile-content">
+                      <md-list-item class="item" ng-repeat="item in items">
+                        <md-button href="{{item.href}}" ng-click="markRead(item)" layout-wrap>
+                          <md-item-content layout="row">
+                              <img ng-src="{{item.actor.face || '/images/user.jpg'}}" class="face" alt="{{item.actor.name}}">
+                              <div>
                                 <p>{{::item.display.text}}</p>
                                 <span class="mute">{{::item.created | date:'medium'}}</span>
                               </div>
@@ -88,8 +84,8 @@
                   </div>
                 </div>
 
-                <md-button class="user-profile-btn" ng-if="isLoggedIn" ng-click="showUserActions($event)" title="Profile">
-                  <img src="/images/spacer.gif" style="background-image: url('{{user.face || '/images/user.jpg'}}');" class="face" alt="{{user.name}}" title="{{user.name}}">
+                <md-button class="user-profile-btn md-old-style" ng-if="isLoggedIn" ng-click="showUserActions($event)" title="Profile">
+                  <md-inline-list-icon class="fa fa-user"></md-inline-list-icon>
                 </md-button>
 
             </div>
