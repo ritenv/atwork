@@ -1,4 +1,4 @@
-$primaryColor: #795548;
+$primaryColor: #367890;
 $linkHoverColor: #333;
 $secondaryColor: #B0BEC5;
 $gray: #eee;
@@ -108,6 +108,9 @@ md-content.white {
 md-toolbar {
   .md-button.md-default-theme {
   }
+}
+.left-text {
+  text-align: left;
 }
 .md-old-style.md-button {
   font-size: inherit;
@@ -441,19 +444,6 @@ ul.unstyled {
   }
 }
 
-.single-post {
-  transition: all linear 0.1s;
-  -webkit-transition: all linear 0.1s;
-  -moz-transition: all linear 0.1s;
-  -ms-transition: all linear 0.1s;
-}
-.single-post.ng-enter {
-  -webkit-transform:translate3d(0, 10%, 0);
-  -moz-transform:translate3d(0, 10%, 0);
-  -ms-transform:translate3d(0, 10%, 0);
-  transform:translate3d(0, 10%, 0);
-  opacity: 0;
-}
 /** ====== Misc END ====== */
 
 
@@ -473,4 +463,9 @@ ul.unstyled {
   opacity: 0;
 }
 .main-view.ng-leave {
+}
+
+/** ================== THEMING ===================== */
+md-toolbar.md-default-theme {
+  background-color: #494749;
 }

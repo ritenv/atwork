@@ -288,7 +288,8 @@ angular.module('atwork.posts')
                * Lets not update feed again from server, we have the data on the client
                * @type {Object}
                */
-              $scope.updateFeed();
+              // $scope.updateFeed({}, response);
+              $scope.feed.unshift(response.res);
 
               $scope.reset();
             } else {

@@ -14,7 +14,7 @@ a {
     display: inline-block; }
 
 .primaryColors a {
-  color: #795548; }
+  color: #367890; }
   .primaryColors a[ng-click] {
     cursor: pointer; }
   .primaryColors a:hover {
@@ -79,6 +79,9 @@ md-card {
 
 md-content.white {
   background-color: #fff; }
+
+.left-text {
+  text-align: left; }
 
 .md-old-style.md-button {
   font-size: inherit;
@@ -344,19 +347,6 @@ ul.unstyled {
       margin: 0;
       padding: 0; }
 
-.single-post {
-  transition: all linear 0.1s;
-  -webkit-transition: all linear 0.1s;
-  -moz-transition: all linear 0.1s;
-  -ms-transition: all linear 0.1s; }
-
-.single-post.ng-enter {
-  -webkit-transform: translate3d(0, 10%, 0);
-  -moz-transform: translate3d(0, 10%, 0);
-  -ms-transform: translate3d(0, 10%, 0);
-  transform: translate3d(0, 10%, 0);
-  opacity: 0; }
-
 /** ====== Misc END ====== */
 /** All view animations */
 .main-view {
@@ -372,3 +362,6 @@ ul.unstyled {
   transform: translate3d(0, 1%, 0);
   opacity: 0; }
 
+/** ================== THEMING ===================== */
+md-toolbar.md-default-theme {
+  background-color: #494749; }

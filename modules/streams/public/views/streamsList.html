@@ -4,17 +4,15 @@
     </md-button>
     <md-divider></md-divider>
     <ul class="unstyled" ng-if="lastUpdated">
-        <li ng-repeat="stream in streams">
-            <md-button class="btn no-case no-bold md-primary" href="/stream/{{stream._id}}" ng-click="clearBadge(stream)">
+        <li ng-repeat="stream in streams" layout="row">
+            <md-button flex class="btn left-text no-case md-old-style no-bold md-primary" href="/stream/{{stream._id}}" ng-click="clearBadge(stream)">
                 $ {{ stream.title }} <span class="badge" ng-if="stream.unread">{{ stream.unread }}</span>
             </md-button>
             <div class="pull-right">
-                <md-button class="btn no-case no-bold md-primary" ng-click="unsubscribe(stream)" title="Unsubscribe">
+                <md-button class="btn no-case md-old-style no-bold md-primary" ng-click="unsubscribe(stream)" title="Unsubscribe">
                     <md-inline-list-icon class="fa fa-close"></md-inline-list-icon>
                 </md-button>
             </div>
-            
-
         </li>
         <li>
             <form name="newStreamForm" ng-submit="create(newStreamForm.$valid)" novalidate>
