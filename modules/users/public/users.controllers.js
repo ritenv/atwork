@@ -77,7 +77,6 @@ angular.module('atwork.users')
             delete user.res;
             user.$update(function(response) {
               if (response.success) {
-                appToast('Your profile has been saved.');
                 $scope.editMode = false;
               } else {
                 $scope.failure = true;
