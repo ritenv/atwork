@@ -37,6 +37,9 @@
                   <md-button class="md-primary md-raised" ng-if="editMode">
                     Update
                   </md-button>
+                  <md-button class="md-raised" ng-click="cancelEditProfile()" ng-if="editMode">
+                    Cancel
+                  </md-button>
                   <br><br>
                 </form>
                 <h3>@{{::profile.username}}</h3>
