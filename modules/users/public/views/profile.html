@@ -42,21 +42,22 @@
                 <h3>@{{::profile.username}}</h3>
               </div>
               <p>{{::profile.email}}</p>
-            </div>
-            
-            <div layout="column">
-              <md-button class="md-primary md-raised" ng-click="follow()" ng-if="!selfProfile && alreadyFollowing===false">
-                <md-inline-list-icon class="fa fa-plus"></md-inline-list-icon>
-                <span>Follow</span>
-              </md-button>
-              <md-button class="" ng-click="unfollow()" ng-if="!selfProfile && alreadyFollowing===true">
-                <md-inline-list-icon class="fa fa-minus-circle"></md-inline-list-icon>
-                <span>Unfollow</span>
-              </md-button>
-              <md-button ng-click="editProfile()" ng-if="selfProfile && !editMode" class="md-raised ">
-                <md-inline-list-icon class="fa fa-pencil"></md-inline-list-icon>
-                <span>Edit Profile</span>
-              </md-button>
+
+              <div>
+                <md-button class="md-primary md-raised no-true-margin" ng-click="follow()" ng-if="!selfProfile && alreadyFollowing===false">
+                  <md-inline-list-icon class="fa fa-plus"></md-inline-list-icon>
+                  <span>Follow</span>
+                </md-button>
+                <md-button class=" no-true-margin" ng-click="unfollow()" ng-if="!selfProfile && alreadyFollowing===true">
+                  <md-inline-list-icon class="fa fa-minus-circle"></md-inline-list-icon>
+                  <span>Unfollow</span>
+                </md-button>
+                <md-button ng-click="editProfile()" ng-if="selfProfile && !editMode" class="md-raised no-true-margin">
+                  <md-inline-list-icon class="fa fa-pencil"></md-inline-list-icon>
+                  <span>Edit Profile</span>
+                </md-button>
+              </div>
+
             </div>
 
           </div>
