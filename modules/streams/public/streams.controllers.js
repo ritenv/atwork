@@ -50,18 +50,28 @@ angular.module('atwork.streams')
     function($scope, $rootScope, $routeParams, $timeout, appAuth, appToast, appStorage, appLocation, appWebSocket, appStreams) {
       $scope.streams = [];
       $scope.actions = {};
+      // $scope.toSubscribe = '';
+
+      $scope.clearThis = function(item) {
+        console.log($scope);
+        console.log(item);
+        $timeout(function() {
+          // $scope.toSubscribe = undefined;
+        }, 2000);
+      };
 
       $scope.processMoreStreams = function(selected) {
-        $scope.toSubscribe = '';
         $timeout(function() {
           if (selected === '1') {
             $scope.createNew();
+            // $scope.toSubscribe = undefined;
           } else {
             var selectedStreamData = appStreams.single.get({streamId: selected}, function() {
               selectedStreamData.$subscribe({streamId: selected}, function() {
                 $scope.updateStreams({reload: true});
                 appToast('You have subscribed to the new stream.');
                 appLocation.url('/stream/' + selected);
+                // $scope.toSubscribe = undefined;
               });
             });
           }

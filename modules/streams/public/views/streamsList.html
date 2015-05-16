@@ -32,7 +32,7 @@
             </md-button>
             <br> -->
             <div>
-              <md-select placeholder="Subscribe to Streams" ng-model="toSubscribe" class="slight-padding" ng-change="processMoreStreams(toSubscribe)" layout="column">
+              <md-select placeholder="Subscribe to Streams" name="toSubscribe" ng-model="toSubscribe" class="slight-padding" ng-change="processMoreStreams(toSubscribe)" layout="column">
                 <md-option value="{{::stream._id}}" ng-repeat="stream in moreStreams">{{::stream.title}}</md-option>
                 <md-option value="1">+ Create New</md-option>
               </md-select>

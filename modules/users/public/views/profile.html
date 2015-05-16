@@ -1,22 +1,18 @@
-<div class="user-profile aw-full-area" flex>
-  <div ng-show="profile">
-    <md-content class="user-profile-info">
-      <!-- <md-card-content> -->
+<!-- <div class="user-profile"> -->
+  <div ng-show="profile" layout-align="center" layout-fill flex-gt-sm="90" flex-gt-md="80" class="user-profile">
+    <md-card class="user-profile">
+      <md-card-content class="user-profile-info">
         <p ng-if="selfProfile && !profile.face"><strong>Tip: Click photo to edit</strong></p>
-        <md-item>
-          <md-item-content>
-            <div class="md-tile-left">
-              <md-tooltip ng-if="selfProfile">
-                Edit Avatar
-              </md-tooltip>
-              <!-- TODO: The file select dialog appears even on other users' profiles (no issue for now, they cannot edit the avatar) -->
-              <img src="images/spacer.gif" style="background-image: url('{{profile.face || '/images/user.jpg'}}')" class="face {{!selfProfile?'':'clickable'}}" alt="{{profile.name}}" ng-file-select ng-accept="'image/*'" ng-model="avatar">
-            </div>
-            <div class="md-tile-content">
+        <div layout="row">
+          <!-- TODO: The file select dialog appears even on other users' profiles (no issue for now, they cannot edit the avatar) -->
+          <img src="images/spacer.gif" style="background-image: url('{{profile.face || '/images/user.jpg'}}')" class="face {{!selfProfile?'':'clickable'}}" alt="{{profile.name}}" ng-file-select ng-accept="'image/*'" ng-model="avatar">
+          <div class="unspaced-headings" layout="row" flex>
+
+            <div layout="column" flex class="user-details">
               <div ng-if="!editMode">
                 <h2>{{::profile.name}} <md-inline-list-icon title="Status" class="fa fa-circle tiny status" ng-class="{online: profile.loggedIn || selfProfile}"></md-inline-list-icon></h2>
                 <h3>@{{::profile.username}}</h3>
-                <h3>{{::profile.designation}}</h3>
+                <p>{{::profile.designation}}</p>
               </div>
               <div ng-if="editMode">
                 <form name="userForm" ng-submit="updateProfile(userForm.$valid)" novalidate>
@@ -43,50 +39,49 @@
                   </md-button>
                   <br><br>
                 </form>
-                <p class="mute">(Below values cannot be updated)</p>
                 <h3>@{{::profile.username}}</h3>
               </div>
-              <h4>{{::profile.email}}</h4>
-              <br>
-
+              <p>{{::profile.email}}</p>
+            </div>
+            
+            <div layout="column">
               <md-button class="md-primary md-raised" ng-click="follow()" ng-if="!selfProfile && alreadyFollowing===false">
                 <md-inline-list-icon class="fa fa-plus"></md-inline-list-icon>
                 <span>Follow</span>
-              </md-button><br>
+              </md-button>
               <md-button class="" ng-click="unfollow()" ng-if="!selfProfile && alreadyFollowing===true">
                 <md-inline-list-icon class="fa fa-minus-circle"></md-inline-list-icon>
                 <span>Unfollow</span>
               </md-button>
-              <md-button class="" ng-click="editProfile()" ng-if="selfProfile && !editMode">
+              <md-button ng-click="editProfile()" ng-if="selfProfile && !editMode" class="md-raised ">
                 <md-inline-list-icon class="fa fa-pencil"></md-inline-list-icon>
                 <span>Edit Profile</span>
               </md-button>
             </div>
-          </md-item-content>
-        </md-item>
-      <!-- </md-card-content> -->
-    </md-content>
+
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
     <md-content class="user-profile-details">
-      <md-tabs class="md-accent">
+      <md-tabs class="md-accent" md-dynamic-height>
         <md-tab label="Timeline">
-          <md-content class="md-padding">
+          <md-content class="md-padding customized-tab">
             <div ng-include="'/modules/posts/views/feed.html'"></div>
           </md-content>
         </md-tab>
         <md-tab label="Activity">
-          <md-content class="md-padding">
-            <md-card>
-              <md-card-content>
-                <div ng-include="'/modules/activities/views/activities.html'"></div>
-              <md-card-content>
-            </md-card>
-          </md-card-content>
+          <md-card class="no-margin-top">
+            <md-card-content>
+              <div ng-include="'/modules/activities/views/activities.html'"></div>
+            <md-card-content>
+          </md-card>
         </md-tab>
         <md-tab label="Followers">
-          <md-content class="md-padding">
-            <md-card>
-              <md-list>
-                <md-item ng-repeat="item in followers" class="user-profile-following">
+          <md-card class="no-margin-top">
+            <md-card-content>
+              <md-list ng-if="followers.length">
+                <md-list-item ng-repeat="item in followers" class="user-profile-following">
                   <md-button href="/profile/{{item._id}}">
                     <md-item-content>
                         <div class="md-tile-left">
@@ -98,16 +93,16 @@
                         </div>
                     </md-item-content>
                   </md-button>
-                </md-item>
+                </md-list-item>
               </md-list>
               <p ng-if="!followers.length">No followers yet.</p>
-            </md-card>
-          </md-content>
+            </md-card-content>
+          </md-card>
         </md-tab>
         <md-tab label="Following">
-          <md-content class="md-padding">
-            <md-card>
-              <md-list>
+          <md-card class="no-margin-top">
+            <md-card-content>
+              <md-list ng-if="following.length">
                 <md-item ng-repeat="item in following" class="user-profile-following">
                   <md-button href="/profile/{{item._id}}">
                     <md-item-content>
@@ -123,10 +118,10 @@
                 </md-item>
               </md-list>
               <p ng-if="!following.length">Not following anyone yet.</p>
-            </md-card>
-          </md-content>
+            </md-card-content>
+          </md-card>
         </md-tab>
       </md-tabs
     </md-content>
   </div>
-</div>
+<!-- </div> -->

@@ -6,6 +6,7 @@ $darkgray: #bbb;
 $white: #fff;
 $green: #95D055;
 $weirdRandomColor: #77AAB3;
+$badgeRed: #CB5757;
 
 html, body {
   font-size: 14px;
@@ -83,6 +84,12 @@ a {
 /** ====== Sidenav Related END ====== */
 
 /** ====== General typo BEGIN ====== */
+.unspaced-headings {
+  h1, h2, h3, p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+}
 .aw-full-area {
   margin: -16px;
 }
@@ -102,14 +109,29 @@ md-toolbar {
   .md-button.md-default-theme {
   }
 }
+.md-old-style.md-button {
+  font-size: inherit;
+  height: 30px;
+  min-height: 30px;
+  min-width: 0px;
+  line-height: 30px;
+  width: auto;
+  white-space: normal;
+}
+
 h2 {
   font-weight: 400;
+}
+p {
+  line-height: 1.846;
+  margin: 0 0 3px;
+
 }
 .breathing-space {
   margin: 20px 0;
 }
 .badge {
-  background: #cc5555;
+  background: $badgeRed;
   padding: 2px 6px;
   color: $white;
   border-radius: 20px;
@@ -131,6 +153,9 @@ md-list .md-button {
   font-weight: 500;
   text-align: left;
   width: 100%;
+}
+md-list-item, md-list-item.md-no-proxy {
+  padding: 0;
 }
 ul.unstyled {
   padding: 0;
@@ -155,7 +180,7 @@ ul.unstyled {
   padding-top: 0;
 }
 .circular-image {
-  border-radius: 100px;
+  border-radius: 99%;
   width: 48px;
   height: 48px;
   margin: 16px;
@@ -185,6 +210,13 @@ ul.unstyled {
 
 /** ====== Users BEGIN ====== */
 .notification-count {
+  span {
+    font-size: 12px;
+    background: $badgeRed;
+    padding: 3px 5px;
+    margin-left: -13px;
+    border-radius: 99%;
+  }
 }
 .notifications {
   background-color: $white;
@@ -196,19 +228,23 @@ ul.unstyled {
   @extend .user-listing;
   .face {
     @extend .small;
+    margin: 4px 10px;
   }
   .item {
     button, a {
+      padding: 16px 8px;
+      margin: 0;
       p {
         max-width: 240px !important;
+        font-size: 14px !important;
       }
       p, span {
+        display: block;
         color: #444;
         white-space: normal;
         font-size: 100% !important;
         line-height: normal;
       }
-      border-bottom: 1px solid $secondaryColor !important;
     }
   }
   .title-item {
@@ -270,6 +306,21 @@ ul.unstyled {
     &.root-post {
       margin-bottom: 10px;
     }
+    .aw-person-name {
+      margin: 0;
+    }
+    .aw-post-content {
+      padding-top: 0;
+    }
+    .aw-item-content {
+      margin: 9px 0;
+    }
+    p {
+      margin: 0 0 3px;
+    }
+    .aw-comments {
+      margin-top: 10px;
+    }
   }
   p {
     padding: 6px;
@@ -299,10 +350,14 @@ ul.unstyled {
 }
 .user-profile {
   .user-profile-info {
+    padding: 30px;
     .face {
       @extend .circular-image;
       width: 128px;
       height: 128px;
+    }
+    .user-details {
+      margin-top: 35px;
     }
     .status {
       color: $darkgray;
@@ -312,6 +367,21 @@ ul.unstyled {
     }
   }
   .user-profile-details {
+    margin-top: -9px;
+    md-tabs-wrapper {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    .no-margin-top {
+      margin-top: 0;
+    }
+    .customized-tab {
+      padding: 8px;
+      margin-top: -8px;
+      md-card {
+        margin: 0;
+      }
+    }
     .user-profile-following {
       @extend .user-listing;
     }
@@ -332,6 +402,9 @@ ul.unstyled {
 #loading-bar-spinner {
   top: 24px !important;
   left: 24px !important;
+  @media (max-width: 768px) {
+    left: 128px !important;
+  }
 }
 #loading-bar-spinner .spinner-icon {
   border-top-color: #fff !important;
@@ -363,6 +436,20 @@ ul.unstyled {
       padding: 0;
     }
   }
+}
+
+.single-post {
+  transition: all linear 0.1s;
+  -webkit-transition: all linear 0.1s;
+  -moz-transition: all linear 0.1s;
+  -ms-transition: all linear 0.1s;
+}
+.single-post.ng-enter {
+  -webkit-transform:translate3d(0, 10%, 0);
+  -moz-transform:translate3d(0, 10%, 0);
+  -ms-transform:translate3d(0, 10%, 0);
+  transform:translate3d(0, 10%, 0);
+  opacity: 0;
 }
 /** ====== Misc END ====== */
 
