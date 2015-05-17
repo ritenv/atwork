@@ -1,6 +1,12 @@
 'use strict';
 
 angular.module('atwork.users')
+  .controller('ActivationCtrl', [
+    '$scope',
+    function($scope) {
+      
+    }
+  ])
   .controller('SearchCtrl', [
     '$scope',
     '$routeParams',
@@ -298,7 +304,7 @@ angular.module('atwork.users')
           user.$save(function(response) {
             if (response.success) {
               appToast('You have been registered, successfully.');
-              $scope.reset();
+              // $scope.reset();
             } else {
               $scope.failure = true;
               appToast(response.res.message);

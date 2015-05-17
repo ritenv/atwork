@@ -155,7 +155,7 @@ module.exports = function(System) {
           message: 'Welcome! In order to continue using the platform, you will need to activate your account by clicking the below link:',
           action: 'Activate My Account',
           subject: 'Actiate Your Account',
-          href: System.config.baseURL + '/activate/' + user._id + '/' + user.activationCode
+          href: System.config.baseURL + '/activate/' + user._id + '/' + escape(user.activationCode)
         }, function(html) {
           var data = {
             actor: {

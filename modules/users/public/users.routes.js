@@ -11,6 +11,10 @@ angular.module('atwork.users')
         templateUrl: '/modules/users/views/login.html?v',
         controller: 'LogoutCtrl'
       })
+      .when('/activate/:userId/:activationCode', {
+        templateUrl: '/modules/users/views/activating.html',
+        controller: 'ActivationCtrl'
+      })
       .when('/profile/:userId', {
         templateUrl: '/modules/users/views/profile.html?v',
         controller: 'ProfileCtrl',

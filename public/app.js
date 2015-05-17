@@ -97,7 +97,7 @@ app.controller('AppCtrl', [
     $scope.updateLoginStatus();
     $timeout(function() {
       if (!appAuth.isLoggedIn()) {
-        appLocation.url('/login');
+        // appLocation.url('/login');
         initiateSettings();
         $scope.appReady = true;
       } else {
