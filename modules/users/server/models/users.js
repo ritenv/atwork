@@ -287,21 +287,15 @@ UserSchema.methods = {
           break;
         }
 
-        var emailTemplate = fs.readFile(__dirname + '/../templates/notification.html', function(err, fileContent) {
-
-          var ejs = require('ejs');
-          var html = ejs.render(fileContent.toString(), {
-            name: thisUser.name,
-            message: msg,
-            workplaceName: System.settings.workplace,
-            action: fullData.postId ? 'View Post' : 'View Profile',
-            href: fullData.postId ? System.config.baseURL + '/post/' + fullData.postId : System.config.baseURL + '/profile/' + fullData.actor.username
-          });
-          
+        System.plugins.emailing.generate({
+          name: thisUser.name,
+          message: msg,
+          action: fullData.postId ? 'View Post' : 'View Profile',
+          href: fullData.postId ? System.config.baseURL + '/post/' + fullData.postId : System.config.baseURL + '/profile/' + fullData.actor.username
+        }, function(html) {
           fullData.html = html;
           notifications.sendByEmail(thisUser, fullData);
         });
-
       }
     };
 
