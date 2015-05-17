@@ -334,8 +334,8 @@ angular.module('atwork.users')
 
           user.$save(function(response) {
             if (response.success) {
-              appToast('You have been registered, successfully.');
-              // $scope.reset();
+              appToast('Success! Check your email for activation.');
+              $scope.reset();
             } else {
               $scope.failure = true;
               appToast(response.res.message);
