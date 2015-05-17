@@ -294,6 +294,7 @@ UserSchema.methods = {
             name: thisUser.name,
             message: msg,
             workplaceName: System.settings.workplace,
+            action: fullData.postId ? 'View Post' : 'View Profile',
             href: fullData.postId ? System.config.baseURL + '/post/' + fullData.postId : System.config.baseURL + '/profile/' + fullData.actor.username
           });
           
