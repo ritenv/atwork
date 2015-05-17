@@ -142,7 +142,14 @@ var UserSchema = new Schema({
   twitter: {},
   github: {},
   google: {},
-  linkedin: {}
+  linkedin: {},
+  activationCode: {
+    type: String
+  },
+  active: {
+    type: Boolean,
+    default: false
+  }
 });
 
 /**
@@ -152,6 +159,7 @@ UserSchema.virtual('password').set(function(password) {
   this._password = password;
   this.salt = this.makeSalt();
   this.hashed_password = this.hashPassword(password);
+  this.activationCode = this.hashPassword(password + Date.now());
 }).get(function() {
   return this._password;
 });

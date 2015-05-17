@@ -146,7 +146,27 @@ module.exports = function(System) {
         if (err) {
           return json.unhappy(err, res);
         }
-        return json.happy(user, res);
+
+        /**
+         * Send activation email
+         */
+        System.plugins.emailing.generate({
+          name: user.name,
+          message: 'Welcome! In order to continue using the platform, you will need to activate your account by clicking the below link:',
+          action: 'Activate My Account',
+          subject: 'Actiate Your Account',
+          href: System.config.baseURL + '/activate/' + user._id + '/' + escape(user.activationCode)
+        }, function(html) {
+          var data = {
+            actor: {
+              name: 'Activation'
+            }
+          };
+          data.html = html;
+          System.plugins.notifications.sendByEmail(user, data);
+          return json.happy(user, res);
+        });
+
       });
 
     });
@@ -177,22 +197,44 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.authenticate = function(req, res) {
-    User.findOne({email: req.body.email}, function(err, user) {
-      if (err) {
-        json.unhappy(err, res);
-      } else {
-        if (user && user.hashPassword(req.body.password) === user.hashed_password) {
-          json.happy({
-            record: user,
-            token: user.token
-          }, res);
+    if (req.body.activationCode) {
+      User.findOne({activationCode: req.body.activationCode, _id: req.body.userId}, function(err, user) {
+        if (err) {
+          json.unhappy(err, res);
         } else {
-          json.unhappy({
-            message: 'Incorrect email/password'
-          }, res);
+          if (user) {
+            user.active = true;
+            user.save(function(err, user) {
+              json.happy({
+                record: user,
+                token: user.token
+              }, res);
+            })
+          } else {
+            json.unhappy({
+              message: 'Incorrect Auth Link'
+            }, res);
+          }
         }
-      }
-    });
+      });
+    } else {
+      User.findOne({email: req.body.email}, function(err, user) {
+        if (err) {
+          json.unhappy(err, res);
+        } else {
+          if (user && user.hashPassword(req.body.password) === user.hashed_password && user.active) {
+            json.happy({
+              record: user,
+              token: user.token
+            }, res);
+          } else {
+            json.unhappy({
+              message: 'Incorrect email/password'
+            }, res);
+          }
+        }
+      });
+    }
   };
 
   /**

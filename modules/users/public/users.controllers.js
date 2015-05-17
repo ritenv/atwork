@@ -1,6 +1,43 @@
 'use strict';
 
 angular.module('atwork.users')
+  .controller('ActivationCtrl', [
+    '$rootScope',
+    '$scope',
+    '$routeParams',
+    'appUsers',
+    'appToast',
+    'appStorage',
+    'appLocation',
+    function($rootScope, $scope, $routeParams, appUsers, appToast, appStorage, appLocation) {
+      var auth = new appUsers.auth({
+        userId: $routeParams.userId,
+        activationCode: $routeParams.activationCode
+      });
+      auth.$save(function(response) {
+        if (response.success) {
+          appToast('Yayy! Your account is now active!');
+          $scope.postLogin(response.res.record, response.res.token);
+        } else {
+          appToast(response.res.message);
+        }
+      });
+
+      /**
+       * Routine to perform after login is successful
+       * @param  {String} token The user token
+       * @return {Void}
+       */
+      $scope.postLogin = function(user, token) {
+        var serializedUser = angular.toJson(user);
+        appStorage.set('user', serializedUser);
+        appStorage.set('userToken', token);
+        $rootScope.$broadcast('loggedIn');
+        appLocation.url('/');
+      };
+
+    }
+  ])
   .controller('SearchCtrl', [
     '$scope',
     '$routeParams',
@@ -297,7 +334,7 @@ angular.module('atwork.users')
 
           user.$save(function(response) {
             if (response.success) {
-              appToast('You have been registered, successfully.');
+              appToast('Success! Check your email for activation.');
               $scope.reset();
             } else {
               $scope.failure = true;
