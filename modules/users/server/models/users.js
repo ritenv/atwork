@@ -266,19 +266,34 @@ UserSchema.methods = {
       if (!thisUser.socketId && !fullData.config.avoidEmail) {
         console.log(thisUser.name, 'is notified via email.');
         // 'Hi ' + user.name + ', you\'ve got a new notification on AtWork!<br><br>Check it out here: ' + '<a href="http://localhost:8111/post/' + data.postId + '">View</a>' // html body
-        var emailTemplate = fs.readFile(__dirname + '/../templates/notification.html', function(err, fileContent) {
-          var content = {
-            name: thisUser.name,
-            link: System.config.baseURL + '/post/' + fullData.postId,
-            content: fullData.notificationType.toUpperCase()
-          };
-          
-          fileContent = fileContent.toString()
-          .replace('{{name}}', content.name)
-          .replace('{{link}}', content.link)
-          .replace('{{content}}', content.content);
+        
+        var msg = '';
 
-          fullData.html = fileContent;
+        switch (fullData.notificationType) {
+          case 'like':
+          msg = fullData.actor.name + ' has liked a post';
+          break;
+          
+          case 'comment':
+          msg = fullData.actor.name + ' has commented on a post';
+          break;
+          
+          case 'follow':
+          msg = fullData.actor.name + ' is now following you';
+          break;
+
+          case 'mention':
+          msg = fullData.actor.name + ' mentioned you in a post';
+          break;
+        }
+
+        System.plugins.emailing.generate({
+          name: thisUser.name,
+          message: msg,
+          action: fullData.postId ? 'View Post' : 'View Profile',
+          href: fullData.postId ? System.config.baseURL + '/post/' + fullData.postId : System.config.baseURL + '/profile/' + fullData.actor.username
+        }, function(html) {
+          fullData.html = html;
           notifications.sendByEmail(thisUser, fullData);
         });
       }
