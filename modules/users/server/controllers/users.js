@@ -197,22 +197,44 @@ module.exports = function(System) {
    * @return {Void}
    */
   obj.authenticate = function(req, res) {
-    User.findOne({email: req.body.email}, function(err, user) {
-      if (err) {
-        json.unhappy(err, res);
-      } else {
-        if (user && user.hashPassword(req.body.password) === user.hashed_password) {
-          json.happy({
-            record: user,
-            token: user.token
-          }, res);
+    if (req.body.activationCode) {
+      User.findOne({activationCode: req.body.activationCode, _id: req.body.userId}, function(err, user) {
+        if (err) {
+          json.unhappy(err, res);
         } else {
-          json.unhappy({
-            message: 'Incorrect email/password'
-          }, res);
+          if (user) {
+            user.active = true;
+            user.save(function(err, user) {
+              json.happy({
+                record: user,
+                token: user.token
+              }, res);
+            })
+          } else {
+            json.unhappy({
+              message: 'Incorrect Auth Link'
+            }, res);
+          }
         }
-      }
-    });
+      });
+    } else {
+      User.findOne({email: req.body.email}, function(err, user) {
+        if (err) {
+          json.unhappy(err, res);
+        } else {
+          if (user && user.hashPassword(req.body.password) === user.hashed_password && user.active) {
+            json.happy({
+              record: user,
+              token: user.token
+            }, res);
+          } else {
+            json.unhappy({
+              message: 'Incorrect email/password'
+            }, res);
+          }
+        }
+      });
+    }
   };
 
   /**
