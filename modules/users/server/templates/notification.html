@@ -209,11 +209,11 @@
               <td valign="top">
                 <div style="max-width: 600px; margin: 0 auto; padding: 0 12px;">
                   <div class="card" style="background: white; border-radius: 0.5rem; padding: 2rem; margin-bottom: 1rem;">
-                    <p style="color: #666;">Hey {{name}},</p>
-                    <p style="color: #666;">There is a new activity: <strong>{{content}}</strong></p>
-                    <p><a href="{{link}}" style="color: #009688;">View it here</a></p>
-                    <p style="color: #666;">Sincerely,<br>
-                    The team at Project AtWork</p>
+                    <p style="color: #666;">Hey <%= name %>,</p>
+                    <p style="color: #666;"> <%= message %></p>
+                    <p><a href="<%= href %>" style="color: #009688;">VIEW</a></p>
+                    <p style="color: #666;">Cheers!</p>
+                    <p><%= workplaceName %></p>
                   </div>
                 </div>
               </td>
