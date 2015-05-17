@@ -16,7 +16,7 @@ module.exports = function(System) {
           var mailOptions = {
             from: data.actor.name + ' (' + data.notificationType + ')' + ' via AtWork <'+ System.settings.email +'>', // sender address
             to: user.email, // list of receivers
-            subject: 'Notification', // Subject line
+            subject: data.subject ? data.subject : 'Notification', // Subject line
             html: data.html
           };
           
