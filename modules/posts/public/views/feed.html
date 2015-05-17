@@ -1,4 +1,4 @@
-<md-card flex-gt-sm="90" flex-gt-md="80">
+<md-card flex-sm="95" flex-gt-sm="90" flex-gt-md="80">
   <md-card-content>
     <h2 ng-if="feedTitle" ng-bind="feedTitle"></h2>
     <div>
@@ -36,25 +36,21 @@
       </div>
       
       <!-- mentions search -->
-      <div class="search-results mentions-results md-whiteframe-z1" ng-show="mentionsResults.length">
-        <md-content>
-          <md-list>
-            <md-item ng-repeat="item in mentionsResults">
-              <md-button ng-click="replaceName(item.username)">
-                <md-item-content>
-                    <div class="md-tile-left">
-                      <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
-                    </div>
-                    <div class="md-tile-content">
-                      <h3>{{item.name}}</h3>
-                      <h4>@{{item.username}}</h4>
-                      <h4>{{item.designation}}</h4>
-                    </div>
+      <div class="search-results mentions-results button-listing" > <!-- ng-show="mentionsResults.length"-->
+        <md-card>
+            <md-list-item ng-repeat="item in mentionsResults">
+              <md-button ng-click="replaceName(item.username)" class="md-accent">
+                <md-item-content layout="row">
+                  <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                  <div class="md-tile-content unspaced-headings left-text">
+                    <h3 class="md-accent">{{item.name}}</h3>
+                    <p>@{{item.username}}</p>
+                    <p>{{item.designation}}</p>
+                  </div>
                 </md-item-content>
               </md-button>
-            </md-item>
-          </md-list>
-        </md-content>
+            </md-list-item>
+        </md-card>
       </div>
 
       <div class="primaryColors feedsFilter" ng-show="!noFiltering && lastUpdated && feed.length">

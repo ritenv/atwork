@@ -55,6 +55,7 @@ app.controller('AppCtrl', [
      */
     $scope.$on('$routeChangeSuccess', function() {
       angular.element('*[md-scroll-y]').animate({scrollTop: 0}, 300);
+      $mdSidenav('left').close();
     });
 
     $scope.$on('loggedIn', function() {

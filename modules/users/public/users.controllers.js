@@ -13,15 +13,25 @@ angular.module('atwork.users')
     'appUsersSearch',
     function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appUsersSearch) {
       $scope.search = '';
-      $scope.$watch('search', function(newValue, oldValue) {
-        if (!newValue || !newValue.length) {
-          $scope.searchResults = [];
-          return false;
-        }
-        appUsersSearch(newValue).then(function(response) {
-          $scope.searchResults = response.res.items;
+
+      /**
+       * Perform search operation
+       */
+      $scope.doSearch = function(val) {
+        return appUsersSearch(val).then(function(response) {
+          return response.res.items;
         });
-      });
+      };
+
+      /**
+       * Go to selected user's profile
+       */
+      $scope.goToUser = function(item) {
+        if (item && item.username) {
+          $location.url('/profile/' + item.username);
+        }
+      };
+
       $scope.clearSearch = function() {
         $timeout(function() {
           $scope.search = '';

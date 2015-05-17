@@ -10,6 +10,10 @@ var happy = function(obj, res) {
   });
 };
 
+var list = function(obj, res) {
+  res.send(obj);
+};
+
 /**
  * Unhappy JSON response
  * @param  {Error} err The error object
@@ -41,6 +45,7 @@ module.exports = function(System) {
     register: function () {
       return {
         happy: happy,
+        list: list,
         unhappy: unhappy
       };
     }

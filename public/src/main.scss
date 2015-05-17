@@ -85,7 +85,7 @@ a {
 
 /** ====== General typo BEGIN ====== */
 .unspaced-headings {
-  h1, h2, h3, p {
+  h1, h2, h3, h4, p {
     margin-bottom: 0;
     margin-top: 0;
   }
@@ -286,11 +286,28 @@ ul.unstyled {
   position: absolute;
   z-index: 1;
   margin-top: -26px;
+  /*width: 234px;*/
   @extend .user-listing;
 }
 .mentions-results {
   position: absolute;
   margin-top: 0px;
+}
+.button-listing {
+  .md-button {
+    h3 {
+      line-height: 16px;
+      font-size: 14px;
+      margin-top: 13px;
+      text-transform: uppercase;
+    }
+    p {
+      line-height: 14px;
+      font-size: 12px;
+      margin-top: 5px;
+      color: $secondaryColor;
+    }
+  }
 }
 .post-writer {
   margin-bottom: 20px;
@@ -358,13 +375,16 @@ ul.unstyled {
 .user-profile {
   .user-profile-info {
     padding: 30px;
+    .profile-buttons {
+      margin-top: 10px;
+    }
     .face {
       @extend .circular-image;
       width: 128px;
       height: 128px;
     }
     .user-details {
-      margin-top: 35px;
+      margin-top: 14px;
     }
     .status {
       color: $darkgray;

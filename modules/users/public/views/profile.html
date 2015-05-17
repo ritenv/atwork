@@ -46,7 +46,7 @@
               </div>
               <p>{{::profile.email}}</p>
 
-              <div>
+              <div class="profile-buttons">
                 <md-button class="md-primary md-raised no-true-margin" ng-click="follow()" ng-if="!selfProfile && alreadyFollowing===false">
                   <md-inline-list-icon class="fa fa-plus"></md-inline-list-icon>
                   <span>Follow</span>
@@ -55,7 +55,7 @@
                   <md-inline-list-icon class="fa fa-minus-circle"></md-inline-list-icon>
                   <span>Unfollow</span>
                 </md-button>
-                <md-button ng-click="editProfile()" ng-if="selfProfile && !editMode" class="md-raised no-true-margin">
+                <md-button ng-click="editProfile()" ng-if="selfProfile && !editMode" class="no-true-margin">
                   <md-inline-list-icon class="fa fa-pencil"></md-inline-list-icon>
                   <span>Edit Profile</span>
                 </md-button>
@@ -85,18 +85,20 @@
           <md-card class="no-margin-top">
             <md-card-content>
               <md-list ng-if="followers.length">
-                <md-list-item ng-repeat="item in followers" class="user-profile-following">
-                  <md-button href="/profile/{{item._id}}">
-                    <md-item-content>
-                        <div class="md-tile-left">
-                          <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
-                        </div>
-                        <div class="md-tile-content">
-                          <h3>{{::item.name}}</h3>
-                          <h4>{{::item.designation}}</h4>
-                        </div>
+                <md-list-item ng-repeat="item in followers" class="user-profile-following button-listing">
+
+                  <md-button href="/profile/{{item.username}}" class="md-accent">
+                    <md-item-content layout="row">
+                      <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                      <div class="md-tile-content unspaced-headings left-text">
+                        <h3 class="md-accent">{{item.name}}</h3>
+                        <p>@{{item.username}}</p>
+                        <p>{{item.designation}}</p>
+                      </div>
                     </md-item-content>
                   </md-button>
+                  
+                  
                 </md-list-item>
               </md-list>
               <p ng-if="!followers.length">No followers yet.</p>
@@ -107,18 +109,19 @@
           <md-card class="no-margin-top">
             <md-card-content>
               <md-list ng-if="following.length">
-                <md-item ng-repeat="item in following" class="user-profile-following">
-                  <md-button href="/profile/{{item._id}}">
-                    <md-item-content>
-                        <div class="md-tile-left">
-                          <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
-                        </div>
-                        <div class="md-tile-content">
-                          <h3>{{::item.name}}</h3>
-                          <h4>{{::item.designation}}</h4>
-                        </div>
+                <md-item ng-repeat="item in following" class="user-profile-following button-listing">
+                  
+                  <md-button href="/profile/{{item.username}}" class="md-accent">
+                    <md-item-content layout="row">
+                      <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+                      <div class="md-tile-content unspaced-headings left-text">
+                        <h3 class="md-accent">{{item.name}}</h3>
+                        <p>@{{item.username}}</p>
+                        <p>{{item.designation}}</p>
+                      </div>
                     </md-item-content>
                   </md-button>
+
                 </md-item>
               </md-list>
               <p ng-if="!following.length">Not following anyone yet.</p>

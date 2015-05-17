@@ -145,8 +145,8 @@ angular.module('atwork.streams')
             if (response.success) {
               appWebSocket.conn.emit('stream', response.res._id);
               $scope.actions.createNew = false;
-              appToast('New stream created successfully.');
               $scope.updateStreams({reload: true});
+              appLocation.url('/stream/' + response.res._id);
             } else {
               $scope.failure = true;
               appToast(response.res.message);

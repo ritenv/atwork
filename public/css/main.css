@@ -62,7 +62,7 @@ a {
 
 /** ====== Sidenav Related END ====== */
 /** ====== General typo BEGIN ====== */
-.unspaced-headings h1, .unspaced-headings h2, .unspaced-headings h3, .unspaced-headings p {
+.unspaced-headings h1, .unspaced-headings h2, .unspaced-headings h3, .unspaced-headings h4, .unspaced-headings p {
   margin-bottom: 0;
   margin-top: 0; }
 
@@ -228,11 +228,23 @@ ul.unstyled {
 .search-results {
   position: absolute;
   z-index: 1;
-  margin-top: -26px; }
+  margin-top: -26px;
+  /*width: 234px;*/ }
 
 .mentions-results {
   position: absolute;
   margin-top: 0px; }
+
+.button-listing .md-button h3 {
+  line-height: 16px;
+  font-size: 14px;
+  margin-top: 13px;
+  text-transform: uppercase; }
+.button-listing .md-button p {
+  line-height: 14px;
+  font-size: 12px;
+  margin-top: 5px;
+  color: #B0BEC5; }
 
 .post-writer {
   margin-bottom: 20px; }
@@ -281,11 +293,13 @@ ul.unstyled {
 
 .user-profile .user-profile-info {
   padding: 30px; }
+  .user-profile .user-profile-info .profile-buttons {
+    margin-top: 10px; }
   .user-profile .user-profile-info .face {
     width: 128px;
     height: 128px; }
   .user-profile .user-profile-info .user-details {
-    margin-top: 35px; }
+    margin-top: 14px; }
   .user-profile .user-profile-info .status {
     color: #bbb; }
     .user-profile .user-profile-info .status.online {
