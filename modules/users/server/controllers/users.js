@@ -367,18 +367,68 @@ module.exports = function(System) {
   obj.avatar = function(req, res) {
     var user = req.user;
     var file = req.files.file;
+
+    /**
+     * Check extension
+     */
     if (['png', 'jpg', 'jpeg', 'gif'].indexOf(file.extension) === -1) {
       return json.unhappy({message: 'Only images allowed.'}, res);
     }
-    user.face = file.path.replace('public/', '');
-    user.save(function(err, u) {
-      if (err) {
-        return json.unhappy(err, res);
+
+    /**
+     * Get file name
+     * @type {String}
+     */
+    var filename = file.path.substr(file.path.lastIndexOf('/')+1);
+
+    var fs = require('fs');
+    var AWS = require('aws-sdk');
+    
+    /**
+     * Config params stored in the environment
+     * @type {String}
+     */
+    AWS.config.accessKeyId = System.config.aws.accessKeyId;
+    AWS.config.secretAccessKey = System.config.aws.secretAccessKey;
+
+    /**
+     * Set bucket and other params
+     * @type {Object}
+     */
+    var params = {
+      Bucket: 'atwork', 
+      Key: filename,
+      Body: fs.readFileSync(file.path),
+      ContentType: 'application/image',
+      ACL: 'public-read'
+    };
+
+    var s3 = new AWS.S3();
+
+    /**
+     * Upload to s3
+     */
+    s3.putObject(params, function(error, data) {
+      if (error) {
+        throw error;
       }
-      return json.happy({
-        face: u.face
-      }, res);
     });
+
+    /**
+     * Update the user with the s3 path, even if its not yet uploaded
+     * @type {String}
+     */
+    user.face = 'https://s3.amazonaws.com/atwork/' + filename;
+    user.save();
+
+    /**
+     * Return a locally uploaded file for faster response
+     * @type {String}
+     */
+    return json.happy({
+      face: file.path.replace('public/', '')
+    }, res);
+
   };
 
   /**
