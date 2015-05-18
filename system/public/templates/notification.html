@@ -213,7 +213,9 @@
                     <p style="color: #666;"> <%= message %></p>
                     <p><a href="<%= href %>" style="color: #FF5252;"><%= action %></a></p>
                     <p style="color: #666;">Cheers!</p>
+                    <% if (typeof workplace !== 'undefined') { %>
                     <p><%= workplace %></p>
+                    <% } %>
                   </div>
                 </div>
               </td>
