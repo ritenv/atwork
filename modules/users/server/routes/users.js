@@ -42,6 +42,13 @@ module.exports = function(System) {
 
   routes.push({
     method: 'post',
+    path: '/:userId/activate',
+    handler: users.activate,
+    authorized: false //allow anonymous
+  });
+
+  routes.push({
+    method: 'post',
     path: '/:userId/follow',
     handler: users.follow,
     authorized: true

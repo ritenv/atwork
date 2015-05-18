@@ -333,9 +333,15 @@ angular.module('atwork.users')
           });
 
           user.$save(function(response) {
+            /**
+             * Save reference to use for resending activation email if needed
+             * @type {Object}
+             */
+            $scope.registeredUserId = response.res._id;
+            $scope.regDone = true;
+
             if (response.success) {
-              appToast('Success! Check your email for activation.');
-              $scope.reset();
+              // $scope.reset();
             } else {
               $scope.failure = true;
               appToast(response.res.message);
@@ -344,6 +350,17 @@ angular.module('atwork.users')
         } else {
           appToast('Something is missing.');
         }
+      };
+
+      /**
+       * Resend activation email
+       * @return {Void}
+       */
+      $scope.resendEmail = function() {
+        var user = new appUsers.single({userId: $scope.registeredUserId});
+        user.$activate({userId: $scope.registeredUserId}, function() {
+          appToast('Success! An email has been sent to you again.');
+        });
       };
 
       /**

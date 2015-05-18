@@ -159,7 +159,7 @@ UserSchema.virtual('password').set(function(password) {
   this._password = password;
   this.salt = this.makeSalt();
   this.hashed_password = this.hashPassword(password);
-  this.activationCode = this.hashPassword(password + Date.now());
+  this.activationCode = Date.now().toString().substr(4, 4) + Date.now().toString().substr(6, 4) + Date.now().toString();
 }).get(function() {
   return this._password;
 });
