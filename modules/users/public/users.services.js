@@ -17,6 +17,10 @@ angular.module('atwork.users')
             unfollow: {
               method: 'POST',
               params: {action: 'unfollow'}
+            },
+            activate: {
+              method: 'POST',
+              params: {action: 'activate'}
             }
           }),
         auth: $resource('users/authenticate'),

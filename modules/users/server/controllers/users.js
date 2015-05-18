@@ -257,6 +257,41 @@ module.exports = function(System) {
   };
 
   /**
+   * Send activation email to a specific user
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
+  obj.activate = function(req, res) {
+    var userId = req.params.userId;
+    User.findOne({_id: userId}, function(err, user) {
+      if (err || !user) {
+
+      } else {
+        /**
+         * Send activation email
+         */
+        System.plugins.emailing.generate({
+          name: user.name,
+          message: 'Welcome! In order to continue using the platform, you will need to activate your account by clicking the below link:',
+          action: 'Activate My Account',
+          subject: 'Actiate Your Account',
+          href: System.config.baseURL + '/activate/' + user._id + '/' + escape(user.activationCode)
+        }, function(html) {
+          var data = {
+            actor: {
+              name: 'Activation'
+            }
+          };
+          data.html = html;
+          System.plugins.notifications.sendByEmail(user, data);
+          return json.happy(user, res);
+        });
+      }
+    });
+  };
+
+  /**
    * Follow a user not already following
    * @param  {Object} req Request
    * @param  {Object} res Response

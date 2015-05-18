@@ -13,6 +13,9 @@ a {
   a.btn.md-button {
     display: inline-block; }
 
+.primaryColor {
+  color: #367890; }
+
 .primaryColors a {
   color: #367890; }
   .primaryColors a[ng-click] {

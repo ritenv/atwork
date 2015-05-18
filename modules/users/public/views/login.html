@@ -31,70 +31,84 @@
           </form>
         </md-tab>
         <md-tab label="Register">
-          <form name="userForm" ng-submit="create(userForm.$valid)" novalidate>
-            <md-input-container>
-              <label>Full Name</label>
-              <input name="name" ng-model="name" required md-maxlength="100" minlength="5">
-              <div ng-messages="userForm.name.$error" ng-show="userForm.bio.$dirty">
-                <div ng-message="required">This is required!</div>
-                <div ng-message="md-maxlength">That's too long!</div>
-                <div ng-message="minlength">That's too short!</div>
-              </div>
-            </md-input-container>
+          <div ng-if="!regDone">
+            <form name="userForm" ng-submit="create(userForm.$valid)" novalidate>
+              <md-input-container>
+                <label>Full Name</label>
+                <input name="name" ng-model="name" required md-maxlength="100" minlength="5">
+                <div ng-messages="userForm.name.$error" ng-show="userForm.bio.$dirty">
+                  <div ng-message="required">This is required!</div>
+                  <div ng-message="md-maxlength">That's too long!</div>
+                  <div ng-message="minlength">That's too short!</div>
+                </div>
+              </md-input-container>
 
-            <md-input-container>
-              <label>Email Address</label>
-              <input name="email" ng-model="email" required>
-              <div ng-messages="userForm.email.$error" ng-show="userForm.bio.$dirty">
-                <div ng-message="required">This is required!</div>
-                <div ng-message="md-maxlength">That's too long!</div>
-                <div ng-message="minlength">That's too short!</div>
-              </div>
-            </md-input-container>
+              <md-input-container>
+                <label>Email Address</label>
+                <input name="email" ng-model="email" required>
+                <div ng-messages="userForm.email.$error" ng-show="userForm.bio.$dirty">
+                  <div ng-message="required">This is required!</div>
+                  <div ng-message="md-maxlength">That's too long!</div>
+                  <div ng-message="minlength">That's too short!</div>
+                </div>
+              </md-input-container>
 
-            <md-input-container>
-              <label>Username (required for @mentions)</label>
-              <input type="username" name="username" ng-model="username" required>
-              <div ng-messages="loginForm.username.$error" ng-show="loginForm.bio.$dirty">
-                <div ng-message="required">This is required!</div>
-                <div ng-message="md-maxlength">That's too long!</div>
-                <div ng-message="minlength">That's too short!</div>
-              </div>
-            </md-input-container>
+              <md-input-container>
+                <label>Username (required for @mentions)</label>
+                <input type="username" name="username" ng-model="username" required>
+                <div ng-messages="loginForm.username.$error" ng-show="loginForm.bio.$dirty">
+                  <div ng-message="required">This is required!</div>
+                  <div ng-message="md-maxlength">That's too long!</div>
+                  <div ng-message="minlength">That's too short!</div>
+                </div>
+              </md-input-container>
 
-            <md-input-container>
-              <label>Designation</label>
-              <input name="name" ng-model="designation" required md-maxlength="100" minlength="2">
-              <div ng-messages="userForm.designation.$error" ng-show="userForm.bio.$dirty">
-                <div ng-message="required">This is required!</div>
-                <div ng-message="md-maxlength">That's too long!</div>
-                <div ng-message="minlength">That's too short!</div>
-              </div>
-            </md-input-container>
+              <md-input-container>
+                <label>Designation</label>
+                <input name="name" ng-model="designation" required md-maxlength="100" minlength="2">
+                <div ng-messages="userForm.designation.$error" ng-show="userForm.bio.$dirty">
+                  <div ng-message="required">This is required!</div>
+                  <div ng-message="md-maxlength">That's too long!</div>
+                  <div ng-message="minlength">That's too short!</div>
+                </div>
+              </md-input-container>
 
-            <md-input-container>
-              <label>Password</label>
-              <input name="password" ng-model="password" type="password" required md-maxlength="100" minlength="8">
-              <div ng-messages="userForm.password.$error" ng-show="userForm.bio.$dirty">
-                <div ng-message="required">This is required!</div>
-                <div ng-message="md-maxlength">That's too long!</div>
-                <div ng-message="minlength">That's too short!</div>
-              </div>
-            </md-input-container>
+              <md-input-container>
+                <label>Password</label>
+                <input name="password" ng-model="password" type="password" required md-maxlength="100" minlength="8">
+                <div ng-messages="userForm.password.$error" ng-show="userForm.bio.$dirty">
+                  <div ng-message="required">This is required!</div>
+                  <div ng-message="md-maxlength">That's too long!</div>
+                  <div ng-message="minlength">That's too short!</div>
+                </div>
+              </md-input-container>
 
-            <md-input-container>
-              <label>Confirm Password</label>
-              <input name="password2" ng-model="password2" type="password" required md-maxlength="100" minlength="8">
-              <div ng-messages="userForm.password2.$error" ng-show="userForm.bio.$dirty">
-                <div ng-message="required">This is required!</div>
-                <div ng-message="md-maxlength">That's too long!</div>
-                <div ng-message="minlength">That's too short!</div>
-              </div>
-            </md-input-container>
-            <md-button class="md-primary md-raised">
-              Register
-            </md-button>
-          </form>
+              <md-input-container>
+                <label>Confirm Password</label>
+                <input name="password2" ng-model="password2" type="password" required md-maxlength="100" minlength="8">
+                <div ng-messages="userForm.password2.$error" ng-show="userForm.bio.$dirty">
+                  <div ng-message="required">This is required!</div>
+                  <div ng-message="md-maxlength">That's too long!</div>
+                  <div ng-message="minlength">That's too short!</div>
+                </div>
+              </md-input-container>
+              <md-button class="md-primary md-raised">
+                Register
+              </md-button>
+            </form>
+          </div>
+          
+          <md-content ng-if="regDone" class="md-padding white">
+            <h2>
+              <md-inline-list-icon class="fa fa-check-circle primaryColor"></md-inline-list-icon>
+              <span>Awesome!</span>
+            </h2>
+            <p>As last step of the registration process, please check your email to activate your account and login.</p>
+            <br>
+            <p class="tiny">Didn't get an email yet?</p>
+            <md-button ng-click="resendEmail()" class="md-old-style md-raised no-true-margin">Resend Email</md-button>
+          </md-content>
+
         </md-tab>
       </md-tabs>
     </md-card-content>

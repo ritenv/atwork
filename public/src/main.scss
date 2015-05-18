@@ -24,6 +24,9 @@ a {
     display: inline-block;
   }
 }
+.primaryColor {
+  color: $primaryColor;
+}
 .primaryColors {
   a {
     &[ng-click] {
