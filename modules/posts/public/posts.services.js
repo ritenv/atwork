@@ -18,6 +18,10 @@ angular.module('atwork.posts')
             comment: {
               method: 'POST',
               params: {action: 'comment'}
+            },
+            likes: {
+              method: 'GET',
+              params: {action: 'likes'}
             }
           }),
         feed: $resource('posts/'),
@@ -253,7 +257,8 @@ angular.module('atwork.posts')
     'appPosts',
     'appWebSocket',
     'appAuth',
-    function(appPosts, appWebSocket, appAuth) {
+    'appDialog',
+    function(appPosts, appWebSocket, appAuth, appDialog) {
       return {
         templateUrl: '/modules/posts/views/post-single.html',
         controller: [
@@ -310,6 +315,46 @@ angular.module('atwork.posts')
                 });
                 
               }
+            };
+
+            /**
+             * Show the list of likers for a specific post
+             * @param  {Object} item The post item
+             * @return {Void}
+             */
+            $scope.showLikers = function(ev, item) {
+              /**
+               * Get the likers
+               */
+              appPosts.single.likes({
+                postId: item._id
+              }, function(response) {
+                /**
+                 * Show dialog
+                 */
+                appDialog.show({
+                  controller: [
+                    '$scope',
+                    'appDialog',
+                    function($scope, appDialog) {
+                      /**
+                       * Assign likers to the users variable
+                       * @type {Array}
+                       */
+                      $scope.users = response.res.records;
+                      /**
+                       * Hide the dialog
+                       * @return {Void}
+                       */
+                      $scope.hide = function() {
+                        appDialog.hide();
+                      };
+                    }
+                  ],
+                  templateUrl: '/modules/users/views/users-dialog.html',
+                  targetEvent: ev,
+                });
+              });
             };
 
           }

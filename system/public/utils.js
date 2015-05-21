@@ -69,6 +69,12 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
     }
   }
 ])
+.factory('appDialog', [
+  '$mdDialog',
+  function($mdDialog) {
+    return $mdDialog;
+  }
+])
 .directive('setFocus', function($timeout, $parse) {
   return {
     //scope: true,   // optionally create a child scope

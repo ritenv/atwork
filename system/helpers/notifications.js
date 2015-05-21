@@ -14,8 +14,8 @@ module.exports = function(System) {
         },
         sendByEmail: function(user, data) {
           var mailOptions = {
-            from: data.actor.name + ' (' + data.notificationType + ')' + ' via AtWork <'+ System.settings.email +'>', // sender address
-            to: user.email, // list of receivers
+            from: data.actor.name + ' (' + data.notificationType + ')' + ' via ' + System.settings.workplace + ' <'+ System.settings.email +'>', // sender address
+            to: data.to ? data.to : user.email, // list of receivers
             subject: data.subject ? data.subject : 'Notification', // Subject line
             html: data.html
           };

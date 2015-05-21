@@ -172,17 +172,6 @@ angular.module('atwork.users')
       $scope.noPosting = true;
 
       /**
-       * Resolved profile data, assign to $scope
-       */
-      assignProfile(profileData);
-
-      /**
-       * Initial feeds
-       */
-      angular.extend($scope, resolvedFeeds.config);
-      doUpdate(resolvedFeeds);
-
-      /**
        * Function to update the feed on the client side
        * @param  {Object} data The data received from endpoint
        * @return {Void}
@@ -283,7 +272,84 @@ angular.module('atwork.users')
           }
         });
       }
+
+      /**
+       * Resolved profile data, assign to $scope
+       */
+      assignProfile(profileData);
+      // $scope.getProfile();
+
+      /**
+       * Initial feeds
+       */
+      angular.extend($scope, resolvedFeeds.config);
+      doUpdate(resolvedFeeds);
+      // $scope.updateFeed();
       
+    }
+  ])
+  .controller('InviteCtrl', [
+    '$rootScope',
+    '$scope',
+    'appStorage',
+    'appLocation',
+    'appDialog',
+    'appUsers',
+    'appAuth',
+    'appToast',
+    function($rootScope, $scope, appStorage, appLocation, appDialog, appUsers, appAuth, appToast) {
+      /**
+       * Show invitation dialog
+       * @return {Void}
+       */
+      $scope.inviteOthers = function(ev) {
+        /**
+         * Show dialog
+         */
+        appDialog.show({
+          controller: [
+            '$scope',
+            'appDialog',
+            function($scope, appDialog) {
+              $scope.inviteDone = false;
+              /**
+               * Invite the user
+               * @param  {Boolean} isValid If the form is valid
+               * @return {Void}
+               */
+              $scope.doInvite = function(isValid) {
+                if (isValid) {
+                  var userId = appAuth.getUser()._id;
+                  var user = new appUsers.single({
+                    userId: userId,
+                    message: $scope.message,
+                    email: $scope.email,
+                    name: $scope.name
+                  });
+                  user.$invite({userId: userId}, function(response) {
+                    if (response.success) {
+                      $scope.inviteDone = true;
+                    } else {
+                      appToast(response.res.message);
+                    }
+                  });
+                }
+              };
+
+              /**
+               * Hide the dialog
+               * @return {Void}
+               */
+              $scope.hide = function() {
+                appDialog.hide();
+              };
+            }
+          ],
+          templateUrl: '/modules/users/views/users-invite-dialog.html',
+          targetEvent: ev,
+        });
+
+      };
     }
   ])
   .controller('LogoutCtrl', [
