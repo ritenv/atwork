@@ -255,6 +255,8 @@ ul.unstyled {
 .post-listing {
   font-weight: normal; }
   .post-listing .face {
+    background-color: #eee;
+    background-size: cover;
     width: 64px;
     height: 64px;
     margin-left: 0; }
@@ -380,5 +382,15 @@ ul.unstyled {
   opacity: 0; }
 
 /** ================== THEMING ===================== */
+.md-padding {
+  padding: 24px; }
+
 md-toolbar.md-default-theme {
   background-color: #494749; }
+
+md-dialog md-dialog-content {
+  padding: 0; }
+md-dialog .md-subheader.md-default-theme {
+  background: #eee;
+  margin: 0;
+  text-transform: uppercase; }

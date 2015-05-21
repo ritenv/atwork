@@ -49,6 +49,13 @@ module.exports = function(System) {
 
   routes.push({
     method: 'post',
+    path: '/:userId/invite',
+    handler: users.invite,
+    authorized: true
+  });
+
+  routes.push({
+    method: 'post',
     path: '/:userId/follow',
     handler: users.follow,
     authorized: true

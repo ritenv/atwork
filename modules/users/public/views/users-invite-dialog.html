@@ -1,0 +1,57 @@
+<md-dialog>
+  <md-dialog-content class="sticky-container">
+    <md-subheader class="md-sticky-no-effect">Invite</md-subheader>
+    
+    <div class="md-padding">
+      <form ng-show="!inviteDone" name="inviteForm" ng-submit="doInvite(inviteForm.$valid)" novalidate>
+        <md-input-container>
+          <label>Colleague's Full Name</label>
+          <input name="name" ng-model="name" required md-maxlength="100" minlength="5">
+          <div ng-messages="inviteForm.name.$error" ng-show="inviteForm.bio.$dirty">
+            <div ng-message="required">This is required!</div>
+            <div ng-message="md-maxlength">That's too long!</div>
+            <div ng-message="minlength">That's too short!</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Colleague's Email Address</label>
+          <input type="email" name="email" ng-model="email" required>
+          <div ng-messages="inviteForm.email.$error" ng-show="inviteForm.bio.$dirty">
+            <div ng-message="required">This is required!</div>
+            <div ng-message="md-maxlength">That's too long!</div>
+            <div ng-message="minlength">That's too short!</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Short Message</label>
+          <textarea name="message" ng-model="message" cols="30" rows="2" md-maxlength="255"></textarea>
+          <div ng-messages="inviteForm.content.$error" ng-show="inviteForm.$submitted">
+            <div ng-message="md-maxlength">That's too long!</div>
+          </div>
+        </md-input-container>
+
+        <md-button class="md-primary md-raised">
+          Send Invite
+        </md-button>
+      </form>
+
+      <div ng-if="inviteDone" class="white">
+        <h2>
+          <md-inline-list-icon class="fa fa-check-circle primaryColor"></md-inline-list-icon>
+          <span>Awesome!</span>
+        </h2>
+        <p>Your invitation is on its way!</p>
+      </div>
+
+    </div>
+
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+  <span flex></span>
+  <md-button ng-click="hide()" class="md-primary">
+    Close
+  </md-button>
+  </div>
+</md-dialog>

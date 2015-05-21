@@ -1,5 +1,5 @@
 <div ng-controller="StreamsCtrl">
-    <md-button class="md-accent md-old-style">
+    <md-button class="md-accent md-old-style ">
         Streams
     </md-button>
     <md-divider></md-divider>
@@ -25,14 +25,14 @@
                     </div>
                 </md-input-container>
             </form>
-            <!-- <md-button class="no-case no-bold md-primary" ng-hide="actions.createNew" ng-click="createNew()">
+            <md-button class="no-case no-bold md-primary" ng-hide="actions.createNew" ng-click="createNew()">
                 + Create New
             </md-button>
-            <br> -->
+            <br>
             <div>
-              <md-select placeholder="Subscribe to Streams" name="toSubscribe" ng-model="toSubscribe" class="slight-padding" ng-change="processMoreStreams(toSubscribe)" layout="column">
+              <md-select ng-show="moreStreams.length" placeholder="Subscribe to Streams" name="toSubscribe" ng-model="toSubscribe" class="slight-padding" ng-change="processMoreStreams(toSubscribe)" layout="column">
                 <md-option value="{{::stream._id}}" ng-repeat="stream in moreStreams">{{::stream.title}}</md-option>
-                <md-option value="1">+ Create New</md-option>
+                <!-- <md-option value="1">+ Create New</md-option> -->
               </md-select>
             </div>
         </li>

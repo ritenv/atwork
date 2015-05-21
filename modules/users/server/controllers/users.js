@@ -292,6 +292,41 @@ module.exports = function(System) {
   };
 
   /**
+   * Send invite email to a specific email
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
+  obj.invite = function(req, res) {
+    var userId = req.params.userId;
+    User.findOne({_id: userId}, function(err, user) {
+      if (err || !user) {
+
+      } else {
+        /**
+         * Send activation email
+         */
+        System.plugins.emailing.generate({
+          name: req.body.name,
+          message: 'You have received an invite from ' + user.name + '!' + (req.body.message ? ' Below is what they said:' : ''),
+          message2: req.body.message,
+          action: 'Join Now!',
+          subject: 'Invitation from ' + user.name,
+          href: System.config.baseURL + '/login'
+        }, function(html) {
+          var data = {
+            actor: user
+          };
+          data.html = html;
+          data.to = req.body.email;
+          System.plugins.notifications.sendByEmail(user, data);
+          return json.happy(user, res);
+        });
+      }
+    });
+  };
+
+  /**
    * Follow a user not already following
    * @param  {Object} req Request
    * @param  {Object} res Response

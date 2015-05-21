@@ -21,6 +21,10 @@ angular.module('atwork.users')
             activate: {
               method: 'POST',
               params: {action: 'activate'}
+            },
+            invite: {
+              method: 'POST',
+              params: {action: 'invite'}
             }
           }),
         auth: $resource('users/authenticate'),

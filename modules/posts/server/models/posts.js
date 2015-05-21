@@ -153,7 +153,8 @@ PostSchema.methods = {
     var notification = {
       postId: this._id,
       actorId: data.actorId,
-      notificationType: data.type
+      notificationType: data.type,
+      config: data.config
     };
     this.populate('creator subscribers', function(err, post) {
       post.subscribers.map(function(user) {

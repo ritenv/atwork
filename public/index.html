@@ -18,11 +18,11 @@
         </div>
       </div>
       <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')" ng-if="isLoggedIn">
-        <md-toolbar layout="column" hide-sm>
+        <md-toolbar layout="row">
           <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
             <span class="visuallyhidden">Menu</span>
           </button>
-          <h1 hide-sm>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h1>
+          <h1>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h1>
         </md-toolbar>
         <div class="md-padding sidebar-list" layout-padding>
             <div ng-include="'/system/public/views/search.html'"></div>
@@ -39,14 +39,18 @@
                 <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
                   <span class="visuallyhidden">Menu</span>
                 </button>
-                <h2 hide-gt-sm flex>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h2>
+                <!-- <h2 hide-gt-sm flex>{{systemSettings ? systemSettings.workplace : 'AtWork'}}</h2> -->
                 <md-button class="md-old-style" ng-if="isLoggedIn" ng-click="goHome($event)" title="Home">
                   <md-inline-list-icon class="fa fa-globe"></md-inline-list-icon>
                 </md-button>
                 <span hide-sm ng-if="!isLoggedIn">{{systemSettings ? systemSettings.workplace : 'AtWork'}}</span>
-                <span hide-sm class="tiny" flex>&nbsp; {{barTitle}}</span>
+                <span hide-sm hide-md class="tiny" flex>&nbsp; {{barTitle}}</span>
+                <span flex hide-md></span>
                 <md-button class="md-old-style" ng-if="isLoggedIn && (user.roles.indexOf('admin') !== -1)" href="/settings" title="Settings">
                   <md-inline-list-icon class="fa fa-cog"></md-inline-list-icon>
+                </md-button>
+                <md-button class="md-old-style" ng-if="isLoggedIn" title="Invite" ng-click="inviteOthers($event)" ng-controller="InviteCtrl">
+                  <md-inline-list-icon class="fa fa-envelope"></md-inline-list-icon>
                 </md-button>
                 <div ng-controller="notificationsCtrl">
                   <md-button class="md-old-style" ng-if="isLoggedIn" ng-click="showUserNotifications($event)" title="Alerts">

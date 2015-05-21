@@ -1,0 +1,29 @@
+<md-dialog>
+  <md-dialog-content class="sticky-container no-pad">
+    <md-subheader class="md-sticky-no-effect">Likers</md-subheader>
+    
+    <md-list ng-if="users.length">
+      <md-list-item ng-repeat="item in users" class="user-listing button-listing">
+
+        <md-button href="/profile/{{item.username}}" class="md-accent" ng-click="hide()">
+          <md-item-content layout="row">
+            <img ng-src="{{item.face || '/images/user.jpg'}}" class="face" alt="{{item.name}}">
+            <div class="md-tile-content unspaced-headings left-text">
+              <h3 class="md-accent">{{item.name}}</h3>
+              <p>@{{item.username}}</p>
+              <p>{{item.designation}}</p>
+            </div>
+          </md-item-content>
+        </md-button>
+
+      </md-list-item>
+    </md-list>
+
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+  <span flex></span>
+  <md-button ng-click="hide()" class="md-primary">
+    Close
+  </md-button>
+  </div>
+</md-dialog>

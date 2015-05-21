@@ -17,7 +17,11 @@ module.exports = function(System) {
       post.notifyUsers({
         postId: post._id,
         actorId: actor._id,
-        type: action
+        type: action,
+        config: {
+          systemLevel: (action === 'unlike'),
+          avoidEmail: (action === 'unlike')
+        }
       }, System);
     });
   });
@@ -375,6 +379,29 @@ module.exports = function(System) {
             record: item
           }, res);
         });
+        
+      } else {
+        return json.unhappy({message: 'Post not found'}, res);
+      }
+    });
+  };
+
+  /**
+   * Get likes on a post
+   * @param  {Object} req Request
+   * @param  {Object} res Response
+   * @return {Void}
+   */
+  obj.likes = function(req, res) {
+    Post.findOne({_id: req.params.postId})
+    .populate('likes')
+    .exec(function(err, post) {
+      if (err) {
+        return json.unhappy(err, res);
+      } else if (post) {
+        json.happy({
+          records: post.likes
+        }, res);
         
       } else {
         return json.unhappy({message: 'Post not found'}, res);

@@ -174,13 +174,20 @@ angular.module('atwork.posts')
         _.each($scope.feed, function(candidate, i) {
           if (candidate._id == data.postId) {
             (function(item) {
+              var params = {
+                postId: data.postId
+              };
+              if ($scope.detailPage && item._id === $routeParams.postId) {
+                params.allowMarking = true;
+              }
               if (item._id == data.postId) {
-                var post = appPosts.single.get({postId: data.postId}, function() {
+                var post = appPosts.single.get(params, function() {
                   angular.extend(item, post.res.record);
                 });
               }
             })(candidate);
           }
+
         });
       };
 

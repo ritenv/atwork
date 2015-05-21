@@ -6,7 +6,7 @@
         <md-inline-list-icon class="fa fa-chevron-left"></md-inline-list-icon> Back
       </md-button>
       <div ng-controller="StreamsPurposeCtrl" class="stream-purpose" ng-if="streamPage" layout="row">
-        <h2 ng-bind="stream.title" layout="column"></h2>
+        <h2 ng-bind="stream.title" layout="column">...</h2>
         <form name="streamPurposeForm" ng-submit="updateStreamPurpose(streamPurposeForm.$valid)" layout="column" flex>
           <md-input-container ng-if="stream">
             <input type="text" ng-model="stream.purpose">
