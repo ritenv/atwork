@@ -59,6 +59,10 @@
                   <md-inline-list-icon class="fa fa-pencil"></md-inline-list-icon>
                   <span>Edit Profile</span>
                 </md-button>
+                <md-button ng-click="changePassword()" ng-if="selfProfile && !editMode" class="no-true-margin">
+                  <md-inline-list-icon class="fa fa-pencil"></md-inline-list-icon>
+                  <span>Password</span>
+                </md-button>
               </div>
 
             </div>

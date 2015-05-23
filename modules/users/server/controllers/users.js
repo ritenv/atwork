@@ -182,6 +182,9 @@ module.exports = function(System) {
     var user = req.user;
     user.name = req.body.name;
     user.designation = req.body.designation;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
     user.save(function(err) {
       if (err) {
         return json.unhappy(err, res);
@@ -281,6 +284,41 @@ module.exports = function(System) {
           var data = {
             actor: {
               name: 'Activation'
+            }
+          };
+          data.html = html;
+          System.plugins.notifications.sendByEmail(user, data);
+          return json.happy(user, res);
+        });
+      }
+    });
+  };
+
+  /**
+   * Send reset email to a specific user
+   * @param  {Object} req The request object
+   * @param  {Object} res The response object
+   * @return {Void}
+   */
+  obj.resetPassword = function(req, res) {
+    var email = req.query.email;
+    User.findOne({email: email}, function(err, user) {
+      if (err || !user) {
+
+      } else {
+        /**
+         * Send activation email
+         */
+        System.plugins.emailing.generate({
+          name: user.name,
+          message: 'Hello! We received a password reset request for your account. If you would like to continue, please click the below button:',
+          action: 'Reset My Password',
+          subject: 'Reset Your Password',
+          href: System.config.baseURL + '/changePassword/' + user._id + '/' + escape(user.activationCode)
+        }, function(html) {
+          var data = {
+            actor: {
+              name: 'Help'
             }
           };
           data.html = html;

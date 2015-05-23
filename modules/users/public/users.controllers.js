@@ -38,6 +38,43 @@ angular.module('atwork.users')
 
     }
   ])
+  .controller('PasswordCtrl', [
+    '$rootScope',
+    '$scope',
+    '$routeParams',
+    'appUsers',
+    'appToast',
+    'appStorage',
+    'appLocation',
+    function($rootScope, $scope, $routeParams, appUsers, appToast, appStorage, appLocation) {
+      var auth = new appUsers.auth({
+        userId: $routeParams.userId,
+        activationCode: $routeParams.activationCode
+      });
+      auth.$save(function(response) {
+        if (response.success) {
+          appToast('You are now logged in!');
+          $scope.postLogin(response.res.record, response.res.token);
+        } else {
+          appToast(response.res.message);
+        }
+      });
+
+      /**
+       * Routine to perform after login is successful
+       * @param  {String} token The user token
+       * @return {Void}
+       */
+      $scope.postLogin = function(user, token) {
+        var serializedUser = angular.toJson(user);
+        appStorage.set('user', serializedUser);
+        appStorage.set('userToken', token);
+        $rootScope.$broadcast('loggedIn');
+        appLocation.url('/profile/' + user.username + '/change-password');
+      };
+
+    }
+  ])
   .controller('SearchCtrl', [
     '$scope',
     '$routeParams',
@@ -90,7 +127,8 @@ angular.module('atwork.users')
     'profileData',
     'resolvedFeeds',
     'appPostsFeed',
-    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appPosts, profileData, resolvedFeeds, appPostsFeed) {
+    'appLocation',
+    function($scope, $routeParams, $location, $timeout, $upload, appUsers, appAuth, appToast, appPosts, profileData, resolvedFeeds, appPostsFeed, appLocation) {
       var userId = $routeParams.userId || appAuth.getUser()._id;
 
       /**
@@ -110,6 +148,14 @@ angular.module('atwork.users')
       $scope.editProfile = function() {
         $scope.editMode = true;
       };
+
+      /**
+       * Go to change profile page
+       * @return {Void}
+       */
+      $scope.changePassword = function() {
+        appLocation.url('/profile/' + appAuth.getUser().username + '/change-password');
+      };
       
       /**
        * Cancel profile editing
@@ -126,13 +172,22 @@ angular.module('atwork.users')
        */
       $scope.updateProfile = function(isValid) {
         if (isValid) {
+          if ($scope.password && ($scope.password !== $scope.password2)) {
+            return appToast('Passwords do not match.');
+          }
           var user = appUsers.single.get({userId: userId}, function() {
             user.name = $scope.profile.name;
             user.designation = $scope.profile.designation;
+            if ($scope.password) {
+              user.password = $scope.password;
+            }
             delete user.res;
             user.$update(function(response) {
               if (response.success) {
                 $scope.editMode = false;
+                if ($scope.password) {
+                  appLocation.url('/profile/' + response.res.username);
+                }
               } else {
                 $scope.failure = true;
                 appToast(response.res.message);
@@ -371,7 +426,8 @@ angular.module('atwork.users')
     'appToast',
     'appStorage',
     'appLocation',
-    function($scope, $rootScope, appUsers, appAuth, appToast, appStorage, appLocation) {
+    'appDialog',
+    function($scope, $rootScope, appUsers, appAuth, appToast, appStorage, appLocation, appDialog) {
       // $scope.email = 'riten.sv@gmail.com';
       // $scope.password = 'jjk3e0jx';
 
@@ -426,6 +482,54 @@ angular.module('atwork.users')
         var user = new appUsers.single({userId: $scope.registeredUserId});
         user.$activate({userId: $scope.registeredUserId}, function() {
           appToast('Success! An email has been sent to you again.');
+        });
+      };
+
+      /**
+       * Show forgot pwd dialog
+       * @return {Void}
+       */
+      $scope.forgotPwd = function(ev) {
+        /**
+         * Show dialog
+         */
+        appDialog.show({
+          controller: [
+            '$scope',
+            'appDialog',
+            function($scope, appDialog) {
+              $scope.inviteDone = false;
+              /**
+               * Invite the user
+               * @param  {Boolean} isValid If the form is valid
+               * @return {Void}
+               */
+              $scope.doReset = function(isValid) {
+                if (isValid) {
+                  var user = new appUsers.single({
+                    email: $scope.email
+                  });
+                  user.$resetPassword({email: $scope.email}, function(response) {
+                    if (response.success) {
+                      $scope.submitDone = true;
+                    } else {
+                      appToast(response.res.message);
+                    }
+                  });
+                }
+              };
+
+              /**
+               * Hide the dialog
+               * @return {Void}
+               */
+              $scope.hide = function() {
+                appDialog.hide();
+              };
+            }
+          ],
+          templateUrl: '/modules/users/views/users-pwd-dialog.html',
+          targetEvent: ev,
         });
       };
 

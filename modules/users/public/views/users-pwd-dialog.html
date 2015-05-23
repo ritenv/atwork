@@ -1,0 +1,39 @@
+<md-dialog>
+  <md-dialog-content class="sticky-container">
+    <md-subheader class="md-sticky-no-effect">Reset Password</md-subheader>
+    
+    <div class="md-padding">
+      <form ng-show="!submitDone" name="resetForm" ng-submit="doReset(resetForm.$valid)" novalidate>
+        <md-input-container>
+          <label>Your Email Address</label>
+          <input type="email" name="email" ng-model="email" required>
+          <div ng-messages="resetForm.email.$error" ng-show="resetForm.bio.$dirty">
+            <div ng-message="required">This is required!</div>
+            <div ng-message="md-maxlength">That's too long!</div>
+            <div ng-message="minlength">That's too short!</div>
+          </div>
+        </md-input-container>
+
+        <md-button class="md-primary md-raised">
+          Next
+        </md-button>
+      </form>
+
+      <div ng-if="submitDone" class="white">
+        <h2>
+          <md-inline-list-icon class="fa fa-check-circle primaryColor"></md-inline-list-icon>
+          <span>Awesome!</span>
+        </h2>
+        <p>Check your email for password reset instructions.</p>
+      </div>
+
+    </div>
+
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+  <span flex></span>
+  <md-button ng-click="hide()" class="md-primary">
+    Close
+  </md-button>
+  </div>
+</md-dialog>

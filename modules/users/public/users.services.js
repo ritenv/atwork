@@ -25,6 +25,10 @@ angular.module('atwork.users')
             invite: {
               method: 'POST',
               params: {action: 'invite'}
+            },
+            resetPassword: {
+              method: 'POST',
+              params: {action: 'resetPassword'}
             }
           }),
         auth: $resource('users/authenticate'),
