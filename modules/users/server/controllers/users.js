@@ -182,6 +182,9 @@ module.exports = function(System) {
     var user = req.user;
     user.name = req.body.name;
     user.designation = req.body.designation;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
     user.save(function(err) {
       if (err) {
         return json.unhappy(err, res);
