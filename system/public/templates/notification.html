@@ -211,7 +211,7 @@
                   <div class="card" style="background: white; border-radius: 0.5rem; padding: 2rem; margin-bottom: 1rem;">
                     <p style="color: #666;">Hey <%= name %>,</p>
                     <p style="color: #666;"> <%= message %></p>
-                    <% if (message2) { %>
+                    <% if (hasOwnProperty(message2)) { %>
                     <p style="color: #666;"> <%= message2 %></p>
                     <% } %>
                     <p><a href="<%= href %>" style="color: #FF5252;"><%= action %></a></p>
