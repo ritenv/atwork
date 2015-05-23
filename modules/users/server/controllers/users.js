@@ -311,7 +311,7 @@ module.exports = function(System) {
          */
         System.plugins.emailing.generate({
           name: user.name,
-          message: 'Hello! We received a password reset request for your account. If you would like to continue, please click the below button:',
+          message: 'We received a password reset request for your account. If you would like to continue, please click the below button:',
           action: 'Reset My Password',
           subject: 'Reset Your Password',
           href: System.config.baseURL + '/changePassword/' + user._id + '/' + escape(user.activationCode)
