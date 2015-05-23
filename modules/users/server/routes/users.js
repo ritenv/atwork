@@ -49,6 +49,13 @@ module.exports = function(System) {
 
   routes.push({
     method: 'post',
+    path: '/resetPassword',
+    handler: users.resetPassword,
+    authorized: false //allow anonymous
+  });
+
+  routes.push({
+    method: 'post',
     path: '/:userId/invite',
     handler: users.invite,
     authorized: true

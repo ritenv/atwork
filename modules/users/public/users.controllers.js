@@ -371,7 +371,8 @@ angular.module('atwork.users')
     'appToast',
     'appStorage',
     'appLocation',
-    function($scope, $rootScope, appUsers, appAuth, appToast, appStorage, appLocation) {
+    'appDialog',
+    function($scope, $rootScope, appUsers, appAuth, appToast, appStorage, appLocation, appDialog) {
       // $scope.email = 'riten.sv@gmail.com';
       // $scope.password = 'jjk3e0jx';
 
@@ -426,6 +427,54 @@ angular.module('atwork.users')
         var user = new appUsers.single({userId: $scope.registeredUserId});
         user.$activate({userId: $scope.registeredUserId}, function() {
           appToast('Success! An email has been sent to you again.');
+        });
+      };
+
+      /**
+       * Show forgot pwd dialog
+       * @return {Void}
+       */
+      $scope.forgotPwd = function(ev) {
+        /**
+         * Show dialog
+         */
+        appDialog.show({
+          controller: [
+            '$scope',
+            'appDialog',
+            function($scope, appDialog) {
+              $scope.inviteDone = false;
+              /**
+               * Invite the user
+               * @param  {Boolean} isValid If the form is valid
+               * @return {Void}
+               */
+              $scope.doReset = function(isValid) {
+                if (isValid) {
+                  var user = new appUsers.single({
+                    email: $scope.email
+                  });
+                  user.$resetPassword({email: $scope.email}, function(response) {
+                    if (response.success) {
+                      $scope.submitDone = true;
+                    } else {
+                      appToast(response.res.message);
+                    }
+                  });
+                }
+              };
+
+              /**
+               * Hide the dialog
+               * @return {Void}
+               */
+              $scope.hide = function() {
+                appDialog.hide();
+              };
+            }
+          ],
+          templateUrl: '/modules/users/views/users-pwd-dialog.html',
+          targetEvent: ev,
         });
       };
 
