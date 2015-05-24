@@ -140,6 +140,7 @@ module.exports = function(System) {
      */
     var getPosts = function() {
       var criteria = { creator: userId };
+      console.log(criteria);
       if (req.query && req.query.timestamp) {
         criteria.created = { $gte: req.query.timestamp };
       }
@@ -176,22 +177,18 @@ module.exports = function(System) {
     /**
      * If provided with username instead of _id, get the _id
      */
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      var User = mongoose.model('User');
+    var User = mongoose.model('User');
 
-      User.findOne({username: userId}).exec(function(err, user) {
-        if (err) throw err;
-        /**
-         * If user is not found by username, continue using the invalid ID
-         */
-        if (user) {
-          userId = user._id;
-        }
-        return getPosts();
-      });
-    } else {
+    User.findOne({username: userId}).exec(function(err, user) {
+      if (err) throw err;
+      /**
+       * If user is not found by username, continue using the invalid ID
+       */
+      if (user) {
+        userId = user._id;
+      }
       return getPosts();
-    }
+    });
   };
 
   /**

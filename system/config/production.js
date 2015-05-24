@@ -3,8 +3,8 @@
 module.exports = {
   REQUESTS_DELAY: 0,
   REQUESTS_DELAY_SYSTEM: 0,
-  baseURL: 'http://atwork.herokuapp.com',
-  db: 'mongodb://ritenv:123.com@ds055680.mongolab.com:55680/atwork-dev',
+  baseURL: 'http://riten.io:8111',
+  db: 'mongodb://localhost:27017/atwork',
   server: {
     host: 'localhost',
     port: process.env.PORT || 8111
