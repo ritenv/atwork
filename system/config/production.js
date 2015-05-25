@@ -3,7 +3,7 @@
 module.exports = {
   REQUESTS_DELAY: 0,
   REQUESTS_DELAY_SYSTEM: 0,
-  baseURL: 'http://riten.io:8111',
+  baseURL: 'http://atwork.riten.io',
   db: 'mongodb://localhost:27017/atwork',
   server: {
     host: 'localhost',
