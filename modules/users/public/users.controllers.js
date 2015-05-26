@@ -460,10 +460,14 @@ angular.module('atwork.users')
              * @type {Object}
              */
             $scope.registeredUserId = response.res._id;
-            $scope.regDone = true;
-
+            
             if (response.success) {
-              // $scope.reset();
+              if (response.res.record.active) {
+                window.alert('Active!');
+                $scope.postLogin(response.res.record, response.res.token);
+              } else {
+                $scope.regDone = true;
+              }
             } else {
               $scope.failure = true;
               appToast(response.res.message);

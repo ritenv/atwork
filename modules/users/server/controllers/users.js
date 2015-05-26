@@ -73,6 +73,12 @@ module.exports = function(System) {
     var roles = ['authenticated'];
 
     /**
+     * Status of the user account
+     * @type {Boolean}
+     */
+    var active = false;
+
+    /**
      * Check if this is the first user
      */
     User.count({}, function(err, len) {
@@ -81,6 +87,7 @@ module.exports = function(System) {
        */
       if (!len) {
         roles.push('admin');
+        active = true;
       }
 
       /**
@@ -141,31 +148,39 @@ module.exports = function(System) {
       user.provider = 'local';
       user.roles = roles;
       user.token = jwt.sign(user, System.config.secret);
+      user.active = active;
 
-      user.save(function(err) {
+      user.save(function(err, user) {
         if (err) {
           return json.unhappy(err, res);
         }
 
-        /**
-         * Send activation email
-         */
-        System.plugins.emailing.generate({
-          name: user.name,
-          message: 'Welcome! In order to continue using the platform, you will need to activate your account by clicking the below link:',
-          action: 'Activate My Account',
-          subject: 'Actiate Your Account',
-          href: System.config.baseURL + '/activate/' + user._id + '/' + escape(user.activationCode)
-        }, function(html) {
-          var data = {
-            actor: {
-              name: 'Activation'
-            }
-          };
-          data.html = html;
-          System.plugins.notifications.sendByEmail(user, data);
-          return json.happy(user, res);
-        });
+        if (!user.active) {
+          /**
+           * Send activation email
+           */
+          System.plugins.emailing.generate({
+            name: user.name,
+            message: 'Welcome! In order to continue using the platform, you will need to activate your account by clicking the below link:',
+            action: 'Activate My Account',
+            subject: 'Actiate Your Account',
+            href: System.config.baseURL + '/activate/' + user._id + '/' + escape(user.activationCode)
+          }, function(html) {
+            var data = {
+              actor: {
+                name: 'Activation'
+              }
+            };
+            data.html = html;
+            System.plugins.notifications.sendByEmail(user, data);
+            return json.happy(user, res);
+          });
+        } else {
+          return json.happy({
+            record: user,
+            token: user.token
+          }, res);
+        }
 
       });
 
