@@ -349,6 +349,10 @@ ul.unstyled {
     }
     .aw-comments {
       margin-top: 10px;
+      .face {
+        @extend .small;
+        margin-right: 8px;
+      }
     }
   }
   p {

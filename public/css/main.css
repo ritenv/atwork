@@ -159,7 +159,7 @@ ul.unstyled {
   margin: 16px;
   background-size: cover; }
 
-.small, .notifications .face {
+.small, .notifications .face, .post-listing .single-post .aw-comments .face {
   width: 24px;
   height: 24px; }
 
@@ -277,6 +277,8 @@ ul.unstyled {
       margin: 0 0 3px; }
     .post-listing .single-post .aw-comments {
       margin-top: 10px; }
+      .post-listing .single-post .aw-comments .face {
+        margin-right: 8px; }
   .post-listing p {
     padding: 6px;
     font-size: 100%; }
