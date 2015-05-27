@@ -1,4 +1,4 @@
-<!-- <div class="user-profile"> -->
+<div class="user-profile">
   <div ng-show="profile" layout-align="center" layout-fill flex-gt-sm="90" flex-gt-md="80" class="user-profile">
     <md-card class="user-profile">
       <md-card-content class="user-profile-info">
@@ -44,7 +44,7 @@
                 </form>
                 <h3>@{{::profile.username}}</h3>
               </div>
-              <p>{{::profile.email}}</p>
+              <!-- <p>{{::profile.email}}</p> -->
 
               <div class="profile-buttons">
                 <md-button class="md-primary md-raised no-true-margin" ng-click="follow()" ng-if="!selfProfile && alreadyFollowing===false">
@@ -135,4 +135,4 @@
       </md-tabs
     </md-content>
   </div>
-<!-- </div> -->
+<!-- </div>

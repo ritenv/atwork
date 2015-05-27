@@ -462,8 +462,7 @@ angular.module('atwork.users')
             $scope.registeredUserId = response.res._id;
             
             if (response.success) {
-              if (response.res.record.active) {
-                window.alert('Active!');
+              if (response.res.record && response.res.record.active) {
                 $scope.postLogin(response.res.record, response.res.token);
               } else {
                 $scope.regDone = true;
