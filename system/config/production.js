@@ -3,8 +3,8 @@
 module.exports = {
   REQUESTS_DELAY: 0,
   REQUESTS_DELAY_SYSTEM: 0,
-  baseURL: 'http://atwork.riten.io',
-  db: 'mongodb://localhost:27017/atwork',
+  baseURL: (process.env.BASEURL || 'http://atwork.riten.io'),
+  db: 'mongodb://localhost:27017/' + (process.env.DB || 'atwork'),
   server: {
     host: 'localhost',
     port: process.env.PORT || 8111
