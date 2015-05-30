@@ -54,7 +54,7 @@ module.exports = function(System) {
         return a < b;
       });
     }
-    
+
     var criteria = {};
     if (req.body.chatId) {
       criteria = {
@@ -74,9 +74,13 @@ module.exports = function(System) {
       if (err) {
         return json.unhappy(err, res);
       } else if (chat) {
-        return json.happy({
-          record: chat
-        }, res);
+        chat.doAccess(req.user);
+        chat.calculateUnread();
+        chat.save(function(err, chat) {
+          return json.happy({
+            record: chat
+          }, res);
+        });
       } else {
         var chat = new Chat(req.body);
         chat.creator = req.user._id;
@@ -114,6 +118,8 @@ module.exports = function(System) {
           message: req.body.message,
           creator: req.user._id
         });
+        chat.doAccess(req.user);
+        chat.calculateUnread();
         chat.save(function(err, chat) {
           chat
           .populate('messages messages.creator', function(err, chat) {
@@ -173,6 +179,9 @@ module.exports = function(System) {
     .skip(parseInt(req.query.page) * System.config.settings.perPage)
     .limit(System.config.settings.perPage+1)
     .exec(function(err, chats) {
+      chats.map(function(chat) {
+        chat.calculateUnreadFor(req.user);
+      });
       if (err) {
         json.unhappy(err, res);
       } else {

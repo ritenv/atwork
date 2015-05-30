@@ -21,12 +21,12 @@ angular.module('atwork.chats')
        * Open a new conversation
        * @return {Void}
        */
-      $scope.message = function(ev, profile, chatId) {
+      $scope.message = function(ev, profile, chatItem) {
         var criteria;
 
-        if (chatId) {
+        if (chatItem) {
           criteria = {
-            chatId: chatId
+            chatId: chatItem._id
           };
         } else {
           criteria = {
@@ -36,10 +36,12 @@ angular.module('atwork.chats')
             ]
           }
         }
-
+        chatItem.unread = 0;
+        
         var chat = new appChats.single(criteria);
 
         chat.$save(function(response) {
+
           /**
            * Show dialog
            */
@@ -134,9 +136,7 @@ angular.module('atwork.chats')
             exists = true;
           }
         });
-        if (!exists) {
-          $scope.updateChats();
-        }
+        $scope.updateChats({reload: true});
       });
 
     }

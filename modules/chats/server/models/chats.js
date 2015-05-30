@@ -28,6 +28,18 @@ var ChatsSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  lastAccessed: [{
+    accessed: {
+      type: Date,
+      default: Date.now
+    },
+    user: {
+      type: Schema.ObjectId,
+      required: true,
+      ref: 'User'
+    },
+    unread: Number
+  }],
   creator: {
     type: Schema.ObjectId,
     required: true,
@@ -72,12 +84,40 @@ ChatsSchema.methods = {
       delete obj.creator.salt;
       delete obj.creator.following;
     }
-    if (obj.likes) {
-      obj.likeCount = obj.likes.length;
-    } else {
-      obj.likeCount = 0;
-    }
     return obj;
+  },
+  calculateUnread: function() {
+    var obj = this;
+    obj.lastAccessed.map(function(access) {
+      access.unread = obj.messages.filter(function(msg) {
+        return msg.created > access.accessed;
+      }).length;
+    });
+  },
+  calculateUnreadFor: function(user) {
+    var obj = this;
+    obj.lastAccessed.map(function(access) {
+      if (access.user.toString() === user._id.toString()) {
+        obj.unread = access.unread;
+      }
+    });
+  },
+  doAccess: function(user) {
+    var chat = this;
+    //change last accessed
+    var lastAccessedUpdated = false;
+    chat.lastAccessed.map(function(access) {
+      if (access.user.toString() === user._id.toString()) {
+        access.accessed = Date.now();
+        lastAccessedUpdated = true;
+      }
+    });
+    if (!lastAccessedUpdated) {
+      chat.lastAccessed.push({
+        user: user._id,
+        accessed: Date.now()
+      });
+    }
   },
   notifyUsers: function(data, System) {
     var chatMessage = data.chatMessage;
