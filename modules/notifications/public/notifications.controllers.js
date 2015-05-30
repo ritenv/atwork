@@ -68,6 +68,11 @@ angular.module('atwork.notifications')
         }
         $scope.items = record.res.notifications;
         $scope.notificationCount = record.res.notifications ? record.res.notifications.length : 0;
+        if (window.fluid) {
+          window.fluid.playSound('Sosumi');
+          window.fluid.playSound('Purr')
+          window.fluid.dockBadge = $scope.notificationCount;
+        }
       });
     };
 

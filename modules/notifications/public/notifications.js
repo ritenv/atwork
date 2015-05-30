@@ -14,11 +14,6 @@ angular.module('atwork.notifications', ['atwork.system'])
       $rootScope.$broadcast('notification', data);
       $rootScope.$broadcast(data.notificationType, data);
 
-      if (window.fluid) {
-        window.fluid.playSound("Basso");
-        window.fluid.dockBadge ? (window.fluid.dockBadge + 1) : 1;
-      }
-
       /**
        * No data will be received if it is just a notification update signal
        */

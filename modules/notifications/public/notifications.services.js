@@ -21,6 +21,19 @@ angular.module('atwork.notifications')
               data.then();
             }
           });
+          if (window.fluid) {
+            window.fluid.showGrowlNotification({
+                title: "Atwork", 
+                description: data.message, 
+                priority: 1, 
+                sticky: false,
+                identifier: "foo",
+                onclick: function() {
+                  // window.fluid.activate();
+                },
+                icon: imgEl // or URL string
+            });
+          }
         }
       }
     }
