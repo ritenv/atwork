@@ -26,6 +26,7 @@ angular.module('atwork.chats')
         var criteria;
 
         if (chatItem) {
+          chatItem.unread = 0;
           criteria = {
             chatId: chatItem._id
           };
@@ -37,7 +38,6 @@ angular.module('atwork.chats')
             ]
           }
         }
-        chatItem.unread = 0;
 
         var chat = new appChats.single(criteria);
 
@@ -75,7 +75,6 @@ angular.module('atwork.chats')
                 };
 
                 $scope.sendMessage = function(isValid) {
-                  chatItem.unread = 0;
                   if (isValid) {
                     var message = $scope.message;
                     $scope.message = '';
