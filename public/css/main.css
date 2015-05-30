@@ -65,6 +65,9 @@ a {
 
 /** ====== Sidenav Related END ====== */
 /** ====== General typo BEGIN ====== */
+.left-padd {
+  padding-left: 15px; }
+
 .unspaced-headings h1, .unspaced-headings h2, .unspaced-headings h3, .unspaced-headings h4, .unspaced-headings p {
   margin-bottom: 0;
   margin-top: 0; }
@@ -152,14 +155,14 @@ ul.unstyled {
   padding-bottom: 0;
   padding-top: 0; }
 
-.circular-image, .user-listing .face, .notifications .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .post-listing .face, .user-profile .user-profile-info .face {
+.circular-image, .user-listing .face, .notifications .face, .search-results .face, .user-profile .user-profile-details .user-profile-following .face, .chat-dialog .chat-listing .face, .post-listing .face, .user-profile .user-profile-info .face {
   border-radius: 99%;
   width: 48px;
   height: 48px;
   margin: 16px;
   background-size: cover; }
 
-.small, .notifications .face, .post-listing .single-post .aw-comments .face {
+.small, .notifications .face, .chat-dialog .chat-listing .face, .post-listing .single-post .aw-comments .face {
   width: 24px;
   height: 24px; }
 
@@ -214,6 +217,16 @@ ul.unstyled {
 .user-listing .md-button, .notifications .md-button, .search-results .md-button, .user-profile .user-profile-details .user-profile-following .md-button {
   display: block;
   text-transform: none; }
+
+.chat-dialog form {
+  padding: 10px; }
+  .chat-dialog form md-input-container {
+    padding-bottom: 0; }
+.chat-dialog .chat-listing {
+  padding: 10px; }
+  .chat-dialog .chat-listing .face {
+    margin: 0;
+    margin-right: 8px; }
 
 .stream-purpose {
   /*background: #f7f7f7;*/

@@ -84,7 +84,7 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
         if(value === true) {
           $timeout(function() {
             element[0].focus(); 
-          });
+          }, 800);
         }
       });
     }

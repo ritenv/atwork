@@ -51,6 +51,10 @@
                   <md-inline-list-icon class="fa fa-plus"></md-inline-list-icon>
                   <span>Follow</span>
                 </md-button>
+                <md-button ng-controller="ChatsCtrl" class="md-primary md-raised no-true-margin" ng-click="message($event, profile)" ng-if="!selfProfile">
+                  <md-inline-list-icon class="fa fa-envelope"></md-inline-list-icon>
+                  <span>Message</span>
+                </md-button>
                 <md-button class=" no-true-margin" ng-click="unfollow()" ng-if="!selfProfile && alreadyFollowing===true">
                   <md-inline-list-icon class="fa fa-minus-circle"></md-inline-list-icon>
                   <span>Unfollow</span>

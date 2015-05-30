@@ -87,6 +87,9 @@ a {
 /** ====== Sidenav Related END ====== */
 
 /** ====== General typo BEGIN ====== */
+.left-padd {
+  padding-left: 15px;
+}
 .unspaced-headings {
   h1, h2, h3, h4, p {
     margin-bottom: 0;
@@ -267,6 +270,26 @@ ul.unstyled {
   }
   .face {
     @extend .circular-image;
+  }
+}
+.chat-dialog {
+  form {
+    padding: 10px;
+    md-input-container {
+      padding-bottom: 0;
+    }
+  }
+  .chat-listing {
+    padding: 10px;
+    .face {
+      @extend .circular-image;
+      @extend .small;
+      margin: 0;
+      margin-right: 8px;
+    }
+    p.message {
+
+    }
   }
 }
 .stream-purpose {

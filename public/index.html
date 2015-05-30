@@ -28,6 +28,9 @@
         <div class="md-padding sidebar-list" layout-padding>
             <div ng-include="'/system/public/views/search.html'"></div>
             
+            <!-- Load user chats -->
+            <div ng-include="'/modules/chats/views/chatsList.html'"></div>
+
             <!-- Load user streams -->
             <div ng-include="'/modules/streams/views/streamsList.html'"></div>
         </div>
@@ -153,6 +156,12 @@
       <script type="text/javascript" src="/modules/streams/streams.controllers.js"></script>
       <script type="text/javascript" src="/modules/streams/streams.routes.js"></script>
       <script type="text/javascript" src="/modules/streams/streams.services.js"></script>
+
+      <!-- Chats Module -->
+      <script type="text/javascript" src="/modules/chats/chats.js"></script>
+      <script type="text/javascript" src="/modules/chats/chats.controllers.js"></script>
+      <script type="text/javascript" src="/modules/chats/chats.routes.js"></script>
+      <script type="text/javascript" src="/modules/chats/chats.services.js"></script>
 
       <!-- Activities Module -->
       <script type="text/javascript" src="/modules/activities/activities.js"></script>
