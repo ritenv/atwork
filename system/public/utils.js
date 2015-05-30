@@ -75,6 +75,28 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
     return $mdDialog;
   }
 ])
+.factory('appDesktop', [
+  '$rootScope',
+  function($rootScope) {
+    var notifBadge = 0;
+    var messageBadge = 0;
+    return {
+      notify: function(options) {
+        notifBadge = options.notificationsCount ? options.notificationsCount : notifBadge;
+        messageBadge = options.messagesCount ? options.messagesCount : messageBadge;
+        if (window.fluid) {
+          window.fluid.dockBadge = notifBadge + messageBadge;
+          if (!window.fluid.dockBadge) {
+            window.fluid.dockBadge = undefined;
+          } else {
+            window.fluid.playSound('Sosumi');
+            window.fluid.playSound('Purr');
+          }
+        }
+      }
+    }
+  }
+])
 .directive('setFocus', function($timeout, $parse) {
   return {
     //scope: true,   // optionally create a child scope

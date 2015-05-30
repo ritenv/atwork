@@ -18,7 +18,10 @@
       <md-list-item ng-repeat="item in messages">
         <md-item-content layout="row">
           <img ng-src="{{item.creator.face || '/images/user.jpg'}}" class="face" alt="{{item.creator.name}}">
-          <p class="message md-accent">{{item.message}}</p>
+          <div>
+            <p class="name md-accent">{{item.creator.name}}</p>
+            <p class="message md-accent">{{item.message}}</p>
+          </div>
         </md-item-content>
       </md-list-item>
     </md-list>

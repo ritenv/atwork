@@ -227,6 +227,11 @@ ul.unstyled {
   .chat-dialog .chat-listing .face {
     margin: 0;
     margin-right: 8px; }
+  .chat-dialog .chat-listing p.name {
+    margin: 0;
+    font-size: 80%;
+    line-height: 5px;
+    color: #367890; }
 
 .stream-purpose {
   /*background: #f7f7f7;*/

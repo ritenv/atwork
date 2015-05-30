@@ -13,7 +13,8 @@ angular.module('atwork.chats')
     'appWebSocket',
     'appChats',
     'appDialog',
-    function($scope, $rootScope, $routeParams, $timeout, appAuth, appToast, appStorage, appLocation, appWebSocket, appChats, appDialog) {
+    'appDesktop',
+    function($scope, $rootScope, $routeParams, $timeout, appAuth, appToast, appStorage, appLocation, appWebSocket, appChats, appDialog, appDesktop) {
       $scope.chats = [];
       $scope.actions = {};
 
@@ -37,7 +38,7 @@ angular.module('atwork.chats')
           }
         }
         chatItem.unread = 0;
-        
+
         var chat = new appChats.single(criteria);
 
         chat.$save(function(response) {
@@ -62,7 +63,7 @@ angular.module('atwork.chats')
                 $scope.$on('chatMessage', function(e, data) {
                   $scope.$apply(function() {
                     $scope.messages.unshift(data.chatMessage);
-                  })
+                  });
                 });
 
                 /**
@@ -74,6 +75,7 @@ angular.module('atwork.chats')
                 };
 
                 $scope.sendMessage = function(isValid) {
+                  chatItem.unread = 0;
                   if (isValid) {
                     var message = $scope.message;
                     $scope.message = '';
@@ -117,6 +119,15 @@ angular.module('atwork.chats')
           }
 
           /**
+           * Update badge
+           */
+          var messagesCount = 0;
+          _.each($scope.chats, function(chat) {
+            messagesCount += chat.unread;
+          })
+          appDesktop.notify({messagesCount: messagesCount});
+
+          /**
            * Check if there are more pages
            * @type {Boolean}
            */
@@ -136,6 +147,7 @@ angular.module('atwork.chats')
             exists = true;
           }
         });
+
         $scope.updateChats({reload: true});
       });
 

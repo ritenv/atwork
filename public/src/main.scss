@@ -287,8 +287,11 @@ ul.unstyled {
       margin: 0;
       margin-right: 8px;
     }
-    p.message {
-
+    p.name {
+      margin: 0;
+      font-size: 80%;
+      line-height: 5px;
+      color: $primaryColor;
     }
   }
 }
