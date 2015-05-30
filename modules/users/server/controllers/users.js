@@ -389,7 +389,10 @@ module.exports = function(System) {
     var currUser = req.user;
     var toFollow = req.param('userId');
     
-    if (req.user.following.indexOf(toFollow) !== -1) {
+    var already = req.user.following.filter(function(item) {
+      return item.username === toFollow;
+    }).length;
+    if (already) {
       return json.unhappy('You are already following', res);
     }
 
@@ -425,7 +428,10 @@ module.exports = function(System) {
     var currUser = req.user;
     var toUnFollow = req.param('userId');
 
-    if (req.user.following.indexOf(toUnFollow) == -1) {
+    var already = req.user.following.filter(function(item) {
+      return item.username === toUnFollow;
+    }).length;
+    if (!already) {
       return json.unhappy('You are already not following', res);
     }
 
@@ -550,7 +556,9 @@ module.exports = function(System) {
             record: user,
             followers: followers,
             following: user.following,
-            alreadyFollowing: (req.user.following.indexOf(user._id) != -1)
+            alreadyFollowing: req.user.following.filter(function(item) {
+              return item.username === user.username;
+            }).length ? true : false
           }, res);
         });
       } else {

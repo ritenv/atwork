@@ -54,13 +54,9 @@ module.exports = function(System) {
     var criteria = {};
 
     /**
-     * Can accept user's _id or username
+     * Can accept username
      */
-    if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
-      criteria._id = req.params.userId;
-    } else {
-      criteria.username = req.params.userId;
-    }
+    criteria.username = req.params.userId;
 
     User
     .findOne(criteria)
