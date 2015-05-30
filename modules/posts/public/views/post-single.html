@@ -7,7 +7,7 @@
             <div class="post-actions">
               <span class="likes primaryColors">
                 <a ng-if="!item.liked" class="like" ng-click="doLike(item)"><span class="fa fa-thumbs-o-up"></span> Like</a>
-                <a ng-if="item.liked" class="unlike" ng-click="undoLike(item)"><span class="fa fa-thumbs-up"></span> Unlike</a>
+                <a ng-if="item.liked" class="unlike" ng-click="undoLike(item)"><span class="fa fa-check"></span> Liked</a>
                 <a ng-if="item.likeCount" ng-click="showLikers($event, item)"><span>({{item.likeCount}})</span></a>
               </span>
               <span>-</span>
