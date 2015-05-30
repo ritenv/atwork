@@ -71,7 +71,7 @@ angular.module('atwork.notifications')
         if (window.fluid) {
           window.fluid.playSound('Sosumi');
           window.fluid.playSound('Purr')
-          window.fluid.dockBadge = $scope.notificationCount;
+          window.fluid.dockBadge = $scope.notificationCount ? $scope.notificationCount : undefined;
         }
       });
     };
