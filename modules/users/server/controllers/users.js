@@ -393,7 +393,7 @@ module.exports = function(System) {
       return json.unhappy('You are already following', res);
     }
 
-    User.findOne({_id: toFollow}, function(err, user) {
+    User.findOne({username: toFollow}, function(err, user) {
       if (err) {
         json.unhappy(err, res);
       } else {
@@ -429,7 +429,7 @@ module.exports = function(System) {
       return json.unhappy('You are already not following', res);
     }
 
-    User.findOne({_id: toUnFollow}, function(err, user) {
+    User.findOne({username: toUnFollow}, function(err, user) {
       if (err) {
         json.unhappy(err, res);
       } else {

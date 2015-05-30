@@ -20,7 +20,7 @@ angular.module('atwork.activities')
       var userId = $routeParams.userId;
 
       var activitiesData = appActivities.get({userId: userId, timestamp: $scope.lastUpdated}, function() {
-        $scope.actions = activitiesData.res.records.concat($scope.actions);
+        $scope.actions = activitiesData.res.records ? activitiesData.res.records.concat($scope.actions) : $scope.actions;
         $scope.lastUpdated = Date.now();
       });
     }

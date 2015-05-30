@@ -204,7 +204,7 @@ angular.module('atwork.users')
          * Its possible that we were provided with a username instead of userID
          * Let's switch to using userId
          */
-        userId = passedData.res.record._id;
+        userId = passedData.res.record.username;
 
         passedData.res.profile = passedData.res.record;
         angular.extend($scope, passedData.res);
@@ -216,6 +216,7 @@ angular.module('atwork.users')
        */
       $scope.getProfile = function() {
         appUsers.single.get({userId: userId}).$promise.then(function(response) {
+
           assignProfile(response);
         });
       };
