@@ -17,7 +17,7 @@ angular.module('atwork.chats')
     function($scope, $rootScope, $routeParams, $timeout, appAuth, appToast, appStorage, appLocation, appWebSocket, appChats, appDialog, appDesktop) {
       $scope.chats = [];
       $scope.actions = {};
-      $scope.openChats = {};
+      var openChats = {};
 
       var updateBadges = function() {
         /**
@@ -58,7 +58,7 @@ angular.module('atwork.chats')
           /**
            * Add chat to openChats
            */
-          $scope.openChats[response.res.record._id] = response.res.record;
+          openChats[response.res.record._id] = response.res.record;
 
           /**
            * Show dialog
@@ -91,7 +91,7 @@ angular.module('atwork.chats')
                  */
                 $scope.hide = function() {
                   appDialog.hide();
-                  delete $scope.openChats[response.res.record._id];
+                  delete openChats[$scope.chatId];
                 };
 
                 $scope.sendMessage = function(isValid) {
@@ -153,7 +153,7 @@ angular.module('atwork.chats')
       };
 
       $scope.$on('chatMessage', function(e, data) {
-        if (!$scope.openChats[data.chatId]) {
+        if (!openChats[data.chatId]) {
           $scope.updateChats({reload: true});
         }
       });
