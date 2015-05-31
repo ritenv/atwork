@@ -115,6 +115,9 @@ p {
   border-radius: 20px;
   font-size: 12px;
   margin: 0 2px; }
+  .badge.menu-badge {
+    position: absolute;
+    top: 12px; }
 
 .color-bg {
   background-color: #77AAB3;

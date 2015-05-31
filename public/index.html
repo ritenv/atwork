@@ -40,6 +40,7 @@
 
           <md-toolbar layout="column">
             <div class="md-toolbar-tools">
+                <span class="badge menu-badge" ng-if="badges && badges.messageBadge">{{ badges.messageBadge }}</span>
                 <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
                   <span class="visuallyhidden">Menu</span>
                 </button>

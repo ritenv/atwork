@@ -82,8 +82,9 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
     var messageBadge = 0;
     return {
       notify: function(options) {
-        notifBadge = options.notificationsCount ? options.notificationsCount : notifBadge;
-        messageBadge = options.messagesCount ? options.messagesCount : messageBadge;
+        notifBadge = (options.notificationsCount !== undefined) ? options.notificationsCount : notifBadge;
+        messageBadge = (options.messagesCount !== undefined) ? options.messagesCount : messageBadge;
+        $rootScope.badges = {messageBadge: messageBadge};
         if (window.fluid) {
           window.fluid.dockBadge = notifBadge + messageBadge;
           if (!window.fluid.dockBadge) {

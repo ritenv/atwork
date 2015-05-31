@@ -146,6 +146,11 @@ p {
   border-radius: 20px;
   font-size: 12px;
   margin: 0 2px;
+
+  &.menu-badge {
+    position: absolute;
+    top: 12px;
+  }
 }
 .color-bg {
   background-color: $weirdRandomColor;

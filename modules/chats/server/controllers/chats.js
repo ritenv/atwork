@@ -31,8 +31,7 @@ module.exports = function(System) {
         type: action,
         chatMessage: chatMessage,
         config: {
-          systemLevel: true,
-          avoidEmail: true
+          systemLevel: true
         }
       }, System);
     });

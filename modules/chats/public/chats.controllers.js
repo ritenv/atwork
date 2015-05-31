@@ -18,6 +18,17 @@ angular.module('atwork.chats')
       $scope.chats = [];
       $scope.actions = {};
 
+      var updateBadges = function() {
+        /**
+         * Update badge
+         */
+        var messagesCount = 0;
+        _.each($scope.chats, function(chat) {
+          messagesCount += chat.unread;
+        })
+        appDesktop.notify({messagesCount: messagesCount});
+      };
+      
       /**
        * Open a new conversation
        * @return {Void}
@@ -27,6 +38,7 @@ angular.module('atwork.chats')
 
         if (chatItem) {
           chatItem.unread = 0;
+          updateBadges();
           criteria = {
             chatId: chatItem._id
           };
@@ -51,6 +63,7 @@ angular.module('atwork.chats')
               '$scope',
               'appDialog',
               function($scope, appDialog) {
+                updateBadges();
                 /**
                  * Assign likers to the users variable
                  * @type {Array}
@@ -117,14 +130,7 @@ angular.module('atwork.chats')
             }
           }
 
-          /**
-           * Update badge
-           */
-          var messagesCount = 0;
-          _.each($scope.chats, function(chat) {
-            messagesCount += chat.unread;
-          })
-          appDesktop.notify({messagesCount: messagesCount});
+          updateBadges();
 
           /**
            * Check if there are more pages
@@ -146,7 +152,6 @@ angular.module('atwork.chats')
             exists = true;
           }
         });
-
         $scope.updateChats({reload: true});
       });
 
