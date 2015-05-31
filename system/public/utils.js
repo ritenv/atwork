@@ -90,8 +90,10 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
           if (!window.fluid.dockBadge) {
             window.fluid.dockBadge = undefined;
           } else {
-            window.fluid.playSound('Sosumi');
-            window.fluid.playSound('Purr');
+            if (parseInt(window.fluid.dockBadge) > 0) {
+              window.fluid.playSound('Sosumi');
+              window.fluid.playSound('Purr');
+            }
           }
         }
       }
