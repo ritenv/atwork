@@ -87,13 +87,11 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
         $rootScope.badges = {messageBadge: messageBadge};
         if (window.fluid) {
           window.fluid.dockBadge = notifBadge + messageBadge;
-          if (!window.fluid.dockBadge) {
+          if (parseInt(window.fluid.dockBadge) <= 0) {
             window.fluid.dockBadge = undefined;
           } else {
-            if (parseInt(window.fluid.dockBadge) > 0) {
-              window.fluid.playSound('Sosumi');
-              window.fluid.playSound('Purr');
-            }
+            window.fluid.playSound('Sosumi');
+            window.fluid.playSound('Purr');
           }
         }
       }
