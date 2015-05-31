@@ -11,8 +11,14 @@ module.exports = function(System) {
    * Chat related sockets
    */
   sck.on('connection', function(socket){
-    socket.on('chatMessage', function(streamId) {
-      // socket.broadcast.emit('stream', streamId);
+    socket.on('markAccessed', function(data) {
+      Chat
+      .findOne({_id: data.chatId})
+      .exec(function(err, chat) {
+        chat.doAccess({_id: data.userId});
+        chat.calculateUnread();
+        chat.save();
+      });
     });
   });
 
