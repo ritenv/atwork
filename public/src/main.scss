@@ -48,11 +48,17 @@ a {
 
 /** ====== Sidenav Related BEGIN ====== */
 .site-sidenav {
+  .sidebar-list {
+    padding-top: 5px;
+  }
   md-toolbar h1 {
     font-size: 100%;
     font-weight: 400;
     margin: auto;
     text-align: center;
+  }
+  h2 {
+    font-size: 17px;
   }
 }
 .menuBtn {
@@ -279,13 +285,18 @@ ul.unstyled {
 }
 .chat-dialog {
   form {
-    padding: 10px;
+    padding: 20px;
     md-input-container {
       padding-bottom: 0;
     }
   }
   .chat-listing {
-    padding: 10px;
+    padding: 0px;
+    
+    md-list-item {
+      padding: 5px 25px;
+    }
+
     .face {
       @extend .circular-image;
       @extend .small;
@@ -297,6 +308,10 @@ ul.unstyled {
       font-size: 80%;
       line-height: 5px;
       color: $primaryColor;
+    }
+    p.message {
+      margin-top: 4px;
+      line-height: 1.446;
     }
   }
 }

@@ -31,11 +31,15 @@ a {
   color: #B0BEC5; }
 
 /** ====== Sidenav Related BEGIN ====== */
+.site-sidenav .sidebar-list {
+  padding-top: 5px; }
 .site-sidenav md-toolbar h1 {
   font-size: 100%;
   font-weight: 400;
   margin: auto;
   text-align: center; }
+.site-sidenav h2 {
+  font-size: 17px; }
 
 .menuBtn {
   background-color: transparent;
@@ -222,11 +226,13 @@ ul.unstyled {
   text-transform: none; }
 
 .chat-dialog form {
-  padding: 10px; }
+  padding: 20px; }
   .chat-dialog form md-input-container {
     padding-bottom: 0; }
 .chat-dialog .chat-listing {
-  padding: 10px; }
+  padding: 0px; }
+  .chat-dialog .chat-listing md-list-item {
+    padding: 5px 25px; }
   .chat-dialog .chat-listing .face {
     margin: 0;
     margin-right: 8px; }
@@ -235,6 +241,9 @@ ul.unstyled {
     font-size: 80%;
     line-height: 5px;
     color: #367890; }
+  .chat-dialog .chat-listing p.message {
+    margin-top: 4px;
+    line-height: 1.446; }
 
 .stream-purpose {
   /*background: #f7f7f7;*/

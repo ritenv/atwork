@@ -55,6 +55,8 @@ angular.module('atwork.chats')
         var chat = new appChats.single(criteria);
 
         chat.$save(function(response) {
+          var chatId = response.res.record._id;
+
           /**
            * Add chat to openChats
            */
@@ -75,7 +77,7 @@ angular.module('atwork.chats')
                  */
                 $scope.messages = response.res.record.messages;
 
-                $scope.chatId = response.res.record._id;
+                $scope.chatId = chatId;
                 $scope.firstTime = true;
 
                 $scope.$on('chatMessage', function(e, data) {
@@ -91,7 +93,6 @@ angular.module('atwork.chats')
                  */
                 $scope.hide = function() {
                   appDialog.hide();
-                  delete openChats[$scope.chatId];
                 };
 
                 $scope.sendMessage = function(isValid) {
@@ -111,6 +112,9 @@ angular.module('atwork.chats')
             ],
             templateUrl: '/modules/chats/views/chat-dialog.html',
             targetEvent: ev,
+          })
+          .finally(function() {
+            delete openChats[chatId];
           });
 
         });

@@ -89,6 +89,13 @@ module.exports = function(System) {
       } else {
         var chat = new Chat(req.body);
         chat.creator = req.user._id;
+        
+        /**
+         * Mark as first accessed for each participant
+         */
+        req.body.participants.map(function(userId) {
+          chat.doAccess({_id: userId});
+        });
         chat.save(function(err) {
           if (err) {
             return json.unhappy(err, res);
