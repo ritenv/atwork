@@ -98,25 +98,29 @@ angular.module('atwork.utils', ['ngRoute', 'ngMaterial'])
     }
   }
 ])
-.directive('setFocus', function($timeout, $parse) {
-  return {
-    //scope: true,   // optionally create a child scope
-    link: function(scope, element, attrs) {
-      /**
-       * Set focus only if not on mobile
-       */
-      if ($(window).width() <= 600) {
-        return true;
-      }
-      var model = $parse(attrs.setFocus);
-      scope.$watch(model, function(value) {
-        if(value === true) {
-          $timeout(function() {
-            element[0].focus(); 
-          }, 800);
+.directive('setFocus', [
+  '$timeout', '$parse',
+  function($timeout, $parse) {
+    return {
+      //scope: true,   // optionally create a child scope
+      link: function(scope, element, attrs) {
+        /**
+         * Set focus only if not on mobile
+         */
+        if ($(window).width() <= 600) {
+          return true;
         }
-      });
-    }
-  };
-})
+        var model = $parse(attrs.setFocus);
+        scope.$watch(model, function(value) {
+          if(value === true) {
+            $timeout(function() {
+              element[0].focus(); 
+            }, 800);
+          }
+        });
+      }
+    };
+  }
+])
+
 ;

@@ -45,6 +45,7 @@ var options = {
   }
 };
 app.use(express.static('public', options));
+app.use('/dist', express.static('dist', options));
 app.use('/system', express.static('system/public', options));
 app.use('/system/public/views', express.static('system/public/views', options));
 
@@ -60,7 +61,6 @@ var moduleURL = 'modules';
  */
 function startServer() {
   app.use(function(req, res, next) {
-    //res.redirect('/index.html');
     var output = fs.readFileSync(__dirname + '/../public/index.html');
     res.type('html').send(output);
     next();
