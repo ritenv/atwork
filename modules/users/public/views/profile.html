@@ -79,7 +79,7 @@
       <md-tabs class="md-accent" md-dynamic-height>
         <md-tab label="Timeline">
           <md-content class="md-padding customized-tab">
-            <div ng-include="'/modules/posts/views/feed.html'"></div>
+            <div ng-include="'/modules/posts/views/feed.html'" ng-init="isTimeline=true"></div>
           </md-content>
         </md-tab>
         <md-tab label="Activity">
