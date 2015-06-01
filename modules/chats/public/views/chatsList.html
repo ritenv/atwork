@@ -1,0 +1,20 @@
+<div ng-controller="ChatsCtrl" ng-init="updateChats()">
+    <h2>
+        Chats
+    </h2>
+    <md-divider></md-divider>
+    <ul class="unstyled" ng-if="lastUpdated && chats.length">
+        <li ng-repeat="chat in chats" layout="row">
+            <md-button flex class="btn left-text no-case md-old-style no-bold md-primary" ng-click="message($event, {}, chat)">
+                $ {{ chat.participants[0].name === user.name ? chat.participants[1].name : chat.participants[0].name }} <span class="badge" ng-if="chat.unread">{{ chat.unread }}</span>
+            </md-button>
+            <!-- <div class="pull-right">
+                <md-button class="btn no-case md-old-style no-bold md-primary" ng-click="unsubscribe(stream)" title="Unsubscribe">
+                    <md-inline-list-icon class="fa fa-sign-out"></md-inline-list-icon>
+                </md-button>
+            </div> -->
+        </li>
+    </ul>
+    <div class="left-padd mute" ng-if="!lastUpdated"><p>Loading...</p></div>
+    <div class="left-padd mute" ng-if="lastUpdated && !chats.length"><p>No chats yet</p></div>
+</div>

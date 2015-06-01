@@ -28,6 +28,9 @@
         <div class="md-padding sidebar-list" layout-padding>
             <div ng-include="'/system/public/views/search.html'"></div>
             
+            <!-- Load user chats -->
+            <div ng-include="'/modules/chats/views/chatsList.html'"></div>
+
             <!-- Load user streams -->
             <div ng-include="'/modules/streams/views/streamsList.html'"></div>
         </div>
@@ -37,6 +40,7 @@
 
           <md-toolbar layout="column">
             <div class="md-toolbar-tools">
+                <span class="badge menu-badge" hide-gt-sm ng-if="badges && badges.messageBadge">{{ badges.messageBadge }}</span>
                 <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-if="isLoggedIn">
                   <span class="visuallyhidden">Menu</span>
                 </button>
@@ -105,7 +109,6 @@
           </div>
           
       </div>
-      <!-- <md-sidenav layout="column" class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="right" md-is-locked-open="$media('gt-md')" ng-if="isLoggedIn">-->
 
       <!-- Main angular file -->
       <script src="/bower_components/socket.io-client/socket.io.js"></script>

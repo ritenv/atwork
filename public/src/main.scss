@@ -48,11 +48,17 @@ a {
 
 /** ====== Sidenav Related BEGIN ====== */
 .site-sidenav {
+  .sidebar-list {
+    padding-top: 5px;
+  }
   md-toolbar h1 {
     font-size: 100%;
     font-weight: 400;
     margin: auto;
     text-align: center;
+  }
+  h2 {
+    font-size: 17px;
   }
 }
 .menuBtn {
@@ -87,6 +93,9 @@ a {
 /** ====== Sidenav Related END ====== */
 
 /** ====== General typo BEGIN ====== */
+.left-padd {
+  padding-left: 15px;
+}
 .unspaced-headings {
   h1, h2, h3, h4, p {
     margin-bottom: 0;
@@ -143,6 +152,11 @@ p {
   border-radius: 20px;
   font-size: 12px;
   margin: 0 2px;
+
+  &.menu-badge {
+    position: absolute;
+    top: 12px;
+  }
 }
 .color-bg {
   background-color: $weirdRandomColor;
@@ -267,6 +281,38 @@ ul.unstyled {
   }
   .face {
     @extend .circular-image;
+  }
+}
+.chat-dialog {
+  form {
+    padding: 20px;
+    md-input-container {
+      padding-bottom: 0;
+    }
+  }
+  .chat-listing {
+    padding: 0px;
+    
+    md-list-item {
+      padding: 5px 25px;
+    }
+
+    .face {
+      @extend .circular-image;
+      @extend .small;
+      margin: 0;
+      margin-right: 8px;
+    }
+    p.name {
+      margin: 0;
+      font-size: 80%;
+      line-height: 5px;
+      color: $primaryColor;
+    }
+    p.message {
+      margin-top: 4px;
+      line-height: 1.446;
+    }
   }
 }
 .stream-purpose {

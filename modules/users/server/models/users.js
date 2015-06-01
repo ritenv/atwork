@@ -292,6 +292,9 @@ UserSchema.methods = {
 
           case 'mention':
           msg = fullData.actor.name + ' mentioned you in a post';
+
+          case 'chatMessage':
+          msg = fullData.actor.name + ' sent you this message: ' + (fullData.chatMessage ? fullData.chatMessage.message : '');
           break;
         }
 

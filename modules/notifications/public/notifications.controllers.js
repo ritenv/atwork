@@ -8,7 +8,8 @@ angular.module('atwork.notifications')
 	'appNotification',
 	'appWebSocket',
   'appNotificationText',
-	function($scope, $rootScope, appLocation, appUsers, appNotification, appWebSocket, appNotificationText) {
+  'appDesktop',
+	function($scope, $rootScope, appLocation, appUsers, appNotification, appWebSocket, appNotificationText, appDesktop) {
     /**
      * Initialize the defaults
      */
@@ -68,13 +69,14 @@ angular.module('atwork.notifications')
         }
         $scope.items = record.res.notifications;
         $scope.notificationCount = record.res.notifications ? record.res.notifications.length : 0;
-        if (window.fluid) {
-          window.fluid.dockBadge = $scope.notificationCount ? $scope.notificationCount : undefined;
-          if (window.fluid.dockBadge) {
-            window.fluid.playSound('Sosumi');
-            window.fluid.playSound('Purr');
-          }
-        }
+        appDesktop.notify({notificationsCount: $scope.notificationCount});
+        // if (window.fluid) {
+        //   window.fluid.dockBadge = $scope.notificationCount ? $scope.notificationCount : undefined;
+        //   if (window.fluid.dockBadge) {
+        //     window.fluid.playSound('Sosumi');
+        //     window.fluid.playSound('Purr');
+        //   }
+        // }
       });
     };
 

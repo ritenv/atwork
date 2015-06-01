@@ -1,0 +1,36 @@
+<md-dialog class="chat-dialog" flex="60" flex-sm="90">
+  <md-dialog-content class="sticky-container no-pad">
+    <md-subheader class="md-sticky-no-effect">Chat</md-subheader>
+    
+    <form name="chatForm" ng-submit="sendMessage(chatForm.$valid)" novalidate>
+      <md-input-container>
+        <label>Write message</label>
+        <input type="message" name="message" ng-model="message" required set-focus="firstTime">
+        <div ng-messages="chatForm.message.$error" ng-show="chatForm.bio.$dirty">
+          <div ng-message="required">This is required!</div>
+          <div ng-message="md-maxlength">That's too long!</div>
+          <div ng-message="minlength">That's too short!</div>
+        </div>
+      </md-input-container>
+    </form>
+
+    <md-list ng-if="messages.length" class="chat-listing">
+      <md-list-item ng-repeat="item in messages">
+        <md-item-content layout="row" flex>
+          <img ng-src="{{item.creator.face || '/images/user.jpg'}}" class="face" alt="{{item.creator.name}}">
+          <div flex>
+            <p class="name md-accent">{{item.creator.name}} <span class="pull-right mute">{{item.created | date:'short'}}</span></p>
+            <p class="message md-accent">{{item.message}}</p>
+          </div>
+        </md-item-content>
+      </md-list-item>
+    </md-list>
+
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+  <span flex></span>
+  <md-button ng-click="hide()" class="md-primary">
+    Close
+  </md-button>
+  </div>
+</md-dialog>
