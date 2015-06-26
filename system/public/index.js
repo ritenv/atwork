@@ -13,11 +13,34 @@ angular.module('atwork.system', [
 angular.module('atwork.system')
 .factory('tokenHttpInterceptor', [
   'appStorage',
-  function (appStorage) {
+  '$timeout',
+  function (appStorage, $timeout) {
+    // var 
     return {
       request: function (config) {
+        /**
+         * Add Auth header to Request
+         * @type {String}
+         */
         config.headers.Authorization = 'Bearer ' + appStorage.get('userToken');
-        return config;
+        
+        /**
+         * Check if we just want to get an HTML template
+         */
+        if (config.url.substr(-4, 4) === 'html') {
+          return config;
+        }
+
+        /**
+         * Reject any other XHR requests
+         */
+        var q = Q.defer();
+        $timeout(function() {
+          q.reject({config: config});
+        });
+        return q.promise;
+
+        // return config;
       }
     };
   }

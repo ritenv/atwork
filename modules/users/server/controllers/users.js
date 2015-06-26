@@ -25,6 +25,10 @@ module.exports = function(System) {
         }
       });
     };
+
+    socket.on('request', function(params) {
+      console.log(params);
+    });
     
     socket.on('online', function(data) {
       User.findOne({token: data.token}, function(err, user) {
