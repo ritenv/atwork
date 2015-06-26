@@ -29,7 +29,7 @@ gulp.task('uglify', function() {
 
       './public/app.js'
   	])
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(concat('scripts.js'))
     .pipe(gulp.dest('./dist'));
 });
@@ -50,7 +50,7 @@ gulp.task('uglifylibs', function() {
       './public/bower_components/q/q.js',
       './public/bower_components/ng-file-upload/angular-file-upload.js'
   	])
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(concat('libs.js'))
     .pipe(gulp.dest('dist'));
 });
@@ -67,7 +67,7 @@ gulp.task('sass', function () {
 
 gulp.task('default', ['sass', 'pack']);
 
-var watcher = gulp.watch(['public/**/*.scss', 'modules/**/public/**/*.js'], ['default', 'pack']);
+var watcher = gulp.watch(['public/**/*.scss', 'modules/**/public/**/*.js', 'system/**/public/**/*.js'], ['default', 'pack']);
 watcher.on('change', function(event) {
   console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 });

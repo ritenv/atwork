@@ -14,9 +14,38 @@ angular.module('atwork.system')
 .factory('tokenHttpInterceptor', [
   'appStorage',
   '$timeout',
-  function (appStorage, $timeout) {
+  'appWebSocket',
+  function (appStorage, $timeout, appWebSocket) {
     // var 
     return {
+      responseError: function(response) {
+        var resId = response.config.reqId;
+        console.log(response);
+        /**
+         * Initiate a closure to receive the response
+         * @param  {Object} config The config param
+         * @return {Void}
+         */
+        (function(response) {
+          var config = response.config;
+
+          appWebSocket.conn.on('response', onResponse);
+          function onResponse(data) {
+            if (data.resId === config.reqId) {
+              console.log('Got', config.reqId);
+              response.data = data;
+              q.resolve(response);
+              appWebSocket.conn.removeListener('response', onResponse);
+            }
+          }
+        })(response);
+
+        var q = Q.defer();
+        $timeout(function() {
+          q.resolve(response);
+        });
+        return q.promise;
+      },
       request: function (config) {
         /**
          * Add Auth header to Request
@@ -31,12 +60,19 @@ angular.module('atwork.system')
           return config;
         }
 
-        /**
-         * Reject any other XHR requests
-         */
         var q = Q.defer();
+
+        /**
+         * Send a request identifier
+         * @type {String}
+         */
+        config.reqId = 'REQUEST' + Math.round(Math.random() * 100000000000);
+
+        appWebSocket.conn.emit('request', config);
+
         $timeout(function() {
           q.reject({config: config});
+          // q.resolve(config);
         });
         return q.promise;
 
