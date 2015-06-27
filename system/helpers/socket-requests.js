@@ -1,3 +1,5 @@
+var unirest = require('unirest');
+
 module.exports = function(System) {
   var sck = System.webSocket;
   var plugin = {
@@ -8,10 +10,26 @@ module.exports = function(System) {
     register: function () {
       sck.on('connection', function(socket) {
         socket.on('request', function(params) {
-          console.log(params.url);
-          console.log(params.transformRequest);
+          // console.log(params.url);
+          // console.log(params.transformRequest);
+          console.log(params);
+          var method = params.method.toLowerCase();
+          var url = System.config.baseURL + '/' + params.originalUrl;
+          var headers = params.headers;
+          var requestParams = params.params;
+          
+          console.log('MAKING REQ: ', url)
+          
+          unirest[method](url)
+          .headers(headers)
+          .send(requestParams)
+          .end(function (response) {
+            console.log(response.body);
+            socket.emit('response', {resId: params.reqId, data: response.body, url: url});
+          });
+
           setTimeout(function() {
-            socket.emit('response', {resId: params.reqId, data: {dummy: true}});
+            // socket.emit('response', {resId: params.reqId, data: {dummy: true}});
           }, 1000);
         });
       });

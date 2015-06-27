@@ -145,9 +145,18 @@ angular.module('atwork.system')
   function (appStorage, $timeout, appWebSocket) {
     // var 
     return {
-      responseError: function(response) {
+      response: function(response) {
+
+        /**
+         * Check if we just want to get an HTML template
+         */
+        if (response.config.url.indexOf('.html') !== -1) {
+          return response;
+        }
+
         var resId = response.config.reqId;
-        console.log(response);
+        var q = Q.defer();
+        // console.log('response', response);
         /**
          * Initiate a closure to receive the response
          * @param  {Object} config The config param
@@ -159,18 +168,22 @@ angular.module('atwork.system')
           appWebSocket.conn.on('response', onResponse);
           function onResponse(data) {
             if (data.resId === config.reqId) {
-              console.log('Got', config.reqId);
-              response.data = data;
+              console.log('Got', config.reqId, config.originalUrl);
+              
+              if (typeof data.data !== 'string') {
+                response.data = data.data;
+              }
+              // console.log(response.data);
+              // console.log(response);
               q.resolve(response);
               appWebSocket.conn.removeListener('response', onResponse);
             }
           }
         })(response);
 
-        var q = Q.defer();
-        $timeout(function() {
-          q.resolve(response);
-        });
+        // $timeout(function() {
+        //   q.resolve(response);
+        // });
         return q.promise;
       },
       request: function (config) {
@@ -179,13 +192,28 @@ angular.module('atwork.system')
          * @type {String}
          */
         config.headers.Authorization = 'Bearer ' + appStorage.get('userToken');
-        
+
         /**
          * Check if we just want to get an HTML template
          */
-        if (config.url.substr(-4, 4) === 'html') {
+        if (config.url.indexOf('.html') !== -1) {
           return config;
         }
+
+        /**
+         * Cache everything
+         * @type {Boolean}
+         */
+        config.cached = true;
+
+        /**
+         * Give a static resource to all requests, let it call for it
+         * P.s.: It will be cached
+         * @type {String}
+         */
+        console.log('SENDING: ', config.url)
+        config.originalUrl = config.url;
+        config.url = '/system-settings';
 
         var q = Q.defer();
 
@@ -198,8 +226,8 @@ angular.module('atwork.system')
         appWebSocket.conn.emit('request', config);
 
         $timeout(function() {
-          q.reject({config: config});
-          // q.resolve(config);
+          // q.reject({config: config});
+          q.resolve(config);
         });
         return q.promise;
 
