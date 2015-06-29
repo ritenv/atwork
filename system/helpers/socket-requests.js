@@ -16,7 +16,8 @@ module.exports = function(System) {
             console.log(params);
           }
           var method = params.method.toLowerCase();
-          var url = System.config.baseURL + params.url;
+          // var url = System.config.baseURL + params.url;
+          var url = 'http://localhost:' + System.config.server.port + params.url;
           var headers = params.headers;
           var requestParams = params.params;
           
