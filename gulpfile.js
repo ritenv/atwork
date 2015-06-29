@@ -44,7 +44,7 @@ gulp.task('uglifylibs', function() {
       './public/bower_components/angular-route/angular-route.js',
       './public/bower_components/angular-messages/angular-messages.js',
       './public/bower_components/angular-resource/angular-resource.js',
-      './public/bower_components/angular-loading-bar/build/loading-bar.min.js',
+      //'./public/bower_components/angular-loading-bar/build/loading-bar.min.js',
       './public/bower_components/lodash/lodash.min.js',
 
       './public/bower_components/q/q.js',

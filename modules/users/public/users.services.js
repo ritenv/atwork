@@ -4,7 +4,7 @@ angular.module('atwork.users')
   .factory('appUsers', ['$resource',
     function($resource) {
       return {
-        single: $resource('users/:userId/:action', {
+        single: $resource('/api/users/:userId/:action', {
             userId: '@_id'
           }, {
             update: {
@@ -31,15 +31,15 @@ angular.module('atwork.users')
               params: {action: 'resetPassword'}
             }
           }),
-        auth: $resource('users/authenticate'),
-        notifications: $resource('users/notifications/:notificationId')
+        auth: $resource('/api/users/authenticate'),
+        notifications: $resource('/api/users/notifications/:notificationId')
       }
     }
   ])
   .factory('appUsersSearch', [
     '$resource',
     function($resource) {
-      var search = $resource('users/search/:keyword', {}, {query: {isArray: false}});
+      var search = $resource('/api/users/search/:keyword', {}, {query: {isArray: false}});
       return function(keyword, onlyUsernames) {
         //implement search logic here
         var criteria = {keyword: keyword};

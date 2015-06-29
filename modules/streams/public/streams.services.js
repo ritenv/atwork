@@ -4,7 +4,7 @@ angular.module('atwork.streams')
   .factory('appStreams', ['$resource',
     function($resource) {
       return {
-        single: $resource('streams/:streamId/:action', {
+        single: $resource('/api/streams/:streamId/:action', {
             streamId: '@_id'
           }, {
             subscribe: {

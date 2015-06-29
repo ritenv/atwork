@@ -3,8 +3,9 @@
 angular.module('atwork.users', ['atwork.system'])
   .factory('appAuth', [
     '$http',
+    '$resource',
     'appStorage',
-    function($http, appStorage) {
+    function($http, $resource, appStorage) {
       return {
         isLoggedIn: function() {
           return appStorage.get('userToken');
@@ -16,7 +17,8 @@ angular.module('atwork.users', ['atwork.system'])
           /**
            * FIXME: convert this to an ngResource call
            */
-          $http.get('/users/me').success(function(response) {
+          $resource('/api/users/me').get(function(response) {
+            console.log(response);
             var serializedUser = angular.toJson(response.res.record);
             appStorage.set('user', serializedUser);
             cb(response.res.record);

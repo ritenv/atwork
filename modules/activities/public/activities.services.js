@@ -3,7 +3,7 @@
 angular.module('atwork.activities')
   .factory('appActivities', ['$resource',
     function($resource) {
-      return $resource('activities/feed/:userId', {
+      return $resource('/api/activities/feed/:userId', {
             userId: '@_id'
         });
     }

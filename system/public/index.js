@@ -6,7 +6,7 @@ angular.module('atwork.system', [
   'ngResource', 
   'angularFileUpload', 
   'atwork.utils',
-  'angular-loading-bar', 
+  // 'angular-loading-bar', 
   'ngAnimate'
 ]);
 
@@ -18,45 +18,28 @@ angular.module('atwork.system')
   function (appStorage, $timeout, appWebSocket) {
     // var 
     return {
-      response: function(response) {
-
-        /**
-         * Check if we just want to get an HTML template
-         */
-        if (response.config.url.indexOf('.html') !== -1) {
-          return response;
-        }
-
-        var resId = response.config.reqId;
+      responseError: function(response) {
         var q = Q.defer();
-        // console.log('response', response);
-        /**
-         * Initiate a closure to receive the response
-         * @param  {Object} config The config param
-         * @return {Void}
-         */
+        
         (function(response) {
           var config = response.config;
 
           appWebSocket.conn.on('response', onResponse);
           function onResponse(data) {
             if (data.resId === config.reqId) {
-              console.log('Got', config.reqId, config.originalUrl);
+              console.log('Got', config.reqId, config.url, data.data);
               
               if (typeof data.data !== 'string') {
                 response.data = data.data;
+                response.reason = 'socket';
               }
-              // console.log(response.data);
-              // console.log(response);
+              
               q.resolve(response);
               appWebSocket.conn.removeListener('response', onResponse);
             }
           }
         })(response);
 
-        // $timeout(function() {
-        //   q.resolve(response);
-        // });
         return q.promise;
       },
       request: function (config) {
@@ -67,9 +50,9 @@ angular.module('atwork.system')
         config.headers.Authorization = 'Bearer ' + appStorage.get('userToken');
 
         /**
-         * Check if we just want to get an HTML template
+         * Check if not an API request
          */
-        if (config.url.indexOf('.html') !== -1) {
+        if (config.url.indexOf('/api/') === -1) {
           return config;
         }
 
@@ -78,15 +61,6 @@ angular.module('atwork.system')
          * @type {Boolean}
          */
         config.cached = true;
-
-        /**
-         * Give a static resource to all requests, let it call for it
-         * P.s.: It will be cached
-         * @type {String}
-         */
-        console.log('SENDING: ', config.url)
-        config.originalUrl = config.url;
-        config.url = '/system-settings';
 
         var q = Q.defer();
 
@@ -99,8 +73,7 @@ angular.module('atwork.system')
         appWebSocket.conn.emit('request', config);
 
         $timeout(function() {
-          // q.reject({config: config});
-          q.resolve(config);
+          q.reject({config: config});
         });
         return q.promise;
 
@@ -112,7 +85,7 @@ angular.module('atwork.system')
 .factory('appSearch', [
   '$resource',
   function($resource) {
-    var search = $resource('search/:keyword', {}, {query: {isArray: false}});
+    var search = $resource('/api/search/:keyword', {}, {query: {isArray: false}});
     return function(keyword) {
       //implement search logic here
       var promise = search.query({keyword: keyword}).$promise;
@@ -123,8 +96,8 @@ angular.module('atwork.system')
 .config([
   '$httpProvider',
   '$mdThemingProvider',
-  'cfpLoadingBarProvider',
-  function ($httpProvider, $mdThemingProvider, cfpLoadingBarProvider) {
+  // 'cfpLoadingBarProvider',
+  function ($httpProvider, $mdThemingProvider) {
     $httpProvider.interceptors.push('tokenHttpInterceptor');
     // $mdThemingProvider.theme('default')
     // .primaryPalette('blue')
@@ -181,7 +154,7 @@ angular.module('atwork.system')
       .primaryPalette('amazingPaletteName')
       .accentPalette('amazingPaletteName')
 
-    cfpLoadingBarProvider.includeSpinner = true;
-    cfpLoadingBarProvider.includeBar = false;
+    // cfpLoadingBarProvider.includeSpinner = true;
+    // cfpLoadingBarProvider.includeBar = false;
   }
 ]);

@@ -200,6 +200,7 @@ angular.module('atwork.users')
       };
 
       var assignProfile = function assignedProfile(passedData) {
+        console.log('PASSEDDATA', passedData.config)
         /**
          * Its possible that we were provided with a username instead of userID
          * Let's switch to using userId

@@ -12,9 +12,11 @@ module.exports = function(System) {
         socket.on('request', function(params) {
           // console.log(params.url);
           // console.log(params.transformRequest);
-          console.log(params);
+          if (params.url === 'users/me') {
+            console.log(params);
+          }
           var method = params.method.toLowerCase();
-          var url = System.config.baseURL + '/' + params.originalUrl;
+          var url = System.config.baseURL + params.url;
           var headers = params.headers;
           var requestParams = params.params;
           
@@ -24,7 +26,6 @@ module.exports = function(System) {
           .headers(headers)
           .send(requestParams)
           .end(function (response) {
-            console.log(response.body);
             socket.emit('response', {resId: params.reqId, data: response.body, url: url});
           });
 

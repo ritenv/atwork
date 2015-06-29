@@ -133,7 +133,7 @@ angular.module('atwork.system', [
   'ngResource', 
   'angularFileUpload', 
   'atwork.utils',
-  'angular-loading-bar', 
+  // 'angular-loading-bar', 
   'ngAnimate'
 ]);
 
@@ -145,45 +145,28 @@ angular.module('atwork.system')
   function (appStorage, $timeout, appWebSocket) {
     // var 
     return {
-      response: function(response) {
-
-        /**
-         * Check if we just want to get an HTML template
-         */
-        if (response.config.url.indexOf('.html') !== -1) {
-          return response;
-        }
-
-        var resId = response.config.reqId;
+      responseError: function(response) {
         var q = Q.defer();
-        // console.log('response', response);
-        /**
-         * Initiate a closure to receive the response
-         * @param  {Object} config The config param
-         * @return {Void}
-         */
+        
         (function(response) {
           var config = response.config;
 
           appWebSocket.conn.on('response', onResponse);
           function onResponse(data) {
             if (data.resId === config.reqId) {
-              console.log('Got', config.reqId, config.originalUrl);
+              console.log('Got', config.reqId, config.url, data.data);
               
               if (typeof data.data !== 'string') {
                 response.data = data.data;
+                response.reason = 'socket';
               }
-              // console.log(response.data);
-              // console.log(response);
+              
               q.resolve(response);
               appWebSocket.conn.removeListener('response', onResponse);
             }
           }
         })(response);
 
-        // $timeout(function() {
-        //   q.resolve(response);
-        // });
         return q.promise;
       },
       request: function (config) {
@@ -194,9 +177,9 @@ angular.module('atwork.system')
         config.headers.Authorization = 'Bearer ' + appStorage.get('userToken');
 
         /**
-         * Check if we just want to get an HTML template
+         * Check if not an API request
          */
-        if (config.url.indexOf('.html') !== -1) {
+        if (config.url.indexOf('/api/') === -1) {
           return config;
         }
 
@@ -205,15 +188,6 @@ angular.module('atwork.system')
          * @type {Boolean}
          */
         config.cached = true;
-
-        /**
-         * Give a static resource to all requests, let it call for it
-         * P.s.: It will be cached
-         * @type {String}
-         */
-        console.log('SENDING: ', config.url)
-        config.originalUrl = config.url;
-        config.url = '/system-settings';
 
         var q = Q.defer();
 
@@ -226,8 +200,7 @@ angular.module('atwork.system')
         appWebSocket.conn.emit('request', config);
 
         $timeout(function() {
-          // q.reject({config: config});
-          q.resolve(config);
+          q.reject({config: config});
         });
         return q.promise;
 
@@ -239,7 +212,7 @@ angular.module('atwork.system')
 .factory('appSearch', [
   '$resource',
   function($resource) {
-    var search = $resource('search/:keyword', {}, {query: {isArray: false}});
+    var search = $resource('/api/search/:keyword', {}, {query: {isArray: false}});
     return function(keyword) {
       //implement search logic here
       var promise = search.query({keyword: keyword}).$promise;
@@ -250,8 +223,8 @@ angular.module('atwork.system')
 .config([
   '$httpProvider',
   '$mdThemingProvider',
-  'cfpLoadingBarProvider',
-  function ($httpProvider, $mdThemingProvider, cfpLoadingBarProvider) {
+  // 'cfpLoadingBarProvider',
+  function ($httpProvider, $mdThemingProvider) {
     $httpProvider.interceptors.push('tokenHttpInterceptor');
     // $mdThemingProvider.theme('default')
     // .primaryPalette('blue')
@@ -308,8 +281,8 @@ angular.module('atwork.system')
       .primaryPalette('amazingPaletteName')
       .accentPalette('amazingPaletteName')
 
-    cfpLoadingBarProvider.includeSpinner = true;
-    cfpLoadingBarProvider.includeBar = false;
+    // cfpLoadingBarProvider.includeSpinner = true;
+    // cfpLoadingBarProvider.includeBar = false;
   }
 ]);
 
@@ -379,7 +352,7 @@ angular.module('atwork.settings')
     function($resource, $rootScope) {
       return {
         cache: {},
-        single: $resource('system-settings/'),
+        single: $resource('/api/system-settings/'),
         fetch: function(cb) {
           var $this = this;
           var settings = $this.single.get({}, function() {
@@ -479,8 +452,9 @@ angular.module('atwork.streams', ['atwork.system']);
 angular.module('atwork.users', ['atwork.system'])
   .factory('appAuth', [
     '$http',
+    '$resource',
     'appStorage',
-    function($http, appStorage) {
+    function($http, $resource, appStorage) {
       return {
         isLoggedIn: function() {
           return appStorage.get('userToken');
@@ -492,7 +466,8 @@ angular.module('atwork.users', ['atwork.system'])
           /**
            * FIXME: convert this to an ngResource call
            */
-          $http.get('/users/me').success(function(response) {
+          $resource('/api/users/me').get(function(response) {
+            console.log(response);
             var serializedUser = angular.toJson(response.res.record);
             appStorage.set('user', serializedUser);
             cb(response.res.record);
@@ -1510,6 +1485,7 @@ angular.module('atwork.users')
       };
 
       var assignProfile = function assignedProfile(passedData) {
+        console.log('PASSEDDATA', passedData.config)
         /**
          * Its possible that we were provided with a username instead of userID
          * Let's switch to using userId
@@ -1929,7 +1905,7 @@ angular.module('atwork.users')
 angular.module('atwork.activities')
   .factory('appActivities', ['$resource',
     function($resource) {
-      return $resource('activities/feed/:userId', {
+      return $resource('/api/activities/feed/:userId', {
             userId: '@_id'
         });
     }
@@ -1942,7 +1918,7 @@ angular.module('atwork.chats')
   .factory('appChats', ['$resource',
     function($resource) {
       return {
-        single: $resource('chats/:chatId/:action', {
+        single: $resource('/api/chats/:chatId/:action', {
             chatId: '@_id'
           }, {
             message: {
@@ -2035,7 +2011,7 @@ angular.module('atwork.posts')
   .factory('appPosts', ['$resource',
     function($resource) {
       return {
-        single: $resource('posts/:postId/:action', {
+        single: $resource('/api/posts/:postId/:action', {
             postId: '@_id'
           }, {
             like: {
@@ -2055,9 +2031,9 @@ angular.module('atwork.posts')
               params: {action: 'likes'}
             }
           }),
-        feed: $resource('posts/'),
-        stream: $resource('posts/stream/:streamId'),
-        timeline: $resource('posts/timeline/:userId')
+        feed: $resource('/api/posts/'),
+        stream: $resource('/api/posts/stream/:streamId'),
+        timeline: $resource('/api/posts/timeline/:userId')
       }
     }
   ])
@@ -2401,7 +2377,7 @@ angular.module('atwork.streams')
   .factory('appStreams', ['$resource',
     function($resource) {
       return {
-        single: $resource('streams/:streamId/:action', {
+        single: $resource('/api/streams/:streamId/:action', {
             streamId: '@_id'
           }, {
             subscribe: {
@@ -2424,7 +2400,7 @@ angular.module('atwork.users')
   .factory('appUsers', ['$resource',
     function($resource) {
       return {
-        single: $resource('users/:userId/:action', {
+        single: $resource('/api/users/:userId/:action', {
             userId: '@_id'
           }, {
             update: {
@@ -2451,15 +2427,15 @@ angular.module('atwork.users')
               params: {action: 'resetPassword'}
             }
           }),
-        auth: $resource('users/authenticate'),
-        notifications: $resource('users/notifications/:notificationId')
+        auth: $resource('/api/users/authenticate'),
+        notifications: $resource('/api/users/notifications/:notificationId')
       }
     }
   ])
   .factory('appUsersSearch', [
     '$resource',
     function($resource) {
-      var search = $resource('users/search/:keyword', {}, {query: {isArray: false}});
+      var search = $resource('/api/users/search/:keyword', {}, {query: {isArray: false}});
       return function(keyword, onlyUsernames) {
         //implement search logic here
         var criteria = {keyword: keyword};

@@ -4,7 +4,7 @@ angular.module('atwork.chats')
   .factory('appChats', ['$resource',
     function($resource) {
       return {
-        single: $resource('chats/:chatId/:action', {
+        single: $resource('/api/chats/:chatId/:action', {
             chatId: '@_id'
           }, {
             message: {

@@ -86,19 +86,21 @@ function systemRoutes(System) {
   routes.forEach(function(route) {
     var moduleRouter = express.Router();
     if (!route.authorized) {
+      console.log(route.path)
       moduleRouter[route.method](route.path, System.auth.justGetUser, function(req, res) {
           setTimeout(function() {
             route.handler(req, res);
           }, System.config.REQUESTS_DELAY_SYSTEM);
         });
     } else {
+      console.log(route.path)
       moduleRouter[route.method](route.path, System.auth.ensureAuthorized, function(req, res) {
         setTimeout(function() {
           route.handler(req, res);
         }, System.config.REQUESTS_DELAY_SYSTEM);
       });
     }
-    app.use('/', moduleRouter);
+    app.use('/api/', moduleRouter);
   });
 }
 
@@ -328,7 +330,7 @@ module.exports = {
           }, $this.config.REQUESTS_DELAY);
         });
       }
-      app.use('/' + moduleName, moduleRouter);
+      app.use('/api/' + moduleName, moduleRouter);
     });
   }
 

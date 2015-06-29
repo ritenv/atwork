@@ -7,7 +7,7 @@ angular.module('atwork.settings')
     function($resource, $rootScope) {
       return {
         cache: {},
-        single: $resource('system-settings/'),
+        single: $resource('/api/system-settings/'),
         fetch: function(cb) {
           var $this = this;
           var settings = $this.single.get({}, function() {

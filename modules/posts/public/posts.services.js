@@ -4,7 +4,7 @@ angular.module('atwork.posts')
   .factory('appPosts', ['$resource',
     function($resource) {
       return {
-        single: $resource('posts/:postId/:action', {
+        single: $resource('/api/posts/:postId/:action', {
             postId: '@_id'
           }, {
             like: {
@@ -24,9 +24,9 @@ angular.module('atwork.posts')
               params: {action: 'likes'}
             }
           }),
-        feed: $resource('posts/'),
-        stream: $resource('posts/stream/:streamId'),
-        timeline: $resource('posts/timeline/:userId')
+        feed: $resource('/api/posts/'),
+        stream: $resource('/api/posts/stream/:streamId'),
+        timeline: $resource('/api/posts/timeline/:userId')
       }
     }
   ])
