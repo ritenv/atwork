@@ -22,10 +22,12 @@ module.exports = function(System) {
           
           console.log('MAKING REQ: ', url)
           
+          console.log(Date.now());
           unirest[method](url)
           .headers(headers)
           .send(requestParams)
           .end(function (response) {
+            console.log(Date.now());
             socket.emit('response', {resId: params.reqId, data: response.body, url: url});
           });
 
